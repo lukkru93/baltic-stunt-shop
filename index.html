@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baltic Stunt Shop | Ride the Dark Tide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET I FUNDAMENT --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505; /* Prawie czarny */
+            color: #d1d1d1;
+            font-family: 'Roboto Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        /* Efekt ziarnistości/asfaltu na całej stronie */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* --- NAWIGACJA --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0,0,0,0.95);
+            border-bottom: 2px solid #1a1a1a;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #ff4500; /* Jadowity pomarańcz */
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .nav-links li a:hover {
+            color: #ff4500;
+            text-shadow: 0 0 8px #ff4500;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 85vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(5,5,5,1)), 
+                        url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            filter: grayscale(40%) contrast(110%);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .hero-content h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(4rem, 10vw, 8rem);
+            margin: 0;
+            color: #fff;
+            line-height: 0.85;
+            text-shadow: 6px 6px 0px #ff4500;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            letter-spacing: 6px;
+            margin-top: 15px;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+
+        .btn-main {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 18px 45px;
+            background: transparent;
+            color: #ff4500;
+            border: 3px solid #ff4500;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.4rem;
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover {
+            background: #ff4500;
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.6);
+        }
+
+        /* --- SEKCJA PRODUKTÓW --- */
+        .products {
+            padding: 100px 50px;
+            background: #050505;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            border-left: 12px solid #ff4500;
+            padding-left: 25px;
+            margin-bottom: 60px;
+            letter-spacing: 2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #1a1a1a;
+            padding: 20px;
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: #ff4500;
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-8px);
+        }
+
+        .product-img {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(0.7) contrast(120%);
+            transition: 0.5s;
+        }
+
+        .product-card:hover .product-img img {
+            filter: grayscale(0%) brightness(0.9);
+        }
+
+        .tag {
+            position: absolute;
+            top: 0; left: 0;
+            background: #ff4500;
+            color: #000;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 5;
+        }
+
+        .product-info h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            margin: 20px 0 5px 0;
+            color: #fff;
+        }
+
+        .product-info p {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .price {
+            font-size: 1.6rem;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-family: 'Bebas Neue', cursive;
+        }
+
+        .btn-buy {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-buy:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        /* --- TERMINAL / NEWSLETTER --- */
+        .crew-signup {
+            padding: 120px 50px;
+            background: #000;
+            display: flex;
+            justify-content: center;
+        }
+
+        .terminal-box {
+            width: 100%;
+            max-width: 650px;
+            background: #080808;
+            border: 1px solid #222;
+            box-shadow: 0 20px 50px rgba(0,0,0,1);
+        }
+
+        .terminal-header {
+            background: #1a1a1a;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+
+        .dot { height: 8px; width: 8px; background: #333; border-radius: 50%; margin-right: 6px; }
+
+        .terminal-content {
+            padding: 40px;
+            color: #00ff41; /* Green terminal font */
+        }
+
+        .typewriter {
+            margin: 8px 0;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #00ff41;
+            animation: typing 3.5s steps(40, end), blink .75s step-end infinite;
+        }
+
+        .terminal-form { margin-top: 40px; }
+
+        .input-wrapper {
+            display: flex;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border: 1px solid #111;
+        }
+
+        .prompt { color: #ff4500; margin-right: 12px; font-weight: bold; }
+
+        .terminal-form input {
+            background: transparent; border: none; color: #fff;
+            font-family: 'Roboto Mono', monospace; font-size: 1rem;
+            width: 100%; outline: none;
+        }
+
+        .terminal-btn {
+            margin-top: 25px;
+            background: #ff4500; color: #000; border: none;
+            padding: 18px; width: 100%; cursor: pointer;
+            font-family: 'Bebas Neue', cursive; font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .terminal-btn:hover { background: #fff; }
+
+        /* --- ANIMACJE --- */
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink { from, to { border-color: transparent } 50% { border-color: #00ff41 } }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar { padding: 20px; }
+            .nav-links { display: none; }
+            .hero-content h1 { font-size: 4.5rem; }
+            .products { padding: 60px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="logo">BALTIC <span>STUNT</span> SHOP</a>
+        <ul class="nav-links">
+            <li><a href="#shop">ZBROJA</a></li>
+            <li><a href="#shop">NAPĘD</a></li>
+            <li><a href="#shop">HAMULCE</a></li>
+            <li><a href="#shop">MUNDUR</a></li>
+            <li><a href="#">KOSZYK [0]</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>STUNT THE WAVE</h1>
+            <p>HARDCORE PARTS FOR THE BALTIC CREW</p>
+            <a href="#shop" class="btn-main">WEJDŹ DO GARAŻU</a>
+        </div>
+    </header>
+
+    <section class="products" id="shop">
+        <h2 class="section-title">DOSTĘPNY SZPEJ // 2026</h2>
+        
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="tag">ZBROJA</div>
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1591438253970-1f917228816c?q=80&w=500" alt="Crash Cage">
+                </div>
+                <div class="product-info">
+                    <h3>KLATKA // FULL STUNT V2</h3>
+                    <p>STAL S355 / KONSTRUKCJA WZMACNIANA / MALOWANIE PROSZKOWE MAT</p>
+                    <div class="price">1249.00 PLN</div>
+                    <button class="btn-buy">DODAJ DO EKIPY</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="tag">NAPĘD</div>
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1582238475253-15767854619a?q=80&w=500" alt="Zębatka">
+                </div>
+                <div class="product-info">
+                    <h3>ZĘBATKA // PIZZA 60T</h3>
+                    <p>ALUMINIUM LOTNICZE 7075-T6 / FREZOWANIE CNC / BLACK ANODIZE</p>
+                    <div class="price">389.00 PLN</div>
+                    <button class="btn-buy">DODAJ DO EKIPY</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="tag">MUNDUR</div>
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=500" alt="Hoodie">
+                </div>
+                <div class="product-info">
+                    <h3>HOODIE // BALTIC MROK</h3>
+                    <p>GRAMATURA 450G / KRÓJ OVERSIZE / NADRUK SITODRUK HARDCORE</p>
+                    <div class="price">249.00 PLN</div>
+                    <button class="btn-buy">DODAJ DO EKIPY</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="crew-signup">
+        <div class="terminal-box">
+            <div class="terminal-header">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span style="font-size: 0.6rem; color: #555; margin-left: 10px;">BALTIC_STUNT_OS_V1.0</span>
+            </div>
+            <div class="terminal-content">
+                <p class="typewriter">> POŁĄCZONO Z SERWEREM_BALTIC...</p>
+                <p class="typewriter">> STATUS: POSZUKIWANI CZŁONKOWIE CREW.</p>
+                <p class="typewriter">> ZOSTAW E-MAIL, ABY DOSTAĆ INFO O NOWYCH DROPACH:</p>
+                
+                <form class="terminal-form">
+                    <div class="input-wrapper">
+                        <span class="prompt">CREW@STUNT:~$</span>
+                        <input type="email" placeholder="wpisz_email..." required>
+                    </div>
+                    <button type="submit" class="terminal-btn">DOŁĄCZ_DO_SYSTEMU</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 40px; font-size: 0.7rem; color: #333; border-top: 1px solid #111;">
+        &copy; 2026 BALTIC STUNT SHOP. NO RULES. JUST WHEELIE.
+    </footer>
+
+</body>
+</html>
