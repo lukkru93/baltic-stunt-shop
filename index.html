@@ -14,16 +14,21 @@
         /* --- NAVIGATION --- */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(0,0,0,0.95); border-bottom: 2px solid #1a1a1a; position: sticky; top: 0; z-index: 100; }
         .logo { font-family: 'Bebas Neue', cursive; font-size: 2.5rem; letter-spacing: 2px; color: #fff; text-decoration: none; cursor: pointer; }
-        /* --- NOWY STYL DLA LOGO GRAFICZNEGO --- */
+        .logo {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
 .logo img {
-    height: 60px; /* Ustawiamy wysokość logo na pasku */
-    width: auto;  /* Szerokość dopasuje się sama */
-    vertical-align: middle;
+    height: 60px; /* Tu ustalasz wysokość logo */
+    width: auto;   /* Szerokość dopasuje się sama */
     transition: 0.3s;
+    filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.3)); /* Lekka pomarańczowa poświata */
 }
 
 .logo img:hover {
-    filter: drop-shadow(0 0 10px #ff4500); /* Efekt świecenia po najechaniu */
+    filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.8)); /* Mocniejsza poświata po najechaniu */
     transform: scale(1.05); /* Lekkie powiększenie */
 }
         .logo span { color: #ff4500; text-shadow: 0 0 10px rgba(255, 69, 0, 0.5); }
@@ -80,7 +85,8 @@
     <nav class="navbar">
 <a class="logo" onclick="showPage('home')">
     <img src="logo.png" alt="Baltic Stunt Shop Logo">
-</a>        <ul class="nav-links">
+</a>        
+        <ul class="nav-links">
             <li><a onclick="showPage('cages')">CAGES</a></li>
             <li><a onclick="showPage('gearing')">GEARING</a></li>
             <li><a onclick="showPage('threads')">THREADS</a></li>
@@ -262,5 +268,6 @@
     </script>
 </body>
 </html>
+
 
 
