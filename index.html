@@ -356,80 +356,63 @@
     </footer>
 
     <script>
-    /* --- 1. SYSTEM NAWIGACJI (Z PAMIĘCIĄ URL) --- */
+    /* --- 1. SYSTEM PAMIĘCI Z WYGASANIEM (24H) --- */
     
-    // Funkcja zmieniająca widok
-    function showPage(pageId) {
-        // Ukryj wszystkie sekcje
-        document.querySelectorAll('.page-section').forEach(section => {
-            section.classList.remove('active');
-        });
+    // Konfiguracja czasu: 24h * 60min * 60sek * 1000ms
+    const EXPIRATION_TIME = 24 * 60 * 60 * 1000; 
+
+    function loadCart() {
+        const savedData = localStorage.getItem('balticCart');
         
-        // Pokaż wybraną sekcję (zabezpieczenie, gdyby ID nie istniało)
-        const targetSection = document.getElementById(pageId);
-        if (targetSection) {
-            targetSection.classList.add('active');
-        } else {
-            // Jeśli podano błędne ID, wróć do home
-            document.getElementById('home').classList.add('active');
-        }
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            const now = Date.now();
 
-        // Zaktualizuj adres URL (bez przeładowania)
-        // Sprawdzamy, czy hash jest inny, żeby nie pętlić historii
-        if (window.location.hash !== '#' + pageId) {
-            window.location.hash = pageId;
+            // Sprawdzamy czy minęły 24h od ostatniej zmiany
+            if (now - parsedData.timestamp > EXPIRATION_TIME) {
+                // Czas minął - czyścimy koszyk
+                console.log("Cart expired. Clearing storage.");
+                localStorage.removeItem('balticCart');
+                return [];
+            } else {
+                // Czas jest OK - wczytujemy produkty
+                return parsedData.items || [];
+            }
         }
-
-        // Przewiń na górę
-        window.scrollTo(0,0);
+        return [];
     }
 
-    // Funkcja uruchamiana przy starcie strony (ODŚWIEŻENIE)
-    window.addEventListener('DOMContentLoaded', () => {
-        // Pobierz hash z adresu (np. #cages), usuń znak #
-        const hash = window.location.hash.substring(1);
-        
-        if (hash) {
-            // Jeśli jest hash, otwórz tę stronę
-            showPage(hash);
-        } else {
-            // Jeśli nie ma hasha, otwórz Home
-            showPage('home');
-        }
-    });
+    // Inicjalizacja koszyka przy starcie
+    let cart = loadCart();
 
-    // Obsługa przycisków WSTECZ / DALEJ w przeglądarce
-    window.addEventListener('hashchange', () => {
-        const hash = window.location.hash.substring(1);
-        if (hash) showPage(hash);
-    });
-
-    /* --- 2. MENU MOBILNE (HAMBURGER) --- */
-    function toggleMenu() {
-        const nav = document.querySelector('.nav-links');
-        const burger = document.querySelector('.hamburger');
-        
-        nav.classList.toggle('active');
-        burger.classList.toggle('active');
+    // Funkcja zapisująca koszyk + aktualny czas
+    function saveCart() {
+        const payload = {
+            items: cart,
+            timestamp: Date.now() // Zapisujemy moment ostatniej zmiany
+        };
+        localStorage.setItem('balticCart', JSON.stringify(payload));
     }
 
-    /* --- 3. SYSTEM KOSZYKA (CART) --- */
-    let cart = [];
+    /* --- 2. LOGIKA KOSZYKA --- */
 
     function addToCart(name, price) {
-        // Dodaj unikalne ID (Date.now)
         cart.push({ id: Date.now(), name, price });
+        saveCart();     // Zapisuje i resetuje licznik 24h
         updateCartUI();
         
         // Efekt mignięcia w menu
         const link = document.getElementById('basket-link');
-        link.style.color = '#ff4500';
-        link.style.transition = '0.3s';
-        setTimeout(() => link.style.color = '#fff', 500);
+        if(link) {
+            link.style.color = '#ff4500';
+            link.style.transition = '0.3s';
+            setTimeout(() => link.style.color = '#fff', 500);
+        }
     }
 
     function removeFromCart(itemId) {
         cart = cart.filter(item => item.id !== itemId);
+        saveCart();     // Zapisuje i resetuje licznik 24h
         updateCartUI();
     }
 
@@ -439,10 +422,13 @@
         const link = document.getElementById('basket-link');
         
         // Aktualizacja licznika w menu
-        link.innerText = `BASKET [${cart.length}]`;
+        if(link) link.innerText = `BASKET [${cart.length}]`;
         
+        // Jeśli nie jesteśmy na stronie koszyka, przerywamy
+        if(!list) return;
+
         // Aktualizacja listy
-        list.innerHTML = cart.length ? '' : '<p style="color:#666;">> BASKET_EMPTY // SYSTEM_IDLE_</p>';
+        list.innerHTML = cart.length ? '' : '<p style="color:#666; font-style:italic;">> BASKET_EXPIRED_OR_EMPTY // SYSTEM_IDLE_</p>';
         
         let currentTotal = 0;
         cart.forEach(item => {
@@ -455,16 +441,65 @@
             `;
         });
         
-        totalDisplay.innerText = currentTotal;
+        if(totalDisplay) totalDisplay.innerText = currentTotal;
     }
 
     function checkoutAlert() {
         if(!cart.length) return alert("BASKET_EMPTY. ADD GEAR FIRST.");
         alert("REDIRECTING TO PAYMENT GATEWAY...");
     }
+
+    /* --- 3. SYSTEM NAWIGACJI --- */
+    
+    function showPage(pageId) {
+        document.querySelectorAll('.page-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        const targetSection = document.getElementById(pageId);
+        if (targetSection) {
+            targetSection.classList.add('active');
+        } else {
+            document.getElementById('home').classList.add('active');
+        }
+
+        if (window.location.hash !== '#' + pageId) {
+            window.location.hash = pageId;
+        }
+
+        window.scrollTo(0,0);
+        
+        if(pageId === 'basket') {
+            updateCartUI();
+        }
+    }
+
+    function toggleMenu() {
+        const nav = document.querySelector('.nav-links');
+        const burger = document.querySelector('.hamburger');
+        if(nav) nav.classList.toggle('active');
+        if(burger) burger.classList.toggle('active');
+    }
+
+    /* --- 4. START SYSTEMU (ON LOAD) --- */
+    window.addEventListener('DOMContentLoaded', () => {
+        // 1. Sprawdź URL i otwórz dobrą zakładkę
+        const hash = window.location.hash.substring(1);
+        showPage(hash || 'home');
+
+        // 2. Odśwież licznik w menu (na bazie wczytanego koszyka)
+        const link = document.getElementById('basket-link');
+        if(link) link.innerText = `BASKET [${cart.length}]`;
+    });
+
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash) showPage(hash);
+    });
 </script>
 </body>
 </html>
+
 
 
 
