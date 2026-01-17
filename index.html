@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
+        * { box-sizing: border-box; /* Kluczowe! Padding nie poszerza elementu */ margin: 0; padding: 0; }
+    html, body { width: 100%; overflow-x: hidden; /* Bezwzględny zakaz przewijania na boki */ position: relative; }
         /* --- CORE STYLES --- */
         body { margin: 0; padding: 0; font-family: 'Roboto Mono', monospace; overflow-x: hidden; color: #d1d1d1; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('logo.png'); background-attachment: fixed; background-position: center; background-size: cover; background-repeat: no-repeat; }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); opacity: 0.15; pointer-events: none; z-index: 9999; }
@@ -14,6 +16,63 @@
         /* --- NAVIGATION --- */
        /* --- NAVIGATION --- */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: transparent; border-bottom: none; position: sticky; top: 0; z-index: 100; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+        .hamburger {
+    display: none; /* Ukryty na komputerze */
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #ff4500; /* Pomarańczowe kreski */
+    transition: 0.3s;
+}
+
+/* --- MEDIA QUERY (Wygląd na telefonie) --- */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex; /* Pokaż hamburgera */
+        z-index: 200; /* Musi być na wierzchu */
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Domyślnie schowane poza ekranem (z prawej) */
+        height: 100vh; /* Na całą wysokość */
+        width: 70%;    /* Szerokość paska menu */
+        background-color: #000; /* Czarne tło */
+        border-left: 2px solid #ff4500;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.4s ease-in-out; /* Animacja wysuwania */
+        z-index: 150;
+    }
+
+    .nav-links li {
+        margin: 20px 0; /* Odstępy między linkami */
+    }
+
+    .nav-links li a {
+        font-size: 1.5rem; /* Większe napisy na telefonie */
+    }
+
+    /* Klasa, którą dodamy JavaScriptem po kliknięciu */
+    .nav-links.active {
+        right: 0; /* Wsuń menu na ekran */
+        box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+    }
+    
+    /* Animacja krzyżyka (X) po otwarciu */
+    .hamburger.active .bar:nth-child(2) { opacity: 0; }
+    .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+}
         .logo { font-family: 'Bebas Neue', cursive; font-size: 2.8rem; letter-spacing: 2px; color: #fff; text-decoration: none; cursor: pointer; text-shadow: 3px 3px 0px #000; transition: 0.3s; }
         .logo span { color: #ff4500; text-shadow: 0 0 15px rgba(255, 69, 0, 0.6), 2px 2px 0px #000; }
         .logo:hover { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); transform: scale(1.02); }
@@ -157,15 +216,22 @@
 <body>
 
     <nav class="navbar">
-    <a class="logo" onclick="showPage('home')">BALTIC <span>STUNT</span> SHOP</a>        
-        <ul class="nav-links">
-            <li><a onclick="showPage('cages')">CAGES</a></li>
-            <li><a onclick="showPage('gearing')">GEARING</a></li>
-            <li><a onclick="showPage('threads')">THREADS</a></li>
-            <li><a onclick="showPage('basket')" id="basket-link">BASKET [0]</a></li>
-            <li><a onclick="showPage('terms')">TERMS</a></li>
-        </ul>
-    </nav>
+    <a class="logo" onclick="showPage('home')">BALTIC <span>STUNT</span> SHOP</a>
+    
+    <div class="hamburger" onclick="toggleMenu()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
+
+    <ul class="nav-links">
+        <li><a onclick="showPage('cages'); toggleMenu()">CAGES</a></li>
+        <li><a onclick="showPage('gearing'); toggleMenu()">GEARING</a></li>
+        <li><a onclick="showPage('threads'); toggleMenu()">THREADS</a></li>
+        <li><a onclick="showPage('basket'); toggleMenu()" id="basket-link">BASKET [0]</a></li>
+        <li><a onclick="showPage('terms'); toggleMenu()">TERMS</a></li>
+    </ul>
+</nav>
 
     <div id="home" class="page-section active">
         <header class="hero-wrap">
@@ -295,6 +361,14 @@
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0,0);
         }
+        function toggleMenu() {
+    const nav = document.querySelector('.nav-links');
+    const burger = document.querySelector('.hamburger');
+    
+    // Przełączanie klas (dodaje/usuwa klasę 'active')
+    nav.classList.toggle('active');
+    burger.classList.toggle('active');
+}
 
         // --- CART SYSTEM ---
         let cart = [];
@@ -340,6 +414,7 @@
     </script>
 </body>
 </html>
+
 
 
 
