@@ -69,19 +69,21 @@
         /* --- RESPANSYWNOŚĆ (MOBILE FIX) --- */
     @media (max-width: 768px) {
         
-        /* 1. Naprawa tła na telefonach (iOS nie lubi "fixed") */
-        body {
-            background-attachment: scroll !important;
-            background-position: center top !important;
-            background-size: cover !important;
-        }
+        /* Wklej to WEWNĄTRZ klamry @media (max-width: 768px) { ... } */
+    
+    body {
+        /* Wyłączamy zdjęcie na telefonie */
+        background-image: none !important;
+        
+        /* Ustawiamy mroczny gradient (asfalt) */
+        background: linear-gradient(to bottom, #111111, #000000) !important;
+    }
 
-        /* 2. Nawigacja - Logo i Menu w pionie */
-        .navbar {
-            flex-direction: column; /* Elementy jeden pod drugim */
-            padding: 15px;
-            background: rgba(0,0,0,0.9); /* Ciemniejsze tło pod menu dla czytelności */
-        }
+    /* Opcjonalnie: Jeśli logo tekstowe zlewa się z tłem, dodaj mu tło */
+    .navbar {
+        background: #000 !important;
+        border-bottom: 1px solid #222;
+    }
 
         .logo {
             margin-bottom: 15px;
@@ -338,6 +340,7 @@
     </script>
 </body>
 </html>
+
 
 
 
