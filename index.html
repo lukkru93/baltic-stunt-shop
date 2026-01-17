@@ -17,7 +17,6 @@
 
         /* --- NAVIGATION --- */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: transparent; border-bottom: none; position: sticky; top: 0; z-index: 100; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
-        
         .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
         .bar { display: block; width: 25px; height: 3px; background-color: #ff4500; transition: 0.3s; }
 
@@ -48,7 +47,6 @@
         
         .product-grid {
             display: grid;
-            /* Zmniejszyłem minmax do 280px, żeby łatwiej wchodziły 3 obok siebie */
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 40px;
             width: 100%;
@@ -62,7 +60,7 @@
             transition: 0.3s;
             overflow: hidden;
             position: relative;
-            height: 100%; /* Rozciągnij do wysokości siatki */
+            height: 100%; 
         }
 
         .product-card:hover {
@@ -257,7 +255,7 @@
                 
                 <div class="product-card">
                     <div class="tag">STEEL</div>
-                    <div class="product-img"><img src="636_cage.png"></div>
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1591438253970-1f917228816c?w=500"></div>
                     <div class="product-info">
                         <h3>CAGE // FULL STUNT V2</h3>
                         <p class="price">1249.00 PLN</p>
@@ -266,22 +264,12 @@
                 </div>
 
                 <div class="product-card">
-                    <div class="tag">STEEL</div>
-                    <div class="product-img"><img src="636_cage.png"></div>
+                    <div class="tag">ALU</div>
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1558981806-ec527fa84f3a?w=500"></div>
                     <div class="product-info">
-                        <h3>CAGE // FULL STUNT V2</h3>
-                        <p class="price">1249.00 PLN</p>
-                        <button class="btn-buy" onclick="openProduct('cage-v2')">VIEW DETAILS</button>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="tag">STEEL</div>
-                    <div class="product-img"><img src="636_cage.png"></div>
-                    <div class="product-info">
-                        <h3>CAGE // FULL STUNT V2</h3>
-                        <p class="price">1249.00 PLN</p>
-                        <button class="btn-buy" onclick="openProduct('cage-v2')">VIEW DETAILS</button>
+                        <h3>SUBCAGE // PRO 636</h3>
+                        <p class="price">850.00 PLN</p>
+                        <button class="btn-buy" onclick="openProduct('subcage-bmw')">VIEW DETAILS</button>
                     </div>
                 </div>
 
@@ -293,49 +281,37 @@
         <div class="products-container">
             <h2 class="section-title">GEARING // DRIVE SYSTEM</h2>
             <div class="product-grid">
+                
                 <div class="product-card">
                     <div class="tag">CNC</div>
-                    <div class="product-img"><img src="sprocket.png"></div>
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1582238475253-15767854619a?w=500"></div>
                     <div class="product-info">
                         <h3>SPROCKET // PIZZA 60T</h3>
                         <p class="price">389.00 PLN</p>
                         <button class="btn-buy" onclick="openProduct('sprocket-60t')">VIEW DETAILS</button>                    
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div id="gearing" class="page-section">
-        <div class="products-container">
-            <h2 class="section-title">GEARING // DRIVE SYSTEM</h2>
-            <div class="product-grid">
                 <div class="product-card">
                     <div class="tag">CNC</div>
-                    <div class="product-img"><img src="sprocket.png"></div>
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1582238475253-15767854619a?w=500"></div>
                     <div class="product-info">
                         <h3>SPROCKET // PIZZA 65T</h3>
                         <p class="price">389.00 PLN</p>
                         <button class="btn-buy" onclick="openProduct('sprocket-65t')">VIEW DETAILS</button>                    
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div id="gearing" class="page-section">
-        <div class="products-container">
-            <h2 class="section-title">GEARING // DRIVE SYSTEM</h2>
-            <div class="product-grid">
                 <div class="product-card">
                     <div class="tag">CNC</div>
-                    <div class="product-img"><img src="sprocket.png"></div>
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1582238475253-15767854619a?w=500"></div>
                     <div class="product-info">
                         <h3>SPROCKET // PIZZA 70T</h3>
                         <p class="price">389.00 PLN</p>
                         <button class="btn-buy" onclick="openProduct('sprocket-70t')">VIEW DETAILS</button>                    
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -344,6 +320,7 @@
         <div class="products-container">
             <h2 class="section-title">STUNT THREADS // APPAREL</h2>
             <div class="product-grid">
+                
                 <div class="product-card">
                     <div class="tag">TEXTILE</div>
                     <div class="product-img"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"></div>
@@ -353,40 +330,27 @@
                         <button class="btn-buy" onclick="openProduct('hoodie-mrok')">VIEW DETAILS</button>                    
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div id="threads" class="page-section">
-        <div class="products-container">
-            <h2 class="section-title">STUNT THREADS // APPAREL</h2>
-            <div class="product-grid">
                 <div class="product-card">
-                    <div class="tag">TEXTILE</div>
+                    <div class="tag">COTTON</div>
                     <div class="product-img"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"></div>
                     <div class="product-info">
                         <h3>TEE // BALTIC MROK</h3>
                         <p class="price">149.00 PLN</p>
-                        <button class="btn-buy" onclick="openProduct('hoodie-mrok')">VIEW DETAILS</button>                    
+                        <button class="btn-buy" onclick="openProduct('tee-mrok')">VIEW DETAILS</button>                    
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div id="threads" class="page-section">
-        <div class="products-container">
-            <h2 class="section-title">STUNT THREADS // APPAREL</h2>
-            <div class="product-grid">
                 <div class="product-card">
-                    <div class="tag">TEXTILE</div>
-                    <div class="product-img"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"></div>
+                    <div class="tag">DENIM</div>
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1542272454323-9c47853a9688?w=500"></div>
                     <div class="product-info">
                         <h3>PANTS // BALTIC MROK</h3>
                         <p class="price">249.00 PLN</p>
-                        <button class="btn-buy" onclick="openProduct('hoodie-mrok')">VIEW DETAILS</button>                    
+                        <button class="btn-buy" onclick="openProduct('pants-mrok')">VIEW DETAILS</button>                    
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -444,18 +408,8 @@
         <div class="legal-box">
             <h2 class="section-title">TERMS & CONDITIONS</h2>
             <p>Last update: January 2026. By accessing Baltic Stunt Shop, you agree to the following terms:</p>
-            
             <h3>1. STUNT USE ONLY</h3>
-            <p>Our products (cages, subcages, sprockets) are designed for off-road/closed-circuit stunt use only. We are not responsible for injuries or damage caused by improper installation or use on public roads.</p>
-            
-            <h3>2. SHIPPING & LOGISTICS</h3>
-            <p>All parts are manufactured in the Baltic industrial zone. Shipping takes 5-10 business days. We ship worldwide via heavy-duty carriers.</p>
-            
-            <h3>3. RETURNS</h3>
-            <p>Unused items in original packaging can be returned within 14 days. Custom-welded cages cannot be returned once installed or scratched.</p>
-            
-            <h3>4. BALTIC CREW</h3>
-            <p>By purchasing our gear, you become part of the crew. Ride hard, but stay smart. We don't pay your hospital bills.</p>
+            <p>Our products (cages, subcages, sprockets) are designed for off-road/closed-circuit stunt use only.</p>
         </div>
     </div>
 
@@ -487,34 +441,43 @@
             image: "636_cage.png",
             sku: "BSC-CAG-002",
             specs: "Waga: 4.5kg // Stal: S355 // Montaż: 3-punktowy",
-            desc: "To nie jest zwykła klatka. To pancerz dla Twojej maszyny. Zaprojektowana, by przetrwać najcięższe gleby przy dużej prędkości. Spawana metodą TIG, malowana proszkowo na mat. W zestawie śruby o twardości 10.9 i crash pady z teflonu.",
+            desc: "Pancerz dla Twojej maszyny. Spawana metodą TIG, malowana proszkowo na mat.",
+            category: "cages"
+        },
+        'subcage-bmw': {
+            name: "SUBCAGE // PRO 636",
+            price: 850,
+            image: "https://images.unsplash.com/photo-1558981806-ec527fa84f3a?w=800",
+            sku: "BSC-SUB-636",
+            specs: "Waga: 2.0kg // Aluminium",
+            desc: "Lekki i wytrzymały subcage. Idealny do tricków z pasażerem.",
             category: "cages"
         },
         'sprocket-60t': {
             name: "SPROCKET // PIZZA 60T",
             price: 389,
-            image: "sprocket",
+            image: "sprocket.png",
             sku: "BSC-GEA-060",
-            specs: "Materiał: Aluminium 7075-T6 // Ilość zębów: 60 // Łańcuch: 520 or 525",
-            desc: "Potrzebujesz momentu obrotowego, który wyrwie Cię z butów? Pizza 60T to odpowiedź. Wycinana CNC z lotniczego aluminium, lekka jak piórko, twarda jak stal. Anodowana na czarno, by pasowała do mroku.",
+            specs: "Materiał: Aluminium 7075-T6 // 60 Zębów",
+            desc: "Idealny balans między mocą a prędkością. Wycinana CNC.",
             category: "gearing"
         },
         'sprocket-65t': {
             name: "SPROCKET // PIZZA 65T",
             price: 389,
-            image: "sprocket",
-            sku: "BSC-GEA-079",
-            specs: "Materiał: Aluminium 7075-T6 // Ilość zębów: 65 // Łańcuch: 520 or 525",
-            desc: "Potrzebujesz momentu obrotowego, który wyrwie Cię z butów? Pizza 65T to odpowiedź. Wycinana CNC z lotniczego aluminium, lekka jak piórko, twarda jak stal. Anodowana na czarno, by pasowała do mroku.",
+            image: "sprocket.png",
+            sku: "BSC-GEA-065",
+            specs: "Materiał: Aluminium 7075-T6 // 65 Zębów",
+            desc: "Większa moc na koło. Idealna do cyrkli.",
             category: "gearing"
         },
         'sprocket-70t': {
             name: "SPROCKET // PIZZA 70T",
             price: 389,
-            image: "sprocket",
-            sku: "BSC-GEA-060",
-            specs: "Materiał: Aluminium 7075-T6 // Ilość zębów: 70 // Łańcuch: 520 or 525",
-            desc: "Potrzebujesz momentu obrotowego, który wyrwie Cię z butów? Pizza 70T to odpowiedź. Wycinana CNC z lotniczego aluminium, lekka jak piórko, twarda jak stal. Anodowana na czarno, by pasowała do mroku.",
+            image: "sprocket.png",
+            sku: "BSC-GEA-070",
+            specs: "Materiał: Aluminium 7075-T6 // 70 Zębów",
+            desc: "Totalny pion przy każdej prędkości. Tylko dla prosów.",
             category: "gearing"
         },
         'hoodie-mrok': {
@@ -522,8 +485,26 @@
             price: 249,
             image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
             sku: "BSC-APP-H01",
-            specs: "Gramatura: 450g // Materiał: 100% Bawełna // Krój: Oversize",
-            desc: "Bluza testowana na zimnych, nadbałtyckich spotach. Gruby materiał chroni przed wiatrem, a obszerny kaptur pomieści kask w razie potrzeby. Nadruk wykonany niezniszczalnym sitodrukiem.",
+            specs: "Gramatura: 450g // 100% Bawełna",
+            desc: "Gruba bluza na zimne wieczory w garażu.",
+            category: "threads"
+        },
+        'tee-mrok': {
+            name: "TEE // BALTIC MROK",
+            price: 149,
+            image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
+            sku: "BSC-APP-T01",
+            specs: "Gramatura: 210g // 100% Bawełna",
+            desc: "Klasyczny T-shirt z nadrukiem odpornym na smar i olej.",
+            category: "threads"
+        },
+        'pants-mrok': {
+            name: "PANTS // BALTIC MROK",
+            price: 249,
+            image: "https://images.unsplash.com/photo-1542272454323-9c47853a9688?w=800",
+            sku: "BSC-APP-P01",
+            specs: "Kevlar lining // Stretch denim",
+            desc: "Spodnie z kevlarem. Wyglądają cywilnie, chronią jak zbroja.",
             category: "threads"
         }
     };
@@ -535,19 +516,14 @@
             try {
                 const parsedData = JSON.parse(savedData);
                 if (Date.now() - parsedData.timestamp > EXPIRATION_TIME) {
-                    localStorage.removeItem('balticCart');
-                    return [];
+                    localStorage.removeItem('balticCart'); return [];
                 }
                 const items = parsedData.items || [];
                 if (items.length > 0 && typeof items[0].qty === 'undefined') {
-                    localStorage.removeItem('balticCart');
-                    return [];
+                    localStorage.removeItem('balticCart'); return [];
                 }
                 return items;
-            } catch (error) {
-                localStorage.removeItem('balticCart');
-                return [];
-            }
+            } catch (error) { localStorage.removeItem('balticCart'); return []; }
         }
         return [];
     }
@@ -562,13 +538,11 @@
     /* --- 3. CART LOGIC --- */
     function addToCart(id, name, price, image, sectionId, quantity = 1) {
         const existingItem = cart.find(item => item.id === id);
-
         if (existingItem) {
             existingItem.qty += quantity;
         } else {
             cart.push({ id, name, price, image, sectionId, qty: quantity });
         }
-
         saveCart();
         updateCartUI();
         flashMenu();
@@ -577,15 +551,9 @@
     function changeQty(id, change) {
         const item = cart.find(item => item.id === id);
         if (!item) return;
-
         item.qty += change;
-
-        if (item.qty <= 0) {
-            removeFromCart(id);
-        } else {
-            saveCart();
-            updateCartUI();
-        }
+        if (item.qty <= 0) removeFromCart(id);
+        else { saveCart(); updateCartUI(); }
     }
 
     function removeFromCart(id) {
@@ -616,36 +584,30 @@
         cart.forEach(item => {
             const itemTotal = item.price * item.qty;
             totalPrice += itemTotal;
-            const targetSection = item.sectionId || 'home';
+            // Link action to prevent refresh issue
+            const linkAction = `window.location.hash = 'product:${item.id}'`;
 
-            // TU BYŁA ZMIANA - TERAZ WYWOŁUJEMY openProduct()
             list.innerHTML += `
                 <div class="cart-item">
-                    <div style="cursor: pointer;" onclick="openProduct('${item.id}')" title="Go to product">
+                    <div style="cursor: pointer;" onclick="${linkAction}" title="Go to product">
                         <img src="${item.image}" alt="Product">
                     </div>
-                    
                     <div class="cart-info">
-                        <h4 style="cursor: pointer; text-decoration: underline; text-decoration-color: #ff4500;" onclick="openProduct('${item.id}')">
+                        <h4 style="cursor: pointer; text-decoration: underline; text-decoration-color: #ff4500;" onclick="${linkAction}">
                             ${item.name}
                         </h4>
                         <p>${item.price} PLN / szt.</p>
                         <p style="color:#ff4500; font-weight:bold;">SUMA: ${itemTotal} PLN</p>
                     </div>
-
                     <div class="qty-controls">
                         <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
                         <span class="qty-val">${item.qty}</span>
                         <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
                     </div>
-
-                    <button class="remove-btn" onclick="removeFromCart('${item.id}')">
-                        &times;
-                    </button>
+                    <button class="remove-btn" onclick="removeFromCart('${item.id}')">&times;</button>
                 </div>
             `;
         });
-
         if(totalDisplay) totalDisplay.innerText = totalPrice;
     }
 
@@ -662,21 +624,36 @@
         alert("REDIRECTING TO PAYMENT GATEWAY...");
     }
 
-    /* --- 4. NAVIGATION & PRODUCT PAGE --- */
-    function showPage(pageId) {
-        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-        const target = document.getElementById(pageId) || document.getElementById('home');
-        target.classList.add('active');
-        if(window.location.hash !== '#' + pageId) window.location.hash = pageId;
-        window.scrollTo(0,0);
-        if(pageId === 'basket') updateCartUI();
-    }
-
+    /* --- 5. SYSTEM NAWIGACJI (ROUTING) --- */
     let currentProductId = null;
 
-    function openProduct(id) {
+    function handleRouting() {
+        let hash = window.location.hash.substring(1); 
+        if (!hash) hash = 'home';
+
+        // Obsługa produktu w URL (np. #product:cage-v2)
+        if (hash.startsWith('product:')) {
+            const productId = hash.split(':')[1];
+            renderProduct(productId);
+            switchSection('product-page');
+        } else {
+            switchSection(hash);
+            if(hash === 'basket') updateCartUI();
+        }
+        window.scrollTo(0,0);
+    }
+
+    function switchSection(sectionId) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(sectionId);
+        if(target) target.classList.add('active');
+        else document.getElementById('home').classList.add('active');
+    }
+
+    function renderProduct(id) {
         const product = productsDB[id];
-        if(!product) return console.error("Produkt nie istnieje:", id);
+        if(!product) return console.error("Brak produktu:", id);
+        
         currentProductId = id;
         document.getElementById('p-img').src = product.image;
         document.getElementById('p-name').innerText = product.name;
@@ -685,7 +662,10 @@
         document.getElementById('p-specs').innerText = product.specs;
         document.getElementById('p-desc').innerText = product.desc;
         document.getElementById('p-qty').value = 1;
-        showPage('product-page');
+    }
+
+    function openProduct(id) {
+        window.location.hash = `product:${id}`;
     }
 
     function adjustQty(change) {
@@ -704,12 +684,15 @@
     }
 
     function goBackToCategory() {
-        if(currentProductId) {
-            const category = productsDB[currentProductId].category;
-            showPage(category);
+        if(currentProductId && productsDB[currentProductId]) {
+            window.location.hash = productsDB[currentProductId].category;
         } else {
-            showPage('home');
+            window.location.hash = 'home';
         }
+    }
+
+    function showPage(pageId) {
+        window.location.hash = pageId;
     }
 
     function toggleMenu() {
@@ -717,17 +700,11 @@
         document.querySelector('.hamburger').classList.toggle('active');
     }
 
+    window.addEventListener('hashchange', handleRouting);
     window.addEventListener('DOMContentLoaded', () => {
-        showPage(window.location.hash.substring(1) || 'home');
+        handleRouting();
         updateCartUI();
-    });
-    
-    window.addEventListener('hashchange', () => {
-        showPage(window.location.hash.substring(1));
     });
     </script>
 </body>
 </html>
-
-
-
