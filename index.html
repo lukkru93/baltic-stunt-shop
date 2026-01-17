@@ -356,65 +356,116 @@
     </footer>
 
     <script>
-        // --- NAVIGATION ---
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(section => section.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0,0);
-        }
-        function toggleMenu() {
-    const nav = document.querySelector('.nav-links');
-    const burger = document.querySelector('.hamburger');
+    /* --- 1. SYSTEM NAWIGACJI (Z PAMIĘCIĄ URL) --- */
     
-    // Przełączanie klas (dodaje/usuwa klasę 'active')
-    nav.classList.toggle('active');
-    burger.classList.toggle('active');
-}
-
-        // --- CART SYSTEM ---
-        let cart = [];
-
-        function addToCart(name, price) {
-            cart.push({ id: Date.now(), name, price });
-            updateUI();
-            const link = document.getElementById('basket-link');
-            link.style.color = '#ff4500';
-            setTimeout(() => link.style.color = '#fff', 300);
+    // Funkcja zmieniająca widok
+    function showPage(pageId) {
+        // Ukryj wszystkie sekcje
+        document.querySelectorAll('.page-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        // Pokaż wybraną sekcję (zabezpieczenie, gdyby ID nie istniało)
+        const targetSection = document.getElementById(pageId);
+        if (targetSection) {
+            targetSection.classList.add('active');
+        } else {
+            // Jeśli podano błędne ID, wróć do home
+            document.getElementById('home').classList.add('active');
         }
 
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateUI();
+        // Zaktualizuj adres URL (bez przeładowania)
+        // Sprawdzamy, czy hash jest inny, żeby nie pętlić historii
+        if (window.location.hash !== '#' + pageId) {
+            window.location.hash = pageId;
         }
 
-        function updateUI() {
-            const list = document.getElementById('cart-items');
-            const totalDisplay = document.getElementById('total-price');
-            const link = document.getElementById('basket-link');
-            
-            link.innerText = `BASKET [${cart.length}]`;
-            list.innerHTML = cart.length ? '' : '<p>> BASKET_EMPTY // SYSTEM_IDLE_</p>';
-            
-            let currentTotal = 0;
-            cart.forEach(item => {
-                currentTotal += item.price;
-                list.innerHTML += `
-                    <div class="cart-item">
-                        <span>> ${item.name} // ${item.price} PLN</span>
-                        <button class="remove-btn" onclick="removeFromCart(${item.id})">[X]</button>
-                    </div>
-                `;
-            });
-            totalDisplay.innerText = currentTotal;
-        }
+        // Przewiń na górę
+        window.scrollTo(0,0);
+    }
 
-        function checkoutAlert() {
-            if(!cart.length) return alert("BASKET_EMPTY.");
-            alert("REDIRECTING TO SECURE GATEWAY (STRIPE/PAYU)...");
+    // Funkcja uruchamiana przy starcie strony (ODŚWIEŻENIE)
+    window.addEventListener('DOMContentLoaded', () => {
+        // Pobierz hash z adresu (np. #cages), usuń znak #
+        const hash = window.location.hash.substring(1);
+        
+        if (hash) {
+            // Jeśli jest hash, otwórz tę stronę
+            showPage(hash);
+        } else {
+            // Jeśli nie ma hasha, otwórz Home
+            showPage('home');
         }
-    </script>
+    });
+
+    // Obsługa przycisków WSTECZ / DALEJ w przeglądarce
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash) showPage(hash);
+    });
+
+    /* --- 2. MENU MOBILNE (HAMBURGER) --- */
+    function toggleMenu() {
+        const nav = document.querySelector('.nav-links');
+        const burger = document.querySelector('.hamburger');
+        
+        nav.classList.toggle('active');
+        burger.classList.toggle('active');
+    }
+
+    /* --- 3. SYSTEM KOSZYKA (CART) --- */
+    let cart = [];
+
+    function addToCart(name, price) {
+        // Dodaj unikalne ID (Date.now)
+        cart.push({ id: Date.now(), name, price });
+        updateCartUI();
+        
+        // Efekt mignięcia w menu
+        const link = document.getElementById('basket-link');
+        link.style.color = '#ff4500';
+        link.style.transition = '0.3s';
+        setTimeout(() => link.style.color = '#fff', 500);
+    }
+
+    function removeFromCart(itemId) {
+        cart = cart.filter(item => item.id !== itemId);
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        const list = document.getElementById('cart-items');
+        const totalDisplay = document.getElementById('total-price');
+        const link = document.getElementById('basket-link');
+        
+        // Aktualizacja licznika w menu
+        link.innerText = `BASKET [${cart.length}]`;
+        
+        // Aktualizacja listy
+        list.innerHTML = cart.length ? '' : '<p style="color:#666;">> BASKET_EMPTY // SYSTEM_IDLE_</p>';
+        
+        let currentTotal = 0;
+        cart.forEach(item => {
+            currentTotal += item.price;
+            list.innerHTML += `
+                <div class="cart-item">
+                    <span>> ${item.name} <br><span style="font-size:0.8rem; color:#666;">${item.price} PLN</span></span>
+                    <button class="remove-btn" onclick="removeFromCart(${item.id})">[X]</button>
+                </div>
+            `;
+        });
+        
+        totalDisplay.innerText = currentTotal;
+    }
+
+    function checkoutAlert() {
+        if(!cart.length) return alert("BASKET_EMPTY. ADD GEAR FIRST.");
+        alert("REDIRECTING TO PAYMENT GATEWAY...");
+    }
+</script>
 </body>
 </html>
+
 
 
 
