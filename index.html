@@ -111,8 +111,80 @@
 
         /* --- CART --- */
         .cart-box { max-width: 800px; margin: 0 auto; padding: 40px; background: #080808; border: 1px solid #222; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #222; }
-        .remove-btn { color: #ff4500; background: none; border: 1px solid #ff4500; cursor: pointer; padding: 5px 10px; }
+        .cart-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto auto; /* Obrazek | Nazwa | Ilość | Usuń */
+    gap: 15px;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #222;
+}
+
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+.cart-info h4 {
+    margin: 0 0 5px 0;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.cart-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.qty-controls {
+    display: flex;
+    align-items: center;
+    background: #111;
+    border: 1px solid #333;
+}
+
+.qty-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.qty-btn:hover { background: #ff4500; color: #000; }
+
+.qty-val {
+    width: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.remove-btn {
+    color: #ff4500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 10px;
+}
+
+/* Wersja mobilna koszyka */
+@media (max-width: 768px) {
+    .cart-item {
+        grid-template-columns: 60px 1fr; /* Tylko obrazek i reszta */
+        grid-template-rows: auto auto;
+    }
+    .qty-controls { grid-column: 2; margin-top: 10px; width: fit-content; }
+    .remove-btn { grid-column: 2; justify-self: end; margin-top: -30px; }
+}
         .cart-total { font-size: 2.5rem; text-align: right; margin-top: 30px; font-family: 'Bebas Neue'; color: #ff4500; }
 
         /* --- TERMINAL --- */
@@ -266,7 +338,7 @@
                         <h3>CAGE // FULL STUNT V2</h3>
                         <p>S355 STEEL / REINFORCED / MATTE POWDER COATING</p>
                         <div class="price">1249.00 PLN</div>
-                        <button class="btn-buy" onclick="addToCart('CAGE V2', 1249)">TAKE THIS</button>
+                        <button class="btn-buy" onclick="addToCart('cage-v2', 'CAGE // FULL STUNT V2', 1249, 'https://images.unsplash.com/photo-1591438253970-1f917228816c?w=500')">TAKE THIS</button>
                     </div>
                 </div>
             </div>
@@ -284,7 +356,7 @@
                         <h3>SPROCKET // PIZZA 60T</h3>
                         <p>AIRCRAFT ALUMINUM 7075-T6 / BLACK ANODIZED</p>
                         <div class="price">389.00 PLN</div>
-                        <button class="btn-buy" onclick="addToCart('PIZZA 60T', 389)">TAKE THIS</button>
+                        <button class="btn-buy" onclick="addToCart('sprocket-60t', 'SPROCKET // PIZZA 60T', 389, 'https://images.unsplash.com/photo-1582238475253-15767854619a?w=500')">TAKE THIS</button>
                     </div>
                 </div>
             </div>
@@ -302,7 +374,7 @@
                         <h3>HOODIE // BALTIC MROK</h3>
                         <p>450G HEAVYWEIGHT / HARDCORE SCREEN PRINT</p>
                         <div class="price">249.00 PLN</div>
-                        <button class="btn-buy" onclick="addToCart('BALTIC HOODIE', 249)">TAKE THIS</button>
+                        <button class="btn-buy" onclick="addToCart('hoodie-mrok', 'HOODIE // BALTIC MROK', 249, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500')">TAKE THIS</button>
                     </div>
                 </div>
             </div>
@@ -356,63 +428,68 @@
     </footer>
 
     <script>
-    /* --- 1. SYSTEM PAMIĘCI Z WYGASANIEM (24H) --- */
-    
-    // Konfiguracja czasu: 24h * 60min * 60sek * 1000ms
-    const EXPIRATION_TIME = 24 * 60 * 60 * 1000; 
+    /* --- 1. CONFIG --- */
+    const EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24h
 
+    /* --- 2. STORAGE SYSTEM --- */
     function loadCart() {
         const savedData = localStorage.getItem('balticCart');
-        
         if (savedData) {
             const parsedData = JSON.parse(savedData);
-            const now = Date.now();
-
-            // Sprawdzamy czy minęły 24h od ostatniej zmiany
-            if (now - parsedData.timestamp > EXPIRATION_TIME) {
-                // Czas minął - czyścimy koszyk
-                console.log("Cart expired. Clearing storage.");
+            if (Date.now() - parsedData.timestamp > EXPIRATION_TIME) {
                 localStorage.removeItem('balticCart');
                 return [];
-            } else {
-                // Czas jest OK - wczytujemy produkty
-                return parsedData.items || [];
             }
+            return parsedData.items || [];
         }
         return [];
     }
 
-    // Inicjalizacja koszyka przy starcie
     let cart = loadCart();
 
-    // Funkcja zapisująca koszyk + aktualny czas
     function saveCart() {
-        const payload = {
-            items: cart,
-            timestamp: Date.now() // Zapisujemy moment ostatniej zmiany
-        };
+        const payload = { items: cart, timestamp: Date.now() };
         localStorage.setItem('balticCart', JSON.stringify(payload));
     }
 
-    /* --- 2. LOGIKA KOSZYKA --- */
+    /* --- 3. CART LOGIC (NOWA WERSJA) --- */
+    
+    // Teraz funkcja przyjmuje 4 argumenty: ID, Nazwa, Cena, Obrazek
+    function addToCart(id, name, price, image) {
+        // Sprawdź czy produkt już jest w koszyku
+        const existingItem = cart.find(item => item.id === id);
 
-    function addToCart(name, price) {
-        cart.push({ id: Date.now(), name, price });
-        saveCart();     // Zapisuje i resetuje licznik 24h
+        if (existingItem) {
+            existingItem.qty++; // Jeśli jest, zwiększ ilość
+        } else {
+            // Jeśli nie ma, dodaj nowy z ilością 1
+            cart.push({ id, name, price, image, qty: 1 });
+        }
+
+        saveCart();
         updateCartUI();
-        
-        // Efekt mignięcia w menu
-        const link = document.getElementById('basket-link');
-        if(link) {
-            link.style.color = '#ff4500';
-            link.style.transition = '0.3s';
-            setTimeout(() => link.style.color = '#fff', 500);
+        flashMenu();
+    }
+
+    // Zmiana ilości (+ / -)
+    function changeQty(id, change) {
+        const item = cart.find(item => item.id === id);
+        if (!item) return;
+
+        item.qty += change;
+
+        if (item.qty <= 0) {
+            // Jeśli ilość spadnie do 0, zapytaj czy usunąć
+            removeFromCart(id);
+        } else {
+            saveCart();
+            updateCartUI();
         }
     }
 
-    function removeFromCart(itemId) {
-        cart = cart.filter(item => item.id !== itemId);
-        saveCart();     // Zapisuje i resetuje licznik 24h
+    function removeFromCart(id) {
+        cart = cart.filter(item => item.id !== id);
+        saveCart();
         updateCartUI();
     }
 
@@ -420,85 +497,93 @@
         const list = document.getElementById('cart-items');
         const totalDisplay = document.getElementById('total-price');
         const link = document.getElementById('basket-link');
-        
-        // Aktualizacja licznika w menu
-        if(link) link.innerText = `BASKET [${cart.length}]`;
-        
-        // Jeśli nie jesteśmy na stronie koszyka, przerywamy
-        if(!list) return;
 
-        // Aktualizacja listy
-        list.innerHTML = cart.length ? '' : '<p style="color:#666; font-style:italic;">> BASKET_EXPIRED_OR_EMPTY // SYSTEM_IDLE_</p>';
-        
-        let currentTotal = 0;
+        // Licznik w menu (suma wszystkich sztuk)
+        const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        if(link) link.innerText = `BASKET [${totalQty}]`;
+
+        if (!list) return;
+
+        // Renderowanie listy
+        if (cart.length === 0) {
+            list.innerHTML = '<p style="color:#666; font-style:italic; padding:20px;">> BASKET_EMPTY // SYSTEM_IDLE_</p>';
+            if(totalDisplay) totalDisplay.innerText = "0";
+            return;
+        }
+
+        list.innerHTML = '';
+        let totalPrice = 0;
+
         cart.forEach(item => {
-            currentTotal += item.price;
+            const itemTotal = item.price * item.qty;
+            totalPrice += itemTotal;
+
             list.innerHTML += `
                 <div class="cart-item">
-                    <span>> ${item.name} <br><span style="font-size:0.8rem; color:#666;">${item.price} PLN</span></span>
-                    <button class="remove-btn" onclick="removeFromCart(${item.id})">[X]</button>
+                    <img src="${item.image}" alt="Product">
+                    
+                    <div class="cart-info">
+                        <h4>${item.name}</h4>
+                        <p>${item.price} PLN / szt.</p>
+                        <p style="color:#ff4500; font-weight:bold;">SUMA: ${itemTotal} PLN</p>
+                    </div>
+
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
+                        <span class="qty-val">${item.qty}</span>
+                        <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+                    </div>
+
+                    <button class="remove-btn" onclick="removeFromCart('${item.id}')">
+                        &times;
+                    </button>
                 </div>
             `;
         });
-        
-        if(totalDisplay) totalDisplay.innerText = currentTotal;
+
+        if(totalDisplay) totalDisplay.innerText = totalPrice;
+    }
+
+    function flashMenu() {
+        const link = document.getElementById('basket-link');
+        if(link) {
+            link.style.color = '#ff4500';
+            setTimeout(() => link.style.color = '#fff', 500);
+        }
     }
 
     function checkoutAlert() {
-        if(!cart.length) return alert("BASKET_EMPTY. ADD GEAR FIRST.");
+        if(!cart.length) return alert("BASKET_EMPTY.");
         alert("REDIRECTING TO PAYMENT GATEWAY...");
     }
 
-    /* --- 3. SYSTEM NAWIGACJI --- */
-    
+    /* --- 4. NAVIGATION & INIT --- */
     function showPage(pageId) {
-        document.querySelectorAll('.page-section').forEach(section => {
-            section.classList.remove('active');
-        });
-        
-        const targetSection = document.getElementById(pageId);
-        if (targetSection) {
-            targetSection.classList.add('active');
-        } else {
-            document.getElementById('home').classList.add('active');
-        }
-
-        if (window.location.hash !== '#' + pageId) {
-            window.location.hash = pageId;
-        }
-
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(pageId) || document.getElementById('home');
+        target.classList.add('active');
+        if(window.location.hash !== '#' + pageId) window.location.hash = pageId;
         window.scrollTo(0,0);
-        
-        if(pageId === 'basket') {
-            updateCartUI();
-        }
+        if(pageId === 'basket') updateCartUI();
     }
 
     function toggleMenu() {
-        const nav = document.querySelector('.nav-links');
-        const burger = document.querySelector('.hamburger');
-        if(nav) nav.classList.toggle('active');
-        if(burger) burger.classList.toggle('active');
+        document.querySelector('.nav-links').classList.toggle('active');
+        document.querySelector('.hamburger').classList.toggle('active');
     }
 
-    /* --- 4. START SYSTEMU (ON LOAD) --- */
     window.addEventListener('DOMContentLoaded', () => {
-        // 1. Sprawdź URL i otwórz dobrą zakładkę
-        const hash = window.location.hash.substring(1);
-        showPage(hash || 'home');
-
-        // 2. Odśwież licznik w menu (na bazie wczytanego koszyka)
-        const link = document.getElementById('basket-link');
-        if(link) link.innerText = `BASKET [${cart.length}]`;
+        showPage(window.location.hash.substring(1) || 'home');
+        updateCartUI();
     });
-
+    
     window.addEventListener('hashchange', () => {
-        const hash = window.location.hash.substring(1);
-        if (hash) showPage(hash);
+        showPage(window.location.hash.substring(1));
     });
 </script>
 </body>
 </html>
+
 
 
 
