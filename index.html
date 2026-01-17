@@ -66,6 +66,90 @@
         .legal-box h3 { color: #fff; font-family: 'Bebas Neue'; font-size: 1.5rem; margin-top: 30px; border-bottom: 1px solid #222; }
 
         @media (max-width: 768px) { .nav-links { display: none; } .navbar { padding: 15px; } }
+        /* --- RESPANSYWNOŚĆ (MOBILE FIX) --- */
+    @media (max-width: 768px) {
+        
+        /* 1. Naprawa tła na telefonach (iOS nie lubi "fixed") */
+        body {
+            background-attachment: scroll !important;
+            background-position: center top !important;
+            background-size: cover !important;
+        }
+
+        /* 2. Nawigacja - Logo i Menu w pionie */
+        .navbar {
+            flex-direction: column; /* Elementy jeden pod drugim */
+            padding: 15px;
+            background: rgba(0,0,0,0.9); /* Ciemniejsze tło pod menu dla czytelności */
+        }
+
+        .logo {
+            margin-bottom: 15px;
+            font-size: 2.2rem; /* Mniejsze logo */
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap; /* Zwijanie linków wierszami */
+            justify-content: center;
+            width: 100%;
+        }
+
+        .nav-links li a {
+            margin: 5px 10px; /* Mniejsze odstępy */
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+
+        /* 3. Hero Section - Mniejszy nagłówek */
+        .hero-wrap {
+            height: 60vh; /* Niższa sekcja powitalna */
+            background-attachment: scroll; /* Naprawa dla mobilnych */
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem; /* Zmniejszenie gigantycznego napisu */
+            line-height: 1;
+        }
+
+        .hero-content p {
+            font-size: 0.9rem;
+            padding: 0 20px; /* Marginesy boczne */
+        }
+
+        .btn-main {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+
+        /* 4. Produkty - Jedna kolumna zamiast siatki */
+        .product-grid {
+            grid-template-columns: 1fr; /* Jeden produkt na całą szerokość */
+            gap: 30px;
+        }
+
+        .products-container, .page-section {
+            padding: 30px 15px; /* Mniejsze marginesy wewnętrzne */
+        }
+
+        /* 5. Terminal i Koszyk - Pełna szerokość */
+        .terminal-box, .cart-box, .manifesto-box {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 2.5rem; /* Mniejsze nagłówki sekcji */
+            padding-left: 15px;
+            border-left-width: 6px;
+        }
+        
+        /* Ukryj efekt hover na telefonach (bo nie ma myszki) */
+        .product-card:hover {
+            transform: none;
+        }
+    }
     </style>
 </head>
 <body>
@@ -254,6 +338,7 @@
     </script>
 </body>
 </html>
+
 
 
 
