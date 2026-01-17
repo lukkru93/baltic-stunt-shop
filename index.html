@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baltic Stunt Shop | ERP PRO</title>
+    <title>Baltic Stunt Shop | ERP V4 (Full Edit)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+JP:wght@700&family=Noto+Sans:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- GLOBAL --- */
+        /* --- GLOBAL & CORE --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { width: 100%; overflow-x: hidden; position: relative; }
         body { margin: 0; padding-top: 80px; font-family: 'Roboto Mono', monospace; background: #050505; color: #d1d1d1; }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.95)), url('logo.png'); background-size: cover; background-position: center; z-index: -1; }
+
         .lang-font { font-family: 'Bebas Neue', 'Noto Sans SC', 'Noto Sans JP', 'Noto Sans', sans-serif; }
 
         /* --- NAVBAR --- */
@@ -25,16 +26,16 @@
         .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
         .bar { width: 25px; height: 3px; background: #ff4500; }
 
-        /* --- UI ELEMENTS --- */
+        /* --- SECTIONS --- */
         .page-section { display: none; min-height: 80vh; padding-bottom: 50px; animation: fadeIn 0.5s; }
         .page-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .section-title { font-size: 3rem; border-left: 10px solid #ff4500; padding-left: 20px; margin: 40px 50px; color: #fff; }
-        .btn-buy { width: 100%; padding: 15px; background: transparent; border: 1px solid #ff4500; color: #ff4500; font-size: 1.2rem; cursor: pointer; transition: 0.3s; margin-top: 15px; }
-        .btn-buy:hover { background: #ff4500; color: #000; }
-        .btn-disabled { border-color: #555; color: #555; cursor: not-allowed; }
 
-        /* --- SHOP GRID --- */
+        .section-title { font-size: 3rem; border-left: 10px solid #ff4500; padding-left: 20px; margin: 40px 50px; color: #fff; }
+        .hero-wrap { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero-wrap h1 { font-size: 6rem; line-height: 1; color: #fff; text-shadow: 0 0 20px rgba(255,69,0,0.5); }
+
+        /* --- PRODUCTS --- */
         .products-container { padding: 0 50px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
         .product-card { background: #111; border: 1px solid #222; transition: 0.3s; position: relative; cursor: pointer; }
@@ -43,43 +44,66 @@
         .product-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
         .product-card:hover img { filter: grayscale(0%); transform: scale(1.1); }
         .product-info { padding: 20px; text-align: center; }
+        .product-info h3 { font-size: 1.5rem; margin-bottom: 5px; color: #fff; }
         .stock-badge { position: absolute; top: 10px; right: 10px; background: #000; color: #00ff41; padding: 2px 8px; font-size: 0.7rem; border: 1px solid #00ff41; z-index: 10; }
-        
-        /* --- ADMIN PRO --- */
-        .admin-dashboard { max-width: 1800px; margin: 0 auto; padding: 20px; }
+        .stock-low { color: #ff4500; border-color: #ff4500; }
+        .stock-out { color: #ff0000; border-color: #ff0000; background: rgba(255,0,0,0.1); }
+        .btn-buy { width: 100%; padding: 15px; background: transparent; border: 1px solid #ff4500; color: #ff4500; font-size: 1.2rem; cursor: pointer; transition: 0.3s; margin-top: 15px; }
+        .btn-buy:hover { background: #ff4500; color: #000; }
+        .btn-disabled { border-color: #555; color: #555; cursor: not-allowed; }
+
+        /* --- PRODUCT DETAIL --- */
+        .product-detail-container { max-width: 1100px; margin: 0 auto; padding: 40px; background: rgba(0,0,0,0.9); border: 1px solid #333; }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .detail-img-box { height: 500px; border: 1px solid #333; overflow: hidden; }
+        .detail-img-box img { width: 100%; height: 100%; object-fit: contain; }
+        .price-tag { font-size: 3rem; color: #ff4500; margin: 20px 0; }
+
+        /* --- CART --- */
+        .cart-box { max-width: 800px; margin: 0 auto; background: #111; padding: 30px; border: 1px solid #222; }
+        .cart-item { display: grid; grid-template-columns: 60px 1fr auto auto; gap: 15px; align-items: center; border-bottom: 1px solid #222; padding: 15px 0; }
+        .cart-item img { width: 60px; height: 60px; object-fit: cover; }
+        .remove-btn { color: #ff4500; background: none; border: none; cursor: pointer; font-size: 1.2rem; }
+
+        /* CHECKOUT */
+        .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; color: #888; font-size: 0.8rem; margin-bottom: 5px; }
+        .form-input { width: 100%; background: #080808; border: 1px solid #333; padding: 10px; color: #fff; font-family: 'Roboto Mono'; }
+        .radio-group { display: grid; gap: 10px; }
+        .radio-card { border: 1px solid #333; padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .radio-card.selected { border-color: #ff4500; background: rgba(255,69,0,0.1); }
+        .radio-input { display: none; }
+        .terms-box { margin-top: 20px; font-size: 0.8rem; display: flex; gap: 10px; align-items: center; }
+
+        /* --- ADMIN --- */
+        .admin-dashboard { max-width: 1600px; margin: 0 auto; padding: 20px; }
         .admin-nav { display: flex; gap: 5px; margin-bottom: 30px; border-bottom: 2px solid #333; overflow-x: auto; }
         .admin-btn { padding: 15px 30px; background: #111; color: #888; border: none; cursor: pointer; font-weight: bold; font-size: 1.2rem; white-space: nowrap; }
         .admin-btn.active { background: #ff4500; color: #000; }
-        
         .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .kpi-card { background: #111; border: 1px solid #333; padding: 20px; text-align: center; }
-        .kpi-val { font-size: 2.5rem; color: #fff; font-weight: bold; }
-        .kpi-label { color: #888; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; }
-        .kpi-pos { color: #00ff41; } .kpi-neg { color: #ff0000; }
-
-        .admin-table { width: 100%; border-collapse: collapse; background: #080808; border: 1px solid #222; font-size: 0.8rem; }
-        .admin-table th { text-align: left; padding: 15px; background: #1a1a1a; color: #ff4500; letter-spacing: 1px; position: sticky; top: 0; }
-        .admin-table td { padding: 10px 15px; border-bottom: 1px solid #222; vertical-align: middle; }
-        .admin-table tr:hover { background: #111; }
+        .kpi-val { font-size: 2rem; color: #fff; }
+        .admin-table { width: 100%; border-collapse: collapse; background: #080808; border: 1px solid #222; font-size: 0.85rem; }
+        .admin-table th { text-align: left; padding: 15px; background: #1a1a1a; color: #ff4500; letter-spacing: 1px; }
+        .admin-table td { padding: 10px 15px; border-bottom: 1px solid #222; }
+        .input-dark { background: #222; border: 1px solid #333; color: #fff; padding: 8px; width: 100%; outline: none; }
         
-        .input-dark { background: #222; border: 1px solid #333; color: #fff; padding: 8px; width: 100%; outline: none; font-family: 'Roboto Mono'; }
-        .input-dark:focus { border-color: #ff4500; }
-        
-        /* CHECKOUT UI */
-        .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
-        .form-input { width: 100%; background: #080808; border: 1px solid #333; padding: 10px; color: #fff; margin-bottom: 15px; }
-        .radio-card { border: 1px solid #333; padding: 15px; cursor: pointer; display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .radio-card.selected { border-color: #ff4500; background: rgba(255,69,0,0.1); }
-
-        /* MODALS & OVERLAYS */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        /* EDIT MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal-box { background: #111; border: 2px solid #ff4500; padding: 30px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal-label { display: block; color: #ff4500; margin-top: 15px; margin-bottom: 5px; font-size: 0.8rem; font-weight: bold; }
+        
         .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; display: none; justify-content: center; align-items: center; flex-direction: column; }
+        .status-badge { padding: 3px 8px; font-weight: bold; font-size: 0.7rem; border-radius: 3px; }
+        .st-pending { background: #333; color: #fff; }
+        .st-shipped { background: #00ff41; color: #000; }
 
         @media (max-width: 768px) {
             .navbar { padding: 0 20px; } .nav-links { display: none; } .hamburger { display: flex; }
             .nav-links.active { display: flex; position: fixed; top: 80px; left: 0; width: 100%; height: calc(100vh - 80px); background: #000; flex-direction: column; align-items: center; justify-content: center; z-index: 999; }
             .detail-grid, .checkout-grid { grid-template-columns: 1fr; }
+            .detail-img-box { height: 300px; }
             .admin-table { display: block; overflow-x: auto; }
         }
     </style>
@@ -88,7 +112,7 @@
 
     <nav class="navbar">
         <div class="logo lang-font" onclick="app.router('home')">BALTIC <span>STUNT</span> SHOP</div>
-        <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('active')"><span class="bar" style="background:#ff4500; height:3px; display:block; width:25px; margin-bottom:5px;"></span><span class="bar" style="background:#ff4500; height:3px; display:block; width:25px; margin-bottom:5px;"></span><span class="bar" style="background:#ff4500; height:3px; display:block; width:25px;"></span></div>
+        <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('active')"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
         <ul class="nav-links">
             <li><a onclick="app.router('home')" class="lang-font" data-i18n="nav_home">HOME</a></li>
             <li><a onclick="app.router('cages')" class="lang-font" data-i18n="nav_cages">CAGES</a></li>
@@ -105,16 +129,17 @@
                     <option value="ru">RU | $ USD</option>
                     <option value="cn">CN | $ USD</option>
                     <option value="jp">JP | $ USD</option>
+                    <option value="hi">HI | $ USD</option>
                 </select>
             </li>
         </ul>
     </nav>
 
     <div id="home" class="page-section active">
-        <div class="hero-wrap" style="height:80vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
-            <h1 class="lang-font" style="font-size:6rem; color:#fff;">RIDE OR DIE</h1>
-            <p style="letter-spacing:3px; color:#888;">PREMIUM STUNT PARTS // GLOBAL SHIPPING</p>
-            <button class="btn-buy lang-font" style="width:auto; padding:15px 40px;" onclick="app.router('cages')" data-i18n="btn_shop_now">SHOP NOW</button>
+        <div class="hero-wrap">
+            <h1 class="lang-font">RIDE OR DIE</h1>
+            <p style="letter-spacing: 3px; color: #888;" data-i18n="hero_sub">PREMIUM STUNT PARTS // GLOBAL SHIPPING</p>
+            <button class="btn-buy lang-font" style="width: auto; padding: 15px 40px; margin-top: 30px;" onclick="app.router('cages')" data-i18n="btn_shop_now">SHOP NOW</button>
         </div>
     </div>
 
@@ -125,15 +150,15 @@
     <div id="product-page" class="page-section">
         <div class="product-detail-container">
             <button class="btn-buy lang-font" style="width:auto; border:none; margin-bottom:20px;" onclick="app.smartBack()" data-i18n="btn_back">&larr; BACK</button>
-            <div class="detail-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:50px;">
-                <div class="detail-img-box" style="height:500px; border:1px solid #333;"><img id="d-img" style="width:100%; height:100%; object-fit:contain;"></div>
+            <div class="detail-grid">
+                <div class="detail-img-box"><img id="d-img" src=""></div>
                 <div>
-                    <h1 id="d-name" class="lang-font" style="font-size:3rem; color:#fff;">NAME</h1>
-                    <p id="d-sku" style="color:#666;">SKU</p>
-                    <div id="d-price" class="price-tag" style="font-size:3rem; color:#ff4500; margin:20px 0;">0.00</div>
-                    <p id="d-stock" style="margin-bottom:20px;">STOCK...</p>
+                    <h1 id="d-name" class="lang-font">NAME</h1>
+                    <p id="d-sku" style="color:#666; font-size:0.8rem;">SKU</p>
+                    <div id="d-price" class="price-tag lang-font">0.00</div>
+                    <p id="d-stock" style="margin-bottom:20px;">STOCK CHECK...</p>
                     <div style="border-top:1px solid #333; padding:20px 0; color:#aaa;" id="d-specs"></div>
-                    <div style="padding:20px 0; color:#888;" id="d-desc"></div>
+                    <div style="padding:20px 0; color:#888; line-height:1.6;" id="d-desc"></div>
                     <div style="display:flex; gap:10px;">
                         <input type="number" id="d-qty" value="1" min="1" style="width:60px; background:#111; border:1px solid #333; color:#fff; text-align:center;">
                         <button id="d-btn" class="btn-buy lang-font" style="margin:0;" onclick="app.addToCartFromPage()" data-i18n="btn_add_cart">ADD TO CART</button>
@@ -144,52 +169,55 @@
     </div>
 
     <div id="basket" class="page-section">
-        <div class="cart-box" style="max-width:800px; margin:0 auto; background:#111; padding:30px; border:1px solid #222;">
-            <h2 class="section-title lang-font" style="margin:0 0 30px 0; padding:0; border:none;" data-i18n="title_basket">YOUR BASKET</h2>
+        <h2 class="section-title lang-font" data-i18n="title_basket">YOUR BASKET</h2>
+        <div class="cart-box">
             <div id="cart-list"></div>
-            <div style="margin-top:20px; padding-top:20px; border-top:1px solid #333;">
+            <div style="margin-top:20px; border-top:1px solid #222; padding-top:20px;">
                 <p data-i18n="lbl_code">PROMO CODE:</p>
                 <div style="display:flex; gap:10px;">
-                    <input type="text" id="promo-input" class="input-dark" style="width:200px;" placeholder="CODE">
+                    <input type="text" id="promo-input" class="input-dark" style="width:200px;" placeholder="ENTER CODE">
                     <button class="btn-buy lang-font" style="width:auto; margin:0;" onclick="app.applyCode()" data-i18n="btn_apply">APPLY</button>
                 </div>
                 <div id="promo-msg" style="margin-top:10px; font-size:0.8rem;"></div>
             </div>
             <div style="margin-top:30px; text-align:right;">
                 <h3 class="lang-font"><span data-i18n="lbl_total">TOTAL:</span> <span id="cart-total" style="color:#ff4500;">0.00</span></h3>
-                <button class="btn-buy lang-font" onclick="app.goToCheckout()" data-i18n="btn_proceed">PROCEED</button>
+                <button class="btn-buy lang-font" onclick="app.goToCheckout()" data-i18n="btn_proceed">PROCEED TO CHECKOUT</button>
             </div>
         </div>
     </div>
 
     <div id="checkout" class="page-section">
-        <div class="cart-box" style="max-width:1000px; margin:0 auto; background:#111; padding:30px; border:1px solid #222;">
-            <h2 class="section-title lang-font" style="margin:0 0 30px 0; padding:0; border:none;" data-i18n="title_checkout">CHECKOUT</h2>
+        <h2 class="section-title lang-font" data-i18n="title_checkout">CHECKOUT</h2>
+        <div class="cart-box">
             <form id="checkout-form" onsubmit="event.preventDefault(); app.submitOrder();">
                 <div class="checkout-grid">
                     <div>
-                        <h3 class="lang-font" style="color:#fff; margin-bottom:20px;" data-i18n="hdr_shipping">SHIPPING</h3>
-                        <input class="form-input" required id="c-name" placeholder="Full Name">
-                        <input class="form-input" type="email" required id="c-email" placeholder="Email">
-                        <input class="form-input" required id="c-address" placeholder="Address">
-                        <input class="form-input" required id="c-city" placeholder="City">
-                        <input class="form-input" required id="c-zip" placeholder="Zip Code">
-                        <input class="form-input" list="country-list" id="c-country" required placeholder="Country (Type or Select)">
-                        <datalist id="country-list"><option value="Poland"><option value="Germany"><option value="USA"><option value="France"><option value="Spain"></datalist>
+                        <h3 class="lang-font" style="color:#fff; margin-bottom:20px;" data-i18n="hdr_shipping">SHIPPING DETAILS</h3>
+                        <div class="form-group"><label class="form-label" data-i18n="lbl_name">FULL NAME</label><input class="form-input" required id="c-name"></div>
+                        <div class="form-group"><label class="form-label" data-i18n="lbl_email">EMAIL</label><input class="form-input" type="email" required id="c-email"></div>
+                        <div class="form-group"><label class="form-label" data-i18n="lbl_address">ADDRESS</label><input class="form-input" required id="c-address"></div>
+                        <div class="form-group"><label class="form-label" data-i18n="lbl_city">CITY</label><input class="form-input" required id="c-city"></div>
+                        <div class="form-group"><label class="form-label" data-i18n="lbl_zip">ZIP CODE</label><input class="form-input" required id="c-zip"></div>
+                        <div class="form-group"><label class="form-label" data-i18n="lbl_country">COUNTRY</label><input class="form-input" list="country-list" id="c-country" required placeholder="Type or Select..."><datalist id="country-list"><option value="Poland"></option><option value="Germany"></option><option value="USA"></option><option value="France"></option><option value="Spain"></option><option value="United Kingdom"></option></datalist></div>
                     </div>
                     <div>
-                        <h3 class="lang-font" style="color:#fff; margin-bottom:20px;" data-i18n="hdr_method">PAYMENT</h3>
-                        <label class="radio-card selected" onclick="app.selectRadio(this, 'delivery', 20)"><input type="radio" name="delivery" value="STANDARD" checked class="radio-input"> <span data-i18n="opt_standard">STANDARD</span> <span id="ship-std-price"></span></label>
-                        <label class="radio-card" onclick="app.selectRadio(this, 'delivery', 50)"><input type="radio" name="delivery" value="EXPRESS" class="radio-input"> <span data-i18n="opt_express">EXPRESS</span> <span id="ship-exp-price"></span></label>
-                        
-                        <div style="margin-top:20px;"></div>
-                        <label class="radio-card selected" onclick="app.selectRadio(this, 'payment', 0)"><input type="radio" name="payment" value="CARD" checked class="radio-input"> <span data-i18n="pay_card">CARD</span></label>
-                        <label class="radio-card" onclick="app.selectRadio(this, 'payment', 0)"><input type="radio" name="payment" value="PAYPAL" class="radio-input"> <span>PAYPAL</span></label>
-                        
-                        <div style="margin-top:20px; text-align:right; border-top:1px solid #333; padding-top:20px;">
-                            <p><span data-i18n="lbl_subtotal">SUBTOTAL:</span> <span id="c-subtotal">0.00</span></p>
-                            <p><span data-i18n="lbl_shipping">SHIPPING:</span> <span id="c-shipping">0.00</span></p>
-                            <h2 style="color:#ff4500; font-size:2.5rem;"><span data-i18n="lbl_final">PAY:</span> <span id="c-total">0.00</span></h2>
+                        <h3 class="lang-font" style="color:#fff; margin-bottom:20px;" data-i18n="hdr_method">DELIVERY & PAYMENT</h3>
+                        <label class="form-label" data-i18n="lbl_delivery">DELIVERY METHOD</label>
+                        <div class="radio-group" style="margin-bottom:20px;">
+                            <label class="radio-card selected" onclick="app.selectRadio(this, 'delivery', 20)"><input type="radio" name="delivery" value="STANDARD" checked class="radio-input"><span data-i18n="opt_standard">STANDARD (5-10 Days)</span> <span id="ship-std-price"></span></label>
+                            <label class="radio-card" onclick="app.selectRadio(this, 'delivery', 50)"><input type="radio" name="delivery" value="EXPRESS" class="radio-input"><span data-i18n="opt_express">EXPRESS (1-3 Days)</span> <span id="ship-exp-price"></span></label>
+                        </div>
+                        <label class="form-label" data-i18n="lbl_payment">PAYMENT</label>
+                        <div class="radio-group">
+                            <label class="radio-card selected" onclick="app.selectRadio(this, 'payment', 0)"><input type="radio" name="payment" value="CARD" checked class="radio-input"><span data-i18n="pay_card">CREDIT CARD</span></label>
+                            <label class="radio-card" onclick="app.selectRadio(this, 'payment', 0)"><input type="radio" name="payment" value="PAYPAL" class="radio-input"><span>PAYPAL</span></label>
+                        </div>
+                        <div class="terms-box"><input type="checkbox" required id="c-terms"><span data-i18n="lbl_terms">I accept the Terms & Conditions.</span></div>
+                        <div style="margin-top:30px; text-align:right; border-top:1px solid #333; padding-top:20px;">
+                            <p style="color:#888; font-size:0.9rem;"><span data-i18n="lbl_subtotal">SUBTOTAL:</span> <span id="c-subtotal">0.00</span></p>
+                            <p style="color:#888; font-size:0.9rem;"><span data-i18n="lbl_shipping">SHIPPING:</span> <span id="c-shipping">0.00</span></p>
+                            <h2 style="color:#ff4500; font-size:2.5rem;" class="lang-font"><span data-i18n="lbl_final">PAY:</span> <span id="c-total">0.00</span></h2>
                             <button type="submit" class="btn-buy lang-font" data-i18n="btn_pay">PAY & ORDER</button>
                         </div>
                     </div>
@@ -200,72 +228,59 @@
 
     <div id="admin" class="page-section">
         <div class="admin-dashboard">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-                <h2 class="lang-font" style="margin:0; color:#fff; font-size:3rem;">ERP COMMAND CENTER</h2>
-                <button onclick="app.logout()" style="background:none; border:1px solid #333; color:#ff4500; padding:10px;">LOGOUT</button>
-            </div>
-            
+            <h2 class="lang-font" style="margin-bottom:30px; color:#fff; font-size:3rem;">SECURE ADMIN (PLN BASE)</h2>
             <div class="kpi-grid">
-                <div class="kpi-card"><div class="kpi-val kpi-pos" id="kpi-profit">0 PLN</div><div class="kpi-label">NET PROFIT (ZYSK)</div></div>
-                <div class="kpi-card"><div class="kpi-val" id="kpi-revenue">0 PLN</div><div class="kpi-label">REVENUE (PRZYCHÓD)</div></div>
-                <div class="kpi-card"><div class="kpi-val" id="kpi-cost">0 PLN</div><div class="kpi-label">COGS (KOSZTY)</div></div>
-                <div class="kpi-card"><div class="kpi-val kpi-neg" id="kpi-stock-val">0 PLN</div><div class="kpi-label">STOCK VALUE (MAGAZYN)</div></div>
+                <div class="kpi-card"><div class="kpi-val lang-font" id="kpi-revenue">0 PLN</div><div class="kpi-label">TOTAL REVENUE</div></div>
+                <div class="kpi-card"><div class="kpi-val lang-font" id="kpi-profit" style="color:#00ff41;">0 PLN</div><div class="kpi-label">EST. PROFIT</div></div>
+                <div class="kpi-card"><div class="kpi-val lang-font" id="kpi-stock-val">0 PLN</div><div class="kpi-label">INVENTORY</div></div>
+                <div class="kpi-card"><div class="kpi-val lang-font" id="kpi-low-stock" style="color:red;">0</div><div class="kpi-label">LOW STOCK</div></div>
             </div>
-
             <div class="admin-nav">
-                <button class="admin-btn active" onclick="admin.tab('inventory')">MAGAZYN (INVENTORY)</button>
-                <button class="admin-btn" onclick="admin.tab('orders')">ZAMÓWIENIA (ORDERS)</button>
-                <button class="admin-btn" onclick="admin.tab('add')">+ NOWY PRODUKT</button>
+                <button class="admin-btn active" onclick="admin.tab('inventory')">INVENTORY</button>
+                <button class="admin-btn" onclick="admin.tab('orders')">ORDERS</button>
+                <button class="admin-btn" onclick="admin.logout()">LOGOUT</button>
             </div>
+            <div id="tab-inventory" class="admin-view"><div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>IMG</th><th>NAME</th><th>COST</th><th>RETAIL</th><th>MARGIN%</th><th>LOCK%</th><th>STOCK</th><th>ACTIONS</th></tr></thead><tbody id="inventory-list"></tbody></table></div></div>
+            <div id="tab-orders" class="admin-view" style="display:none;"><div style="overflow-x:auto;"><table class="admin-table"><thead><tr><th>ID</th><th>DATE</th><th>TOTAL</th><th>STATUS</th></tr></thead><tbody id="orders-list"></tbody></table></div></div>
+        </div>
+    </div>
 
-            <div id="tab-inventory" class="admin-view">
-                <div style="overflow-x:auto;">
-                    <table class="admin-table">
-                        <thead><tr><th>IMG</th><th>NAME</th><th>COST (ZAKUP)</th><th>RETAIL (SPRZEDAŻ)</th><th>MARGIN %</th><th>LOCK %</th><th>STOCK</th><th>DEL</th></tr></thead>
-                        <tbody id="inventory-list"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="tab-orders" class="admin-view" style="display:none;">
-                <div style="overflow-x:auto;">
-                    <table class="admin-table">
-                        <thead><tr><th>ID</th><th>DATA</th><th>KLIENT</th><th>TOTAL</th><th>ZYSK</th><th>PROMO</th><th>STATUS</th></tr></thead>
-                        <tbody id="orders-list"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="tab-add" class="admin-view" style="display:none; max-width:500px;">
-                <h3>ADD NEW PRODUCT</h3>
-                <input id="n-id" class="input-dark" placeholder="ID (np. cage-01)" style="margin-bottom:10px;">
-                <input id="n-name" class="input-dark" placeholder="Name" style="margin-bottom:10px;">
-                <select id="n-cat" class="input-dark" style="margin-bottom:10px;"><option value="cages">CAGES</option><option value="gearing">GEARING</option><option value="threads">THREADS</option></select>
-                <input type="number" id="n-cost" class="input-dark" placeholder="Cost (Zakup)" style="margin-bottom:10px;">
-                <input type="number" id="n-price" class="input-dark" placeholder="Retail (Sprzedaż)" style="margin-bottom:10px;">
-                <input type="number" id="n-stock" class="input-dark" placeholder="Stock Qty" style="margin-bottom:10px;">
-                <input id="n-img" class="input-dark" placeholder="Image URL" style="margin-bottom:20px;">
-                <button class="btn-buy" onclick="admin.addProduct()">ADD TO DATABASE</button>
+    <div id="edit-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-box">
+            <h2 style="color:#fff; margin-bottom:20px;">EDIT PRODUCT</h2>
+            <input type="hidden" id="edit-id">
+            <label class="modal-label">NAME</label><input id="edit-name" class="input-dark">
+            <label class="modal-label">CATEGORY</label><select id="edit-cat" class="input-dark"><option value="cages">CAGES</option><option value="gearing">GEARING</option><option value="threads">THREADS</option></select>
+            <label class="modal-label">IMAGE URL</label><input id="edit-img" class="input-dark">
+            <label class="modal-label">DESCRIPTION</label><textarea id="edit-desc" class="input-dark" rows="5"></textarea>
+            <label class="modal-label">SPECS</label><input id="edit-specs" class="input-dark">
+            <div style="margin-top:20px; display:flex; gap:10px;">
+                <button class="btn-buy" onclick="admin.saveDetails()">SAVE CHANGES</button>
+                <button style="background:none; border:none; color:#555; cursor:pointer;" onclick="document.getElementById('edit-modal').style.display='none'">CANCEL</button>
             </div>
         </div>
     </div>
 
     <div id="login-screen" class="login-overlay" style="display:none;">
-        <h1 class="lang-font" style="color:#fff;">ADMIN ACCESS</h1>
-        <input type="email" id="login-email" class="input-dark" placeholder="EMAIL" style="width:250px; text-align:center; margin:10px 0;">
-        <input type="password" id="login-pass" class="input-dark" placeholder="PASSWORD" style="width:250px; text-align:center; margin-bottom:20px;">
-        <button class="btn-buy" style="width:250px;" onclick="app.login()">ENTER</button>
+        <h1 class="lang-font" style="color:#fff; letter-spacing:5px;">SECURE ACCESS</h1>
+        <input type="email" id="login-email" class="input-dark" placeholder="EMAIL" style="width:250px; margin-bottom:10px; text-align:center;">
+        <input type="password" id="login-pass" class="input-dark" placeholder="PASSWORD" style="width:250px; margin-bottom:20px; text-align:center;">
+        <button class="btn-buy" style="width:250px;" onclick="app.login()">AUTHENTICATE</button>
         <button style="margin-top:20px; background:none; border:none; color:#555; cursor:pointer;" onclick="app.router('home'); document.getElementById('login-screen').style.display='none'">CANCEL</button>
     </div>
+
+    <footer style="text-align:center; padding:40px; border-top:1px solid #222; margin-top:50px;">
+        <p style="color:#444; font-size:0.8rem;">&copy; 2026 BALTIC STUNT SHOP.</p>
+        <p style="color:#333; cursor:pointer; font-size:0.7rem;" onclick="document.getElementById('login-screen').style.display='flex'">[ STAFF LOGIN ]</p>
+    </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
     <script>
-        // CONFIG
         const firebaseConfig = {
-           apiKey: "AIzaSyA8iDJ63FQMx4eon170PFLVzyah7-eiL7g",
+            apiKey: "AIzaSyA8iDJ63FQMx4eon170PFLVzyah7-eiL7g",
   authDomain: "baltic-stunt-shop.firebaseapp.com",
   projectId: "baltic-stunt-shop",
   storageBucket: "baltic-stunt-shop.firebasestorage.app",
@@ -278,217 +293,192 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
 
-        // DICTIONARY
+        // DICTIONARY (Shortened for brevity but functional)
         const i18n = {
-            en: { 
-                nav_home: "HOME", nav_cages: "CAGES", nav_gearing: "GEARING", nav_threads: "THREADS", nav_basket: "BASKET",
-                hero_sub: "PREMIUM STUNT PARTS // GLOBAL SHIPPING", btn_shop_now: "SHOP NOW",
-                title_cages: "CRASH CAGES", title_gearing: "SPROCKETS & CHAINS", title_threads: "STREETWEAR", title_checkout: "CHECKOUT", title_basket: "YOUR BASKET",
-                btn_back: "BACK", btn_add_cart: "ADD TO CART", btn_sold_out: "SOLD OUT", lbl_stock: "IN STOCK:", lbl_low: "LOW STOCK:", lbl_out: "SOLD OUT",
-                lbl_code: "PROMO CODE:", btn_apply: "APPLY", lbl_total: "TOTAL:", btn_proceed: "PROCEED TO CHECKOUT",
-                hdr_shipping: "SHIPPING DETAILS", hdr_method: "DELIVERY & PAYMENT", lbl_name: "FULL NAME", lbl_email: "EMAIL", lbl_address: "ADDRESS", lbl_city: "CITY", lbl_zip: "ZIP CODE", lbl_country: "COUNTRY",
-                lbl_delivery: "DELIVERY METHOD", lbl_payment: "PAYMENT", lbl_terms: "I accept the Terms & Conditions.", lbl_subtotal: "SUBTOTAL:", lbl_shipping: "SHIPPING:", lbl_final: "PAY:", btn_pay: "PAY & ORDER",
-                opt_standard: "STANDARD (5-10 Days)", opt_express: "EXPRESS (1-3 Days)", pay_card: "CREDIT CARD"
-            },
-            pl: {
-                nav_home: "START", nav_cages: "KLATKI", nav_gearing: "NAPĘD", nav_threads: "CIUCHY", nav_basket: "KOSZYK",
-                hero_sub: "CZĘŚCI PREMIUM // WYSYŁKA GLOBALNA", btn_shop_now: "KUP TERAZ",
-                title_cages: "KLATKI OCHRONNE", title_gearing: "ZĘBATKI I ŁAŃCUCHY", title_threads: "UBRANIA", title_checkout: "DOSTAWA I PŁATNOŚĆ", title_basket: "TWOJE ZAMÓWIENIE",
-                btn_back: "POWRÓT", btn_add_cart: "DO KOSZYKA", btn_sold_out: "WYPRZEDANE", lbl_stock: "STAN:", lbl_low: "MAŁO SZTUK:", lbl_out: "BRAK",
-                lbl_code: "KOD RABATOWY:", btn_apply: "UŻYJ", lbl_total: "SUMA:", btn_proceed: "PRZEJDŹ DALEJ",
-                hdr_shipping: "DANE DO WYSYŁKI", hdr_method: "DOSTAWA I PŁATNOŚĆ", lbl_name: "IMIĘ I NAZWISKO", lbl_email: "EMAIL", lbl_address: "ADRES", lbl_city: "MIASTO", lbl_zip: "KOD POCZTOWY", lbl_country: "KRAJ",
-                lbl_delivery: "SPOSÓB DOSTAWY", lbl_payment: "PŁATNOŚĆ", lbl_terms: "Akceptuję regulamin sklepu.", lbl_subtotal: "PRODUKTY:", lbl_shipping: "WYSYŁKA:", lbl_final: "DO ZAPŁATY:", btn_pay: "KUPUJĘ I PŁACĘ",
-                opt_standard: "STANDARD (5-10 Dni)", opt_express: "EKSPRES (1-3 Dni)", pay_card: "KARTA PŁATNICZA"
-            },
-            es: {
-                nav_home: "INICIO", nav_cages: "JAULAS", nav_gearing: "ENGRANAJES", nav_threads: "ROPA", nav_basket: "CESTA",
-                hero_sub: "PIEZAS PREMIUM // ENVÍO GLOBAL", btn_shop_now: "COMPRAR AHORA",
-                title_cages: "JAULAS DE IMPACTO", title_gearing: "PIÑONES Y CADENAS", title_threads: "ROPA URBANA", title_checkout: "PAGO", title_basket: "TU CESTA",
-                btn_back: "ATRÁS", btn_add_cart: "AÑADIR", btn_sold_out: "AGOTADO", lbl_stock: "STOCK:", lbl_low: "BAJO:", lbl_out: "AGOTADO",
-                lbl_code: "CÓDIGO:", btn_apply: "APLICAR", lbl_total: "TOTAL:", btn_proceed: "TRAMITAR PEDIDO",
-                hdr_shipping: "DATOS DE ENVÍO", hdr_method: "ENTREGA Y PAGO", lbl_name: "NOMBRE COMPLETO", lbl_email: "EMAIL", lbl_address: "DIRECCIÓN", lbl_city: "CIUDAD", lbl_zip: "CÓDIGO POSTAL", lbl_country: "PAÍS",
-                lbl_delivery: "MÉTODO DE ENVÍO", lbl_payment: "PAGO", lbl_terms: "Acepto los términos y condiciones.", lbl_subtotal: "SUBTOTAL:", lbl_shipping: "ENVÍO:", lbl_final: "PAGAR:", btn_pay: "PAGAR Y PEDIR",
-                opt_standard: "ESTÁNDAR (5-10 Días)", opt_express: "EXPRÉS (1-3 Días)", pay_card: "TARJETA DE CRÉDITO"
-            },
-            // Other langs fallback to EN logic
+            en: { nav_home: "HOME", nav_cages: "CAGES", nav_gearing: "GEARING", nav_threads: "THREADS", nav_basket: "BASKET", hero_sub: "PREMIUM PARTS // GLOBAL", btn_shop_now: "SHOP NOW", title_cages: "CRASH CAGES", title_gearing: "SPROCKETS", title_threads: "APPAREL", title_checkout: "CHECKOUT", title_basket: "BASKET", btn_back: "BACK", btn_add_cart: "ADD TO CART", btn_sold_out: "SOLD OUT", lbl_stock: "IN STOCK:", lbl_low: "LOW:", lbl_out: "OUT", lbl_code: "PROMO CODE:", btn_apply: "APPLY", lbl_total: "TOTAL:", btn_proceed: "CHECKOUT", hdr_shipping: "SHIPPING", hdr_method: "PAYMENT", lbl_name: "NAME", lbl_email: "EMAIL", lbl_address: "ADDRESS", lbl_city: "CITY", lbl_zip: "ZIP", lbl_country: "COUNTRY", lbl_delivery: "DELIVERY", lbl_payment: "PAYMENT", lbl_terms: "AGREE TERMS", lbl_subtotal: "SUBTOTAL:", lbl_shipping: "SHIPPING:", lbl_final: "PAY:", btn_pay: "PAY & ORDER", opt_standard: "STANDARD", opt_express: "EXPRESS", pay_card: "CREDIT CARD" },
+            pl: { nav_home: "START", nav_cages: "KLATKI", nav_gearing: "NAPĘD", nav_threads: "CIUCHY", nav_basket: "KOSZYK", hero_sub: "CZĘŚCI PREMIUM // GLOBAL", btn_shop_now: "KUP TERAZ", title_cages: "KLATKI", title_gearing: "NAPĘD", title_threads: "CIUCHY", title_checkout: "KASA", title_basket: "KOSZYK", btn_back: "POWRÓT", btn_add_cart: "DO KOSZYKA", btn_sold_out: "BRAK", lbl_stock: "STAN:", lbl_low: "MAŁO:", lbl_out: "BRAK", lbl_code: "KOD:", btn_apply: "UŻYJ", lbl_total: "SUMA:", btn_proceed: "DALEJ", hdr_shipping: "DOSTAWA", hdr_method: "PŁATNOŚĆ", lbl_name: "IMIĘ", lbl_email: "EMAIL", lbl_address: "ADRES", lbl_city: "MIASTO", lbl_zip: "KOD", lbl_country: "KRAJ", lbl_delivery: "DOSTAWA", lbl_payment: "PŁATNOŚĆ", lbl_terms: "ZGODA NA REGULAMIN", lbl_subtotal: "SUMA:", lbl_shipping: "WYSYŁKA:", lbl_final: "DO ZAPŁATY:", btn_pay: "KUPUJĘ", opt_standard: "STANDARD", opt_express: "EKSPRES", pay_card: "KARTA" },
+            es: { nav_home: "INICIO", nav_cages: "JAULAS", nav_gearing: "ENGRANAJES", nav_threads: "ROPA", nav_basket: "CESTA", hero_sub: "PIEZAS PREMIUM", btn_shop_now: "COMPRAR", title_cages: "JAULAS", title_gearing: "PIÑONES", title_threads: "ROPA", title_checkout: "PAGO", title_basket: "CESTA", btn_back: "ATRÁS", btn_add_cart: "AÑADIR", btn_sold_out: "AGOTADO", lbl_stock: "STOCK:", lbl_low: "BAJO:", lbl_out: "AGOTADO", lbl_code: "CÓDIGO:", btn_apply: "APLICAR", lbl_total: "TOTAL:", btn_proceed: "PAGAR", hdr_shipping: "ENVÍO", hdr_method: "PAGO", lbl_name: "NOMBRE", lbl_email: "EMAIL", lbl_address: "DIRECCIÓN", lbl_city: "CIUDAD", lbl_zip: "CÓDIGO", lbl_country: "PAÍS", lbl_delivery: "ENVÍO", lbl_payment: "PAGO", lbl_terms: "ACEPTO", lbl_subtotal: "SUBTOTAL:", lbl_shipping: "ENVÍO:", lbl_final: "TOTAL:", btn_pay: "PAGAR", opt_standard: "ESTÁNDAR", opt_express: "EXPRÉS", pay_card: "TARJETA" },
+            de: { nav_home: "START", nav_cages: "BÜGEL", nav_gearing: "ANTRIEB", nav_threads: "KLEIDUNG", nav_basket: "KORB", hero_sub: "PREMIUM TEILE", btn_shop_now: "KAUFEN", title_cages: "BÜGEL", title_gearing: "KETTEN", title_threads: "TEXTIL", title_checkout: "KASSE", title_basket: "KORB", btn_back: "ZURÜCK", btn_add_cart: "IN DEN KORB", btn_sold_out: "LEER", lbl_stock: "LAGER:", lbl_low: "WENIG:", lbl_out: "LEER", lbl_code: "CODE:", btn_apply: "OK", lbl_total: "SUMME:", btn_proceed: "WEITER", hdr_shipping: "ADRESSE", hdr_method: "ZAHLUNG", lbl_name: "NAME", lbl_email: "EMAIL", lbl_address: "ADRESSE", lbl_city: "STADT", lbl_zip: "PLZ", lbl_country: "LAND", lbl_delivery: "VERSAND", lbl_payment: "ZAHLUNG", lbl_terms: "AGB", lbl_subtotal: "SUMME:", lbl_shipping: "VERSAND:", lbl_final: "GESAMT:", btn_pay: "KAUFEN", opt_standard: "STANDARD", opt_express: "EXPRESS", pay_card: "KREDITKARTE" },
+            fr: { nav_home: "ACCUEIL", nav_cages: "PROTECTIONS", nav_gearing: "TRANSMISSION", nav_threads: "VÊTEMENTS", nav_basket: "PANIER", hero_sub: "PIÈCES PREMIUM", btn_shop_now: "ACHETER", title_cages: "PROTECTIONS", title_gearing: "COURONNES", title_threads: "STYLE", title_checkout: "PAIEMENT", title_basket: "PANIER", btn_back: "RETOUR", btn_add_cart: "AJOUTER", btn_sold_out: "ÉPUISÉ", lbl_stock: "STOCK:", lbl_low: "PEU:", lbl_out: "VIDE", lbl_code: "CODE:", btn_apply: "OK", lbl_total: "TOTAL:", btn_proceed: "COMMANDER", hdr_shipping: "ADRESSE", hdr_method: "PAIEMENT", lbl_name: "NOM", lbl_email: "EMAIL", lbl_address: "ADRESSE", lbl_city: "VILLE", lbl_zip: "CP", lbl_country: "PAYS", lbl_delivery: "LIVRAISON", lbl_payment: "PAIEMENT", lbl_terms: "J'ACCEPTE", lbl_subtotal: "TOTAL:", lbl_shipping: "LIVRAISON:", lbl_final: "PAYER:", btn_pay: "PAYER", opt_standard: "STANDARD", opt_express: "EXPRESS", pay_card: "CARTE" }
         };
 
         const state = { products: {}, orders: [], cart: JSON.parse(localStorage.getItem('balticCart')) || [], activeCode: null, currentPid: null, lang: 'en', shippingCost: 20 };
 
         const app = {
             init: async () => {
-                const savedLang = localStorage.getItem('balticLang') || 'en';
-                state.lang = savedLang;
-                document.getElementById('lang-switcher').value = state.lang;
-                
+                const lang = localStorage.getItem('balticLang') || 'en';
+                state.lang = lang;
+                document.getElementById('lang-switcher').value = lang;
                 app.applyTranslation();
+                
                 await app.fetchData();
                 app.updateCartCount();
                 
-                // Router logic fixes
+                // ROUTER FIX
                 const hash = window.location.hash.substring(1);
                 if(hash) app.router(hash);
                 
                 auth.onAuthStateChanged(user => { if (user && window.location.hash === '#admin') app.router('admin'); });
             },
 
-            formatPrice: (priceInPLN) => {
-                let rate = 1, symbol = " PLN";
-                if(['de','fr','es'].includes(state.lang)) { rate = 0.23; symbol = " €"; }
-                else if(!['pl'].includes(state.lang)) { rate = 0.25; symbol = " $"; }
-                return (priceInPLN * rate).toFixed(2) + symbol;
+            formatPrice: (p) => {
+                let r = 1, s = " PLN";
+                if(['de','fr','es'].includes(state.lang)) { r = 0.23; s = " €"; }
+                else if(!['pl'].includes(state.lang)) { r = 0.25; s = " $"; }
+                return (p * r).toFixed(2) + s;
             },
 
-            changeLang: (lang) => { 
-                state.lang = lang; localStorage.setItem('balticLang', lang); 
-                app.applyTranslation(); app.renderShop(); 
-                if(state.currentPid) app.openProduct(state.currentPid);
-                app.renderCart(); app.updateCheckoutTotal();
-            },
-
-            applyTranslation: () => { 
-                const t = i18n[state.lang] || i18n['en']; const def = i18n['en'];
-                document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); el.innerText = t[key] || def[key] || key; });
+            changeLang: (l) => { state.lang = l; localStorage.setItem('balticLang', l); app.applyTranslation(); app.renderShop(); if(state.currentPid) app.openProduct(state.currentPid); app.renderCart(); app.updateCheckoutTotal(); },
+            
+            applyTranslation: () => {
+                const t = i18n[state.lang] || i18n['en'];
+                document.querySelectorAll('[data-i18n]').forEach(e => { const k = e.getAttribute('data-i18n'); e.innerText = t[k] || i18n['en'][k] || k; });
                 if(['cn','jp','hi','ru'].includes(state.lang)) document.body.classList.remove('lang-font'); else document.body.classList.add('lang-font');
             },
-
-            t: (key) => (i18n[state.lang] || i18n['en'])[key] || i18n['en'][key] || key,
-
-            fetchData: async () => { 
-                try { const doc = await db.collection("baltic_shop").doc("data").get(); 
-                if(doc.exists) { const data = doc.data(); state.products = data.products || {}; state.orders = data.orders || []; } 
-                else { await db.collection("baltic_shop").doc("data").set({ products: {}, orders: [] }); } 
-                app.renderShop(); } catch(e) { console.error(e); } 
-            },
             
+            t: (k) => (i18n[state.lang] || i18n['en'])[k] || k,
+
+            fetchData: async () => { try { const doc = await db.collection("baltic_shop").doc("data").get(); if(doc.exists) { const d = doc.data(); state.products = d.products || {}; state.orders = d.orders || []; } else { await db.collection("baltic_shop").doc("data").set({ products:{}, orders:[] }); } app.renderShop(); } catch(e){console.error(e);} },
             saveData: async () => { await db.collection("baltic_shop").doc("data").update({ products: state.products, orders: state.orders }); },
 
-            renderShop: () => { 
-                ['cages', 'gearing', 'threads'].forEach(cat => { 
-                    const container = document.getElementById(`render-${cat}`); if(!container) return; container.innerHTML = ''; 
-                    Object.entries(state.products).forEach(([id, p]) => { 
-                        if(p.category === cat) { 
-                            let stockMsg = `<span class="stock-badge">${app.t('lbl_stock')} ${p.stock}</span>`;
-                            container.innerHTML += `<div class="product-card" onclick="app.openProduct('${id}')">${stockMsg}<div class="product-img"><img src="${p.image}"></div><div class="product-info"><h3 class="lang-font">${p.name}</h3><p class="price lang-font">${app.formatPrice(p.price)}</p></div></div>`; 
-                        } 
-                    }); 
-                }); 
+            renderShop: () => {
+                ['cages','gearing','threads'].forEach(c => {
+                    const el = document.getElementById('render-'+c); if(!el) return; el.innerHTML = '';
+                    Object.entries(state.products).forEach(([id, p]) => {
+                        if(p.category === c) {
+                            let b = `<span class="stock-badge">${app.t('lbl_stock')} ${p.stock}</span>`;
+                            el.innerHTML += `<div class="product-card" onclick="app.openProduct('${id}')">${b}<div class="product-img"><img src="${p.image}"></div><div class="product-info"><h3 class="lang-font">${p.name}</h3><p class="price lang-font">${app.formatPrice(p.price)}</p></div></div>`;
+                        }
+                    });
+                });
             },
 
-            router: (page) => { 
-                if(page === 'admin' && !auth.currentUser) { document.getElementById('login-screen').style.display='flex'; return; }
-                
-                window.location.hash = page; 
-                document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); 
-                document.querySelector('.nav-links').classList.remove('active'); 
-                
-                if (page.startsWith('product:')) {
-                    const id = page.split(':')[1];
-                    // If data loaded, open. If not, wait (fetched in init)
+            router: (p) => {
+                if(p === 'admin' && !auth.currentUser) { document.getElementById('login-screen').style.display='flex'; return; }
+                window.location.hash = p;
+                document.querySelectorAll('.page-section').forEach(e => e.classList.remove('active'));
+                document.querySelector('.nav-links').classList.remove('active');
+
+                if (p.startsWith('product:')) {
+                    const id = p.split(':')[1];
                     if(Object.keys(state.products).length > 0) app.openProduct(id);
                 } else {
-                    const el = document.getElementById(page) || document.getElementById('home');
+                    const el = document.getElementById(p) || document.getElementById('home');
                     if(el) { el.classList.add('active'); window.scrollTo(0,0); }
                 }
-
-                if(page === 'basket') { app.applyTranslation(); app.renderCart(); }
-                if(page === 'admin') admin.render(); 
-                if(page === 'checkout') app.initCheckout();
-            },
-            
-            smartBack: () => { if(state.currentPid && state.products[state.currentPid]) { app.router(state.products[state.currentPid].category); } else { app.router('home'); } },
-
-            openProduct: (id) => { 
-                const p = state.products[id]; if(!p) return; state.currentPid = id; 
-                document.getElementById('d-img').src = p.image; 
-                document.getElementById('d-name').innerText = p.name; 
-                document.getElementById('d-price').innerText = app.formatPrice(p.price); 
-                document.getElementById('d-desc').innerHTML = p.desc || ""; 
-                document.getElementById('d-specs').innerText = p.specs ? "SPECS: " + p.specs : ""; 
-                const btn = document.getElementById('d-btn'); 
-                if(p.stock > 0) { btn.disabled = false; btn.innerText = app.t('btn_add_cart'); btn.classList.remove('btn-disabled'); } 
-                else { btn.disabled = true; btn.innerText = app.t('btn_sold_out'); btn.classList.add('btn-disabled'); } 
                 
-                document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); 
-                document.getElementById('product-page').classList.add('active'); 
-                window.scrollTo(0,0); 
+                if(p === 'basket') { app.applyTranslation(); app.renderCart(); }
+                if(p === 'admin') admin.render();
+                if(p === 'checkout') app.initCheckout();
             },
 
-            addToCartFromPage: () => { const qty = parseInt(document.getElementById('d-qty').value); const p = state.products[state.currentPid]; const inCart = state.cart.find(x => x.id === state.currentPid); if(inCart) inCart.qty += qty; else state.cart.push({ id: state.currentPid, qty, price: p.price, name: p.name, img: p.image, cat: p.category }); app.saveCart(); alert("ADDED!"); },
+            smartBack: () => { if(state.currentPid && state.products[state.currentPid]) app.router(state.products[state.currentPid].category); else app.router('home'); },
+
+            openProduct: (id) => {
+                const p = state.products[id]; if(!p) return; state.currentPid = id;
+                document.getElementById('d-img').src = p.image;
+                document.getElementById('d-name').innerText = p.name;
+                document.getElementById('d-price').innerText = app.formatPrice(p.price);
+                document.getElementById('d-desc').innerHTML = p.desc || "";
+                document.getElementById('d-specs').innerText = p.specs || "";
+                const btn = document.getElementById('d-btn');
+                if(p.stock > 0) { btn.disabled = false; btn.innerText = app.t('btn_add_cart'); btn.classList.remove('btn-disabled'); }
+                else { btn.disabled = true; btn.innerText = app.t('btn_sold_out'); btn.classList.add('btn-disabled'); }
+                document.querySelectorAll('.page-section').forEach(e => e.classList.remove('active'));
+                document.getElementById('product-page').classList.add('active');
+                window.scrollTo(0,0);
+            },
+
+            addToCartFromPage: () => {
+                const qty = parseInt(document.getElementById('d-qty').value);
+                const p = state.products[state.currentPid];
+                const exist = state.cart.find(x => x.id === state.currentPid);
+                if(exist) exist.qty += qty; else state.cart.push({ id:state.currentPid, qty, price:p.price, name:p.name, img:p.image, cat:p.category });
+                app.saveCart(); alert("ADDED!");
+            },
+
             saveCart: () => { localStorage.setItem('balticCart', JSON.stringify(state.cart)); app.updateCartCount(); },
             updateCartCount: () => { document.getElementById('cart-count').innerText = `${app.t('nav_basket')} [${state.cart.reduce((s,i)=>s+i.qty,0)}]`; },
             
-            renderCart: () => { 
-                const list = document.getElementById('cart-list'); list.innerHTML = ''; let total = 0; 
-                state.cart.forEach(item => { 
-                    let itemPrice = item.price; 
-                    if(state.activeCode) itemPrice = item.price * (1 - (state.activeCode.val/100)); 
-                    total += itemPrice * item.qty; 
-                    list.innerHTML += `<div class="cart-item"><img src="${item.img}"><div><h4 class="lang-font">${item.name}</h4><p class="lang-font">${app.formatPrice(item.price)} x ${item.qty}</p></div><button class="remove-btn" onclick="app.removeFromCart('${item.id}')">X</button></div>`; 
-                }); 
-                document.getElementById('cart-total').innerText = app.formatPrice(total); 
+            renderCart: () => {
+                const l = document.getElementById('cart-list'); l.innerHTML = ''; let tot = 0;
+                state.cart.forEach(i => {
+                    let pr = i.price; if(state.activeCode) pr *= 0.8; 
+                    tot += pr * i.qty;
+                    l.innerHTML += `<div class="cart-item"><img src="${i.img}"><div><h4>${i.name}</h4><p>${app.formatPrice(i.price)} x ${i.qty}</p></div><button class="remove-btn" onclick="app.removeFromCart('${i.id}')">X</button></div>`;
+                });
+                document.getElementById('cart-total').innerText = app.formatPrice(tot);
             },
-            
+
             removeFromCart: (id) => { state.cart = state.cart.filter(x => x.id !== id); app.saveCart(); app.renderCart(); },
-            applyCode: () => { const code = document.getElementById('promo-input').value.toUpperCase(); if(code === 'STUNT20') { state.activeCode = {val:20}; app.renderCart(); alert("CODE APPLIED!"); } else alert("INVALID"); },
+            applyCode: () => { if(document.getElementById('promo-input').value === 'STUNT20') { state.activeCode = true; app.renderCart(); } },
             
-            goToCheckout: () => { if(state.cart.length === 0) return alert("CART EMPTY"); app.router('checkout'); app.updateCheckoutTotal(); },
-            initCheckout: () => { state.shippingCost = 20; app.applyTranslation(); document.getElementById('ship-std-price').innerText = "+"+app.formatPrice(20); document.getElementById('ship-exp-price').innerText = "+"+app.formatPrice(50); app.updateCheckoutTotal(); },
-            selectRadio: (el, name, val) => { document.querySelectorAll(`input[name="${name}"]`).forEach(i => i.parentElement.classList.remove('selected')); el.classList.add('selected'); el.querySelector('input').checked = true; if(name==='delivery'){state.shippingCost=val; app.updateCheckoutTotal();} },
-            updateCheckoutTotal: () => { let sub = 0; state.cart.forEach(i => sub += i.price * i.qty * (state.activeCode ? 0.8 : 1)); document.getElementById('c-subtotal').innerText = app.formatPrice(sub); document.getElementById('c-shipping').innerText = app.formatPrice(state.shippingCost); document.getElementById('c-total').innerText = app.formatPrice(sub + state.shippingCost); },
+            goToCheckout: () => { if(state.cart.length===0) return alert("EMPTY"); app.router('checkout'); app.updateCheckoutTotal(); },
+            initCheckout: () => { state.shippingCost = 20; app.applyTranslation(); app.updateCheckoutTotal(); },
+            selectRadio: (e, n, v) => { document.querySelectorAll(`input[name="${n}"]`).forEach(x => x.parentElement.classList.remove('selected')); e.classList.add('selected'); e.querySelector('input').checked=true; if(n==='delivery'){state.shippingCost=v; app.updateCheckoutTotal();} },
+            
+            updateCheckoutTotal: () => {
+                let sub = 0; state.cart.forEach(i => sub += i.price * i.qty * (state.activeCode ? 0.8 : 1));
+                document.getElementById('c-subtotal').innerText = app.formatPrice(sub);
+                document.getElementById('c-shipping').innerText = app.formatPrice(state.shippingCost);
+                document.getElementById('c-total').innerText = app.formatPrice(sub + state.shippingCost);
+            },
 
             submitOrder: async () => {
-                if(state.cart.length === 0) return alert("EMPTY");
                 await app.fetchData();
-                for(let item of state.cart) { if(state.products[item.id].stock < item.qty) return alert(`Stock error: ${item.name}`); state.products[item.id].stock -= item.qty; }
-                const orderData = { id: 'ORD-'+Date.now().toString().slice(-6), date: new Date().toLocaleString(), items: [...state.cart], total: parseFloat(document.getElementById('c-total').innerText), status: 'PENDING', promo: state.activeCode ? 'YES' : 'NO', customer: document.getElementById('c-email').value };
-                state.orders.push(orderData); await app.saveData(); state.cart = []; state.activeCode = null; app.saveCart(); alert("ORDER PLACED!"); app.router('home');
+                const ord = { id:'ORD-'+Date.now(), date: new Date().toLocaleString(), items:[...state.cart], total: parseFloat(document.getElementById('c-total').innerText), status:'PENDING', customer: document.getElementById('c-email').value };
+                state.orders.push(ord); await app.saveData(); state.cart=[]; app.saveCart(); alert("ORDER SENT"); app.router('home');
             },
 
-            login: () => { const e = document.getElementById('login-email').value; const p = document.getElementById('login-pass').value; auth.signInWithEmailAndPassword(e, p).then(() => { document.getElementById('login-screen').style.display='none'; app.router('admin'); }).catch(() => alert("FAIL")); },
+            login: () => { auth.signInWithEmailAndPassword(document.getElementById('login-email').value, document.getElementById('login-pass').value).then(() => { document.getElementById('login-screen').style.display='none'; app.router('admin'); }); },
             logout: () => auth.signOut().then(() => app.router('home'))
         };
 
         const admin = {
             render: () => {
-                let rev = 0, cogs = 0; 
-                state.orders.forEach(o => { rev += parseFloat(o.total || 0); o.items.forEach(i => { const p = state.products[i.id]; if(p && p.cost) cogs += p.cost * i.qty; }); });
-                document.getElementById('kpi-revenue').innerText = rev.toFixed(2); document.getElementById('kpi-profit').innerText = (rev - cogs).toFixed(2);
+                let rev = 0, cogs = 0;
+                state.orders.forEach(o => { rev += parseFloat(o.total||0); o.items.forEach(i => { const p = state.products[i.id]; if(p) cogs += (p.cost||0)*i.qty; }); });
+                document.getElementById('kpi-revenue').innerText = rev.toFixed(2);
+                document.getElementById('kpi-profit').innerText = (rev - cogs).toFixed(2);
                 
-                const inv = document.getElementById('inventory-list'); inv.innerHTML = '';
+                const l = document.getElementById('inventory-list'); l.innerHTML = '';
                 Object.entries(state.products).forEach(([id, p]) => {
-                    const margin = p.cost ? Math.round(((p.price - p.cost)/p.price)*100) : 0;
-                    inv.innerHTML += `<tr><td><img src="${p.image}" width="40"></td><td>${p.name}</td><td><input class="input-dark" type="number" value="${p.cost||0}" onchange="admin.update('${id}','cost',this.value)"></td><td><input class="input-dark" type="number" value="${p.price}" onchange="admin.update('${id}','price',this.value)"></td><td>${margin}%</td><td><input class="input-dark" type="number" value="${p.minMargin||0}" onchange="admin.update('${id}','minMargin',this.value)" placeholder="LOCK %"></td><td><input class="input-dark" type="number" value="${p.stock}" onchange="admin.update('${id}','stock',this.value)"></td><td><button style="color:red;background:none;border:none;" onclick="admin.delete('${id}')">X</button></td></tr>`;
-                });
-
-                const ord = document.getElementById('orders-list'); ord.innerHTML = '';
-                [...state.orders].reverse().forEach(o => {
-                    let cost = 0; o.items.forEach(i => { const p = state.products[i.id]; if(p) cost += (p.cost||0)*i.qty; });
-                    const profit = (o.total || 0) - cost;
-                    ord.innerHTML += `<tr><td>${o.id}</td><td>${o.date.split(',')[0]}</td><td>${o.customer}</td><td>${o.total}</td><td style="color:${profit>0?'#00ff41':'red'}">${profit.toFixed(2)}</td><td style="color:${o.promo=='YES'?'red':'#888'}">${o.promo}</td><td>${o.status}</td></tr>`;
+                    const m = p.cost ? Math.round(((p.price-p.cost)/p.price)*100) : 0;
+                    l.innerHTML += `<tr><td><img src="${p.image}" width="40"></td><td>${p.name}</td><td><input class="input-dark" type="number" value="${p.cost||0}" onchange="admin.update('${id}','cost',this.value)"></td><td><input class="input-dark" type="number" value="${p.price}" onchange="admin.update('${id}','price',this.value)"></td><td>${m}%</td><td><input class="input-dark" type="number" value="${p.minMargin||0}" onchange="admin.update('${id}','minMargin',this.value)" placeholder="LOCK"></td><td><input class="input-dark" type="number" value="${p.stock}" onchange="admin.update('${id}','stock',this.value)"></td><td><button style="background:#333; color:#fff; border:none; padding:5px; cursor:pointer;" onclick="admin.openEdit('${id}')">EDIT</button> <button style="color:red; background:none; border:none; cursor:pointer;" onclick="admin.delete('${id}')">DEL</button></td></tr>`;
                 });
             },
-            update: (id, field, val) => {
-                const v = parseFloat(val);
-                if(field === 'price') {
-                    const p = state.products[id];
-                    const newMargin = ((v - p.cost) / v) * 100;
-                    if(p.minMargin && newMargin < p.minMargin) return alert(`BLOCKED: Margin ${newMargin.toFixed(1)}% < Lock ${p.minMargin}%`);
-                }
-                state.products[id][field] = v; app.saveData(); admin.render();
-            },
-            addProduct: () => {
-                const id = document.getElementById('n-id').value;
-                if(!id || state.products[id]) return alert("ID Error");
-                state.products[id] = {
-                    name: document.getElementById('n-name').value, category: document.getElementById('n-cat').value,
-                    cost: parseFloat(document.getElementById('n-cost').value), price: parseFloat(document.getElementById('n-price').value),
-                    stock: parseFloat(document.getElementById('n-stock').value), image: document.getElementById('n-img').value, minMargin: 0
-                };
-                app.saveData(); alert("ADDED"); admin.tab('inventory');
+            update: (id, f, v) => {
+                const val = parseFloat(v);
+                if(f === 'price') { const p = state.products[id]; const nm = ((val - p.cost)/val)*100; if(p.minMargin && nm < p.minMargin) return alert("MARGIN LOCK!"); }
+                state.products[id][f] = val; app.saveData(); admin.render();
             },
             delete: (id) => { if(confirm("Del?")) { delete state.products[id]; app.saveData(); admin.render(); } },
-            tab: (t) => { document.querySelectorAll('.admin-view').forEach(e=>e.style.display='none'); document.getElementById('tab-'+t).style.display='block'; },
+            
+            openEdit: (id) => {
+                const p = state.products[id];
+                document.getElementById('edit-id').value = id;
+                document.getElementById('edit-name').value = p.name;
+                document.getElementById('edit-cat').value = p.category;
+                document.getElementById('edit-img').value = p.image;
+                document.getElementById('edit-desc').value = p.desc || "";
+                document.getElementById('edit-specs').value = p.specs || "";
+                document.getElementById('edit-modal').style.display = 'flex';
+            },
+            
+            saveDetails: () => {
+                const id = document.getElementById('edit-id').value;
+                state.products[id].name = document.getElementById('edit-name').value;
+                state.products[id].category = document.getElementById('edit-cat').value;
+                state.products[id].image = document.getElementById('edit-img').value;
+                state.products[id].desc = document.getElementById('edit-desc').value;
+                state.products[id].specs = document.getElementById('edit-specs').value;
+                app.saveData();
+                document.getElementById('edit-modal').style.display = 'none';
+                admin.render();
+                app.renderShop(); // Update Frontend
+            },
+            
+            tab: (t) => { document.querySelectorAll('.admin-view').forEach(e => e.style.display='none'); document.getElementById('tab-'+t).style.display='block'; },
             logout: app.logout
         };
 
