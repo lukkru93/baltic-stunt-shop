@@ -42,7 +42,7 @@
         .manifesto-box { max-width: 900px; margin: 0 auto; padding: 80px 20px; }
         .section-title { font-family: 'Bebas Neue', cursive; font-size: 3.5rem; color: #fff; border-left: 12px solid #ff4500; padding-left: 25px; margin-bottom: 40px; }
 
-        /* --- PRODUCTS (GRID SYSTEM FIX) --- */
+        /* --- PRODUCTS (GRID SYSTEM) --- */
         .products-container { padding: 50px; }
         
         .product-grid {
@@ -116,8 +116,6 @@
             font-family: 'Roboto Mono';
         }
 
-        .tag { position: absolute; top: 0; left: 0; background: #ff4500; color: #000; padding: 5px 10px; font-weight: bold; font-size: 0.7rem; z-index: 10; }
-
         .btn-buy {
             width: 100%;
             padding: 15px;
@@ -131,10 +129,7 @@
             margin-top: auto;
         }
 
-        .btn-buy:hover {
-            background: #ff4500;
-            color: #000;
-        }
+        .btn-buy:hover { background: #ff4500; color: #000; }
 
         /* --- CART --- */
         .cart-box { max-width: 800px; margin: 0 auto; padding: 40px; background: #080808; border: 1px solid #222; }
@@ -143,10 +138,6 @@
         .cart-info h4 { margin: 0 0 5px 0; color: #fff; font-size: 1rem; }
         .cart-info h4:hover { color: #ff4500; transition: 0.3s; }
         .cart-info p { margin: 0; font-size: 0.85rem; color: #888; }
-        .qty-controls { display: flex; align-items: center; background: #111; border: 1px solid #333; }
-        .qty-btn { background: transparent; border: none; color: #fff; width: 30px; height: 30px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        .qty-btn:hover { background: #ff4500; color: #000; }
-        .qty-val { width: 30px; text-align: center; font-size: 0.9rem; color: #fff; }
         .remove-btn { color: #ff4500; background: none; border: none; cursor: pointer; font-size: 1.2rem; margin-left: 10px; }
         .cart-total { font-size: 2.5rem; text-align: right; margin-top: 30px; font-family: 'Bebas Neue'; color: #ff4500; }
 
@@ -220,8 +211,6 @@
             .product-grid { grid-template-columns: 1fr; gap: 30px; }
             .terminal-box, .cart-box, .manifesto-box { width: 100%; padding: 20px; }
             .cart-item { grid-template-columns: 60px 1fr; grid-template-rows: auto auto; }
-            .qty-controls { grid-column: 2; margin-top: 10px; width: fit-content; }
-            .remove-btn { grid-column: 2; justify-self: end; margin-top: -30px; }
             .detail-grid { grid-template-columns: 1fr; }
             .detail-img-box { height: 300px; }
             .edit-row { grid-template-columns: 1fr; gap: 5px; }
@@ -424,35 +413,38 @@
     /* --- CONFIG & STATE --- */
     const EXPIRATION_TIME = 24 * 60 * 60 * 1000;
     
-    // Domyślna baza, ładowana tylko jeśli LocalStorage jest pusty
+    // TU PRZYWRÓCIŁEM WSZYSTKIE TWOJE PRODUKTY
     const defaultDB = {
         'cage-v2': { name: "CAGE // FULL STUNT V2", price: 1249, image: "https://images.unsplash.com/photo-1591438253970-1f917228816c?w=800", sku: "BSC-CAG-002", specs: "Waga: 4.5kg // Stal: S355", desc: "Pancerz dla Twojej maszyny.", category: "cages" },
         'subcage-bmw': { name: "SUBCAGE // PRO 636", price: 850, image: "https://images.unsplash.com/photo-1558981806-ec527fa84f3a?w=800", sku: "BSC-SUB-636", specs: "Waga: 2.0kg // Aluminium", desc: "Lekki subcage.", category: "cages" },
+        
         'sprocket-60t': { name: "SPROCKET // PIZZA 60T", price: 389, image: "https://images.unsplash.com/photo-1582238475253-15767854619a?w=800", sku: "BSC-GEA-060", specs: "Aluminium 7075-T6 // 60 Zębów", desc: "Moc na koło.", category: "gearing" },
-        'hoodie-mrok': { name: "HOODIE // BALTIC MROK", price: 249, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800", sku: "BSC-APP-H01", specs: "450g // 100% Bawełna", desc: "Gruba bluza.", category: "threads" }
+        'sprocket-65t': { name: "SPROCKET // PIZZA 65T", price: 389, image: "https://images.unsplash.com/photo-1582238475253-15767854619a?w=800", sku: "BSC-GEA-065", specs: "Aluminium 7075-T6 // 65 Zębów", desc: "Większa moc na koło.", category: "gearing" },
+        'sprocket-70t': { name: "SPROCKET // PIZZA 70T", price: 389, image: "https://images.unsplash.com/photo-1582238475253-15767854619a?w=800", sku: "BSC-GEA-070", specs: "Aluminium 7075-T6 // 70 Zębów", desc: "Pion przy każdej prędkości.", category: "gearing" },
+
+        'hoodie-mrok': { name: "HOODIE // BALTIC MROK", price: 249, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800", sku: "BSC-APP-H01", specs: "450g // 100% Bawełna", desc: "Gruba bluza.", category: "threads" },
+        'tee-mrok': { name: "TEE // BALTIC MROK", price: 149, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800", sku: "BSC-APP-T01", specs: "210g // 100% Bawełna", desc: "Klasyczny T-shirt.", category: "threads" },
+        'pants-mrok': { name: "PANTS // BALTIC MROK", price: 249, image: "https://images.unsplash.com/photo-1542272454323-9c47853a9688?w=800", sku: "BSC-APP-P01", specs: "Kevlar lining", desc: "Spodnie z kevlarem.", category: "threads" }
     };
 
-    // Zarządzanie stanem (Produkty, Zamówienia, Kody)
     let productsDB = JSON.parse(localStorage.getItem('balticProducts')) || defaultDB;
     let ordersDB = JSON.parse(localStorage.getItem('balticOrders')) || [];
-    let codesDB = JSON.parse(localStorage.getItem('balticCodes')) || { 'STUNT10': 10 }; // Kod: % zniżki
+    let codesDB = JSON.parse(localStorage.getItem('balticCodes')) || { 'STUNT10': 10 }; 
 
     function saveData() {
         localStorage.setItem('balticProducts', JSON.stringify(productsDB));
         localStorage.setItem('balticOrders', JSON.stringify(ordersDB));
         localStorage.setItem('balticCodes', JSON.stringify(codesDB));
-        renderShop(); // Odśwież sklep po zmianach
+        renderShop(); 
     }
 
     /* --- SHOP RENDERING --- */
     function renderShop() {
-        // Wyczyść gridy
         ['cages', 'gearing', 'threads'].forEach(cat => {
             const grid = document.getElementById(`grid-${cat}`);
             if(grid) grid.innerHTML = '';
         });
 
-        // Wypełnij produktami z bazy
         for (const [id, p] of Object.entries(productsDB)) {
             const grid = document.getElementById(`grid-${p.category}`);
             if (grid) {
@@ -472,7 +464,7 @@
 
     /* --- CART & CHECKOUT SYSTEM --- */
     let cart = JSON.parse(localStorage.getItem('balticCart')) || [];
-    let currentDiscount = 0; // % zniżki
+    let currentDiscount = 0; 
 
     function addToCart(id, name, price, image, sectionId, quantity = 1) {
         const existingItem = cart.find(item => item.id === id);
@@ -509,7 +501,6 @@
                 </div>`;
         });
 
-        // Obliczanie zniżki
         let finalPrice = subtotal * ((100 - currentDiscount) / 100);
         totalDisplay.innerText = finalPrice.toFixed(2);
         if(currentDiscount > 0) {
@@ -542,12 +533,12 @@
         };
 
         ordersDB.push(order);
-        saveData(); // Zapisz zamówienie do bazy admina
+        saveData(); 
 
         alert("ORDER PLACED SUCCESSFULLY! GENERATING INVOICE...");
         generateInvoice(order);
         
-        cart = []; // Wyczyść koszyk
+        cart = []; 
         saveCart();
         updateCartUI();
     }
@@ -590,13 +581,11 @@
     }
 
     function renderAdminDashboard() {
-        // Stats
         const totalRev = ordersDB.reduce((sum, o) => sum + o.total, 0);
         document.getElementById('stat-sales').innerText = totalRev.toFixed(2) + ' PLN';
         document.getElementById('stat-orders').innerText = ordersDB.length;
         document.getElementById('stat-products').innerText = Object.keys(productsDB).length;
 
-        // Products List
         const pList = document.getElementById('admin-product-list');
         pList.innerHTML = '';
         for (const [id, p] of Object.entries(productsDB)) {
@@ -610,7 +599,6 @@
             `;
         }
 
-        // Orders List
         const oList = document.getElementById('admin-order-list');
         oList.innerHTML = ordersDB.map(o => `
             <div class="order-row">
@@ -619,9 +607,8 @@
                 <span class="order-status">${o.status}</span>
                 <button onclick='generateInvoice(${JSON.stringify(o)})' class="btn-buy" style="width:auto; padding:5px;">INVOICE</button>
             </div>
-        `).reverse().join(''); // Najnowsze na górze
+        `).reverse().join('');
 
-        // Codes List
         const cList = document.getElementById('admin-code-list');
         cList.innerHTML = '';
         for (const [code, val] of Object.entries(codesDB)) {
@@ -635,7 +622,7 @@
         document.querySelectorAll('.admin-panel-section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
         document.getElementById('adm-' + tab).classList.add('active');
-        renderAdminDashboard(); // Refresh data
+        renderAdminDashboard(); 
     }
 
     /* --- ADMIN ACTIONS --- */
@@ -749,6 +736,10 @@
 
     window.addEventListener('hashchange', handleRouting);
     window.addEventListener('DOMContentLoaded', () => {
+        // Jeśli użytkownik ma pustą bazę w LocalStorage (np. po czyszczeniu), załaduj domyślną z Twoimi produktami
+        if(!localStorage.getItem('balticProducts')) {
+            saveData();
+        }
         renderShop();
         handleRouting();
         updateCartUI();
