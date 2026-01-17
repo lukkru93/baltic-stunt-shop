@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baltic Stunt Shop | Global V2</title>
+    <title>Baltic Stunt Shop | Global V3</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+JP:wght@700&family=Noto+Sans:wght@700&display=swap" rel="stylesheet">
     
     <style>
@@ -114,14 +114,15 @@
             <li><a onclick="app.router('cages')" class="lang-font" data-i18n="nav_cages">CAGES</a></li>
             <li><a onclick="app.router('gearing')" class="lang-font" data-i18n="nav_gearing">GEARING</a></li>
             <li><a onclick="app.router('threads')" class="lang-font" data-i18n="nav_threads">THREADS</a></li>
-            <li><a onclick="app.router('basket')" class="lang-font" data-i18n="nav_basket">BASKET [0]</a></li>
+            <li><a onclick="app.router('basket')" id="cart-count" class="lang-font">BASKET [0]</a></li>
             <li>
                 <select id="lang-switcher" class="lang-select" onchange="app.changeLang(this.value)">
                     <option value="en">EN | $ USD</option>
                     <option value="pl">PL | PLN</option>
                     <option value="de">DE | € EUR</option>
                     <option value="fr">FR | € EUR</option>
-                    <option value="es">ES | € EUR</option> <option value="ru">RU | $ USD</option>
+                    <option value="es">ES | € EUR</option>
+                    <option value="ru">RU | $ USD</option>
                     <option value="cn">CN | $ USD</option>
                     <option value="jp">JP | $ USD</option>
                     <option value="hi">HI | $ USD</option>
@@ -257,13 +258,13 @@
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyA8iDJ63FQMx4eon170PFLVzyah7-eiL7g",
-  authDomain: "baltic-stunt-shop.firebaseapp.com",
-  projectId: "baltic-stunt-shop",
-  storageBucket: "baltic-stunt-shop.firebasestorage.app",
-  messagingSenderId: "489104016095",
-  appId: "1:489104016095:web:5a262dfd2655a18fac1f6a",
-  measurementId: "G-Z0WD68PJ2P"
+            // WKLEJ TUTAJ SWOJE KLUCZE FIREBASE
+            apiKey: "TU_WKLEJ_API_KEY",
+            authDomain: "TU_WKLEJ_AUTH_DOMAIN",
+            projectId: "TU_WKLEJ_PROJECT_ID",
+            storageBucket: "...",
+            messagingSenderId: "...",
+            appId: "..."
         };
 
         firebase.initializeApp(firebaseConfig);
@@ -452,7 +453,7 @@
                 if(state.cart.length === 0) return alert("CART EMPTY");
                 await app.fetchData(); 
                 for(let item of state.cart) { if(state.products[item.id].stock < item.qty) return alert(`Stock error for ${item.name}`); state.products[item.id].stock -= item.qty; }
-                const orderData = { id: 'ORD-' + Date.now().toString().slice(-6), date: new Date().toLocaleString(), items: [...state.cart], totals: { grandTotal: parseFloat(document.getElementById('c-total').innerText), currency: state.lang }, status: 'PENDING', customer: { name: document.getElementById('c-name').value, email: document.getElementById('c-email').value, address: document.getElementById('c-address').value, city: document.getElementById('c-city').value, zip: document.getElementById('c-zip').value, country: document.getElementById('c-country').value }, payment: document.querySelector('input[name="payment"]:checked').value, delivery: document.querySelector('input[name="delivery"]:checked').value };
+                const orderData = { id: 'ORD-' + Date.now().toString().slice(-6), date: new Date().toLocaleString(), items: [...state.cart], totals: { grandTotal: parseFloat(document.getElementById('c-total').innerText), currency: state.lang }, status: 'PENDING', customer: { name: document.getElementById('c-name').value, email: document.getElementById('c-email').value, address: document.getElementById('c-address').value, city: document.getElementById('c-city').value, zip: document.getElementById('c-zip').value, country: document.getElementById('c-country').value }, payment: document.querySelector('input[name="payment"]:checked').value, delivery: document.querySelector('input[name="delivery"]:checked').value, promo: state.activeCode ? state.activeCode.code : 'NONE' };
                 state.orders.push(orderData); await app.saveData(); state.cart = []; state.activeCode = null; app.saveCart(); alert(`ORDER PLACED! ID: ${orderData.id}`); app.router('home');
             },
 
@@ -482,4 +483,3 @@
     </script>
 </body>
 </html>
-
