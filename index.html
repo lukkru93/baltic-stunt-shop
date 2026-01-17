@@ -258,13 +258,13 @@
 
     <script>
         const firebaseConfig = {
-           apiKey: "AIzaSyA8iDJ63FQMx4eon170PFLVzyah7-eiL7g",
-  authDomain: "baltic-stunt-shop.firebaseapp.com",
-  projectId: "baltic-stunt-shop",
-  storageBucket: "baltic-stunt-shop.firebasestorage.app",
-  messagingSenderId: "489104016095",
-  appId: "1:489104016095:web:5a262dfd2655a18fac1f6a",
-  measurementId: "G-Z0WD68PJ2P"
+            apiKey: "AIzaSyA8iDJ63FQMx4eon170PFLVzyah7-eiL7g",
+            authDomain: "baltic-stunt-shop.firebaseapp.com",
+            projectId: "baltic-stunt-shop",
+            storageBucket: "baltic-stunt-shop.firebasestorage.app",
+            messagingSenderId: "489104016095",
+            appId: "1:489104016095:web:5a262dfd2655a18fac1f6a",
+            measurementId: "G-Z0WD68PJ2P"
         };
 
         firebase.initializeApp(firebaseConfig);
@@ -384,11 +384,34 @@
             },
 
             router: (page) => { 
-                if(page === 'admin' && !auth.currentUser) { document.getElementById('login-screen').style.display='flex'; return; }
+                // SECURE ADMIN ROUTE
+                if(page === 'admin' && !auth.currentUser) {
+                    document.getElementById('login-screen').style.display='flex';
+                    return;
+                }
+
                 window.location.hash = page; 
                 document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); 
                 document.querySelector('.nav-links').classList.remove('active'); 
-                if(!page.startsWith('product:')) { const el = document.getElementById(page) || document.getElementById('home'); el.classList.add('active'); window.scrollTo(0,0); } 
+                
+                // FIX HERE: Handle Product vs Standard Page Logic
+                if (page.startsWith('product:')) {
+                    const id = page.split(':')[1];
+                    // Ensure products are loaded before opening
+                    if(Object.keys(state.products).length > 0) {
+                        app.openProduct(id);
+                    } else {
+                        // If data not loaded yet (e.g. refresh), wait for fetch then open
+                        // The init function will handle the initial route, this handles dynamic switches
+                    }
+                } else {
+                    const el = document.getElementById(page) || document.getElementById('home');
+                    if(el) {
+                        el.classList.add('active');
+                        window.scrollTo(0,0);
+                    }
+                }
+
                 if(page === 'basket') { app.applyTranslation(); app.renderCart(); }
                 if(page === 'admin') admin.render(); 
                 if(page === 'checkout') app.initCheckout();
@@ -406,8 +429,10 @@
                 const btn = document.getElementById('d-btn'); 
                 if(p.stock > 0) { btn.disabled = false; btn.innerText = app.t('btn_add_cart'); btn.classList.remove('btn-disabled'); } 
                 else { btn.disabled = true; btn.innerText = app.t('btn_sold_out'); btn.classList.add('btn-disabled'); } 
+                
                 document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); 
-                document.getElementById('product-page').classList.add('active'); window.scrollTo(0,0); 
+                document.getElementById('product-page').classList.add('active'); 
+                window.scrollTo(0,0); 
             },
 
             addToCartFromPage: () => { const qty = parseInt(document.getElementById('d-qty').value); const p = state.products[state.currentPid]; const inCart = state.cart.find(x => x.id === state.currentPid); const currentQty = inCart ? inCart.qty : 0; if(currentQty + qty > p.stock) return alert(`Limit stock: ${p.stock}`); if(inCart) inCart.qty += qty; else state.cart.push({ id: state.currentPid, qty, price: p.price, name: p.name, img: p.image, cat: p.category }); app.saveCart(); alert("ADDED!"); },
