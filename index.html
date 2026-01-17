@@ -8,26 +8,12 @@
     
     <style>
         /* --- CORE STYLES --- */
-        body { margin: 0; padding: 0; background-color: #050505; color: #d1d1d1; font-family: 'Roboto Mono', monospace; overflow-x: hidden; scroll-behavior: smooth; }
+        body { margin: 0; padding: 0; font-family: 'Roboto Mono', monospace; overflow-x: hidden; color: #d1d1d1; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('logo.png'); background-attachment: fixed; background-position: center; background-size: cover; background-repeat: no-repeat; }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); opacity: 0.15; pointer-events: none; z-index: 9999; }
 
         /* --- NAVIGATION --- */
        /* --- NAVIGATION --- */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 50px;
-    /* ZMIANA: Tło jest teraz przezroczyste */
-    background: transparent;
-    /* ZMIANA: Usunęliśmy dolną ramkę */
-    border-bottom: none;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    /* Opcjonalnie: dodajmy cień, żeby teksty były czytelniejsze na tle zdjęć */
-    text-shadow: 0 2px 5px rgba(0,0,0,0.8);
-}
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: transparent; border-bottom: none; position: sticky; top: 0; z-index: 100; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
         .logo { font-family: 'Bebas Neue', cursive; font-size: 2.5rem; letter-spacing: 2px; color: #fff; text-decoration: none; cursor: pointer; }
         .logo { cursor: pointer; display: flex; align-items: center; }
         .logo img { height: 120px; /* Tu ustalasz wysokość logo */ width: auto;   /* Szerokość dopasuje się sama */ transition: 0.3s; filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.3)); /* Lekka pomarańczowa poświata */ }
@@ -42,7 +28,7 @@
         .page-section.active { display: block; }
 
         /* --- HERO --- */
-        .hero-wrap { height: 85vh; background: linear-gradient(rgba(0,0,0,0.6), rgba(5,5,5,1)), url(logo.png); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; text-align: center; background-attachment: fixed; }
+        .hero-wrap { height: 85vh; display: flex; justify-content: center; align-items: center; text-align: center; }        
         .hero-content h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(4rem, 10vw, 8rem); margin: 0; color: #fff; text-shadow: 6px 6px 0px #ff4500; }
         .btn-main { display: inline-block; margin-top: 40px; padding: 18px 45px; background: transparent; color: #ff4500; border: 3px solid #ff4500; text-decoration: none; font-weight: bold; font-size: 1.4rem; font-family: 'Bebas Neue', cursive; letter-spacing: 2px; transition: 0.3s; cursor: pointer; }
         .btn-main:hover { background: #ff4500; color: #000; box-shadow: 0 0 30px rgba(255, 69, 0, 0.6); }
@@ -269,6 +255,7 @@
     </script>
 </body>
 </html>
+
 
 
 
