@@ -57,6 +57,10 @@
     .nav-links li {
         margin: 20px 0; /* Odstępy między linkami */
     }
+    .cart-info h4:hover {
+    color: #ff4500;
+    transition: 0.3s;
+}
 
     .nav-links li a {
         font-size: 1.5rem; /* Większe napisy na telefonie */
@@ -311,7 +315,7 @@
             <div class="hero-content">
                 <h1>STUNT THE WAVE</h1>
                 <p>HARDCORE PARTS - THE BALTIC CREW</p>
-                <a class="btn-main" onclick="showPage('cages')">ENTER THE GARAGE</a>
+                <button class="btn-buy" onclick="addToCart('cage-v2', 'CAGE // FULL STUNT V2', 1249, 'https://images.unsplash.com/photo-1591438253970-1f917228816c?w=500', 'cages')">TAKE THIS</button>
             </div>
         </header>
 
@@ -356,8 +360,7 @@
                         <h3>SPROCKET // PIZZA 60T</h3>
                         <p>AIRCRAFT ALUMINUM 7075-T6 / BLACK ANODIZED</p>
                         <div class="price">389.00 PLN</div>
-                        <button class="btn-buy" onclick="addToCart('sprocket-60t', 'SPROCKET // PIZZA 60T', 389, 'https://images.unsplash.com/photo-1582238475253-15767854619a?w=500')">TAKE THIS</button>
-                    </div>
+<button class="btn-buy" onclick="addToCart('sprocket-60t', 'SPROCKET // PIZZA 60T', 389, 'https://images.unsplash.com/photo-1582238475253-15767854619a?w=500', 'gearing')">TAKE THIS</button>                    </div>
                 </div>
             </div>
         </div>
@@ -374,8 +377,7 @@
                         <h3>HOODIE // BALTIC MROK</h3>
                         <p>450G HEAVYWEIGHT / HARDCORE SCREEN PRINT</p>
                         <div class="price">249.00 PLN</div>
-                        <button class="btn-buy" onclick="addToCart('hoodie-mrok', 'HOODIE // BALTIC MROK', 249, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500')">TAKE THIS</button>
-                    </div>
+<button class="btn-buy" onclick="addToCart('hoodie-mrok', 'HOODIE // BALTIC MROK', 249, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500', 'threads')">TAKE THIS</button>                    </div>
                 </div>
             </div>
         </div>
@@ -479,15 +481,14 @@
     /* --- 3. CART LOGIC (NOWA WERSJA) --- */
     
     // Teraz funkcja przyjmuje 4 argumenty: ID, Nazwa, Cena, Obrazek
-    function addToCart(id, name, price, image) {
-        // Sprawdź czy produkt już jest w koszyku
+    function addToCart(id, name, price, image, sectionId) {
         const existingItem = cart.find(item => item.id === id);
 
         if (existingItem) {
-            existingItem.qty++; // Jeśli jest, zwiększ ilość
+            existingItem.qty++;
         } else {
-            // Jeśli nie ma, dodaj nowy z ilością 1
-            cart.push({ id, name, price, image, qty: 1 });
+            // Zapisujemy też ID sekcji (np. 'cages'), żeby móc tam wrócić
+            cart.push({ id, name, price, image, sectionId, qty: 1 });
         }
 
         saveCart();
@@ -522,13 +523,11 @@
         const totalDisplay = document.getElementById('total-price');
         const link = document.getElementById('basket-link');
 
-        // Licznik w menu (suma wszystkich sztuk)
         const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
         if(link) link.innerText = `BASKET [${totalQty}]`;
 
         if (!list) return;
 
-        // Renderowanie listy
         if (cart.length === 0) {
             list.innerHTML = '<p style="color:#666; font-style:italic; padding:20px;">> BASKET_EMPTY // SYSTEM_IDLE_</p>';
             if(totalDisplay) totalDisplay.innerText = "0";
@@ -542,12 +541,19 @@
             const itemTotal = item.price * item.qty;
             totalPrice += itemTotal;
 
+            // Zabezpieczenie: jeśli stary produkt nie ma sectionId, przekieruj na home
+            const targetSection = item.sectionId || 'home';
+
             list.innerHTML += `
                 <div class="cart-item">
-                    <img src="${item.image}" alt="Product">
+                    <div style="cursor: pointer;" onclick="showPage('${targetSection}')" title="Go to product">
+                        <img src="${item.image}" alt="Product">
+                    </div>
                     
                     <div class="cart-info">
-                        <h4>${item.name}</h4>
+                        <h4 style="cursor: pointer; text-decoration: underline; text-decoration-color: #ff4500;" onclick="showPage('${targetSection}')">
+                            ${item.name}
+                        </h4>
                         <p>${item.price} PLN / szt.</p>
                         <p style="color:#ff4500; font-weight:bold;">SUMA: ${itemTotal} PLN</p>
                     </div>
@@ -607,6 +613,7 @@
 </script>
 </body>
 </html>
+
 
 
 
