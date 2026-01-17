@@ -7,81 +7,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        * { box-sizing: border-box; /* Kluczowe! Padding nie poszerza elementu */ margin: 0; padding: 0; }
-    html, body { width: 100%; overflow-x: hidden; /* Bezwzględny zakaz przewijania na boki */ position: relative; }
+        /* --- GLOBAL RESET --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; overflow-x: hidden; position: relative; }
+
         /* --- CORE STYLES --- */
         body { margin: 0; padding: 0; font-family: 'Roboto Mono', monospace; overflow-x: hidden; color: #d1d1d1; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('logo.png'); background-attachment: fixed; background-position: center; background-size: cover; background-repeat: no-repeat; }
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); opacity: 0.15; pointer-events: none; z-index: 9999; }
 
         /* --- NAVIGATION --- */
-       /* --- NAVIGATION --- */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: transparent; border-bottom: none; position: sticky; top: 0; z-index: 100; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
-        .hamburger {
-    display: none; /* Ukryty na komputerze */
-    cursor: pointer;
-    flex-direction: column;
-    gap: 5px;
-}
+        
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+        .bar { display: block; width: 25px; height: 3px; background-color: #ff4500; transition: 0.3s; }
 
-.bar {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: #ff4500; /* Pomarańczowe kreski */
-    transition: 0.3s;
-}
-
-/* --- MEDIA QUERY (Wygląd na telefonie) --- */
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex; /* Pokaż hamburgera */
-        z-index: 200; /* Musi być na wierzchu */
-    }
-
-    .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%; /* Domyślnie schowane poza ekranem (z prawej) */
-        height: 100vh; /* Na całą wysokość */
-        width: 70%;    /* Szerokość paska menu */
-        background-color: #000; /* Czarne tło */
-        border-left: 2px solid #ff4500;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transition: 0.4s ease-in-out; /* Animacja wysuwania */
-        z-index: 150;
-    }
-
-    .nav-links li {
-        margin: 20px 0; /* Odstępy między linkami */
-    }
-    .cart-info h4:hover {
-    color: #ff4500;
-    transition: 0.3s;
-}
-
-    .nav-links li a {
-        font-size: 1.5rem; /* Większe napisy na telefonie */
-    }
-
-    /* Klasa, którą dodamy JavaScriptem po kliknięciu */
-    .nav-links.active {
-        right: 0; /* Wsuń menu na ekran */
-        box-shadow: -10px 0 30px rgba(0,0,0,0.9);
-    }
-    
-    /* Animacja krzyżyka (X) po otwarciu */
-    .hamburger.active .bar:nth-child(2) { opacity: 0; }
-    .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-}
-        .logo { font-family: 'Bebas Neue', cursive; font-size: 2.8rem; letter-spacing: 2px; color: #fff; text-decoration: none; cursor: pointer; text-shadow: 3px 3px 0px #000; transition: 0.3s; }
+        .logo { font-family: 'Bebas Neue', cursive; font-size: 2.8rem; letter-spacing: 2px; color: #fff; text-decoration: none; cursor: pointer; text-shadow: 3px 3px 0px #000; transition: 0.3s; display: flex; align-items: center; }
         .logo span { color: #ff4500; text-shadow: 0 0 15px rgba(255, 69, 0, 0.6), 2px 2px 0px #000; }
         .logo:hover { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); transform: scale(1.02); }
-        .logo { cursor: pointer; display: flex; align-items: center; }
-       
         
         .nav-links { list-style: none; display: flex; margin: 0; padding: 0; }
         .nav-links li a { color: #fff; text-decoration: none; margin-left: 30px; font-size: 0.85rem; font-weight: bold; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
@@ -101,271 +43,168 @@
         .manifesto-box { max-width: 900px; margin: 0 auto; padding: 80px 20px; }
         .section-title { font-family: 'Bebas Neue', cursive; font-size: 3.5rem; color: #fff; border-left: 12px solid #ff4500; padding-left: 25px; margin-bottom: 40px; }
 
-        /* --- PRODUCTS --- */
+        /* --- PRODUCTS (NOWY SYSTEM KAFELKOWY) --- */
         .products-container { padding: 50px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
-        .product-card { background: rgba(255, 255, 255, 0.02); border: 1px solid #1a1a1a; padding: 20px; transition: 0.4s; position: relative; }
-        .product-card:hover { border-color: #ff4500; transform: translateY(-8px); }
-        .product-img { position: relative; width: 100%; height: 250px; /* Stała wysokość, żeby kafelki były równe */ background: rgba(255, 255, 255, 0.05); /* Lekkie tło, żeby odróżnić od czerni strony */ overflow: hidden; display: flex;            /* Centrowanie zdjęcia... */ justify-content: center;  /* ...w poziomie... */ align-items: center;      /* ...i w pionie */ }
-        .product-img img { width: 100%;       /* Maksymalna szerokość */ height: 100%;      /* Maksymalna wysokość */ object-fit: contain; /* <--- TO JEST KLUCZ! Zamiast ucinać, dopasowuje całość */ filter: grayscale(100%) brightness(0.8) contrast(120%); /* Twój filtr mroku */ transition: 0.5s; }
-        .product-card:hover .product-img img { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
-        .tag { position: absolute; top: 0; left: 0; background: #ff4500; color: #000; padding: 5px 10px; font-weight: bold; font-size: 0.7rem; }
-        .btn-buy { width: 100%; padding: 12px; background: transparent; border: 1px solid #333; color: #fff; cursor: pointer; font-weight: bold; font-family: 'Roboto Mono'; transition: 0.3s; }
-        .btn-buy:hover { background: #fff; color: #000; }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Kafelki! */
+            gap: 40px;
+            width: 100%;
+        }
+
+        .product-card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid #222;
+            display: flex;
+            flex-direction: column; /* Układa elementy pionowo */
+            transition: 0.3s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #ff4500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+            filter: grayscale(100%);
+        }
+
+        .product-card:hover .product-img img {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            color: #fff;
+            font-family: 'Bebas Neue';
+            letter-spacing: 1px;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 20px;
+            font-family: 'Roboto Mono';
+        }
+
+        .tag { position: absolute; top: 0; left: 0; background: #ff4500; color: #000; padding: 5px 10px; font-weight: bold; font-size: 0.7rem; z-index: 10; }
+
+        .btn-buy {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 1px solid #ff4500;
+            color: #ff4500;
+            font-family: 'Bebas Neue';
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: auto;
+        }
+
+        .btn-buy:hover {
+            background: #ff4500;
+            color: #000;
+        }
 
         /* --- CART --- */
         .cart-box { max-width: 800px; margin: 0 auto; padding: 40px; background: #080808; border: 1px solid #222; }
-        .cart-item {
-    display: grid;
-    grid-template-columns: 80px 1fr auto auto; /* Obrazek | Nazwa | Ilość | Usuń */
-    gap: 15px;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #222;
-}
-
-.cart-item img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border: 1px solid #333;
-    border-radius: 5px;
-}
-
-.cart-info h4 {
-    margin: 0 0 5px 0;
-    color: #fff;
-    font-size: 1rem;
-}
-
-.cart-info p {
-    margin: 0;
-    font-size: 0.85rem;
-    color: #888;
-}
-
-.qty-controls {
-    display: flex;
-    align-items: center;
-    background: #111;
-    border: 1px solid #333;
-}
-
-.qty-btn {
-    background: transparent;
-    border: none;
-    color: #fff;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-}
-
-.qty-btn:hover { background: #ff4500; color: #000; }
-
-.qty-val {
-    width: 30px;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #fff;
-}
-
-.remove-btn {
-    color: #ff4500;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    margin-left: 10px;
-}
-
-/* Wersja mobilna koszyka */
-@media (max-width: 768px) {
-    .cart-item {
-        grid-template-columns: 60px 1fr; /* Tylko obrazek i reszta */
-        grid-template-rows: auto auto;
-    }
-    .qty-controls { grid-column: 2; margin-top: 10px; width: fit-content; }
-    .remove-btn { grid-column: 2; justify-self: end; margin-top: -30px; }
-}
+        .cart-item { display: grid; grid-template-columns: 80px 1fr auto auto; gap: 15px; align-items: center; padding: 15px 0; border-bottom: 1px solid #222; }
+        .cart-item img { width: 80px; height: 80px; object-fit: cover; border: 1px solid #333; border-radius: 5px; }
+        .cart-info h4 { margin: 0 0 5px 0; color: #fff; font-size: 1rem; }
+        .cart-info h4:hover { color: #ff4500; transition: 0.3s; }
+        .cart-info p { margin: 0; font-size: 0.85rem; color: #888; }
+        .qty-controls { display: flex; align-items: center; background: #111; border: 1px solid #333; }
+        .qty-btn { background: transparent; border: none; color: #fff; width: 30px; height: 30px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .qty-btn:hover { background: #ff4500; color: #000; }
+        .qty-val { width: 30px; text-align: center; font-size: 0.9rem; color: #fff; }
+        .remove-btn { color: #ff4500; background: none; border: none; cursor: pointer; font-size: 1.2rem; margin-left: 10px; }
         .cart-total { font-size: 2.5rem; text-align: right; margin-top: 30px; font-family: 'Bebas Neue'; color: #ff4500; }
 
-        /* --- TERMINAL --- */
+        /* --- PRODUCT DETAIL PAGE --- */
+        .product-detail-container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; background: rgba(0,0,0,0.8); }
+        .back-btn { background: none; border: none; color: #888; font-family: 'Roboto Mono'; cursor: pointer; margin-bottom: 20px; font-size: 1rem; transition: 0.3s; }
+        .back-btn:hover { color: #ff4500; padding-left: 10px; }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .detail-img-box { width: 100%; height: 500px; border: 1px solid #333; overflow: hidden; position: relative; }
+        .detail-img-box img { width: 100%; height: 100%; object-fit: contain; }
+        .detail-info h1 { font-family: 'Bebas Neue'; font-size: 3rem; margin: 0; color: #fff; line-height: 1; }
+        .sku { color: #555; font-size: 0.8rem; margin-bottom: 10px; letter-spacing: 2px; }
+        .price-tag { font-size: 2.5rem; color: #ff4500; font-family: 'Bebas Neue'; margin: 20px 0; }
+        .specs-box, .desc-box { border-top: 1px solid #222; padding: 20px 0; color: #ccc; line-height: 1.6; font-size: 0.9rem; }
+        .order-panel { display: flex; gap: 20px; margin-top: 20px; }
+        .qty-selector { display: flex; border: 1px solid #333; height: 50px; }
+        .qty-selector button { width: 40px; background: #111; color: #fff; border: none; cursor: pointer; font-size: 1.2rem; }
+        .qty-selector button:hover { background: #ff4500; color: #000; }
+        .qty-selector input { width: 50px; background: transparent; border: none; color: #fff; text-align: center; font-size: 1.2rem; outline: none; }
+        .add-btn { flex-grow: 1; background: #ff4500; color: #000; border: none; font-family: 'Bebas Neue'; font-size: 1.5rem; cursor: pointer; transition: 0.3s; }
+        .add-btn:hover { background: #fff; letter-spacing: 2px; }
+
+        /* --- TERMINAL & LEGAL --- */
         .crew-signup { display: flex; justify-content: center; padding: 60px 20px; }
         .terminal-box { width: 100%; max-width: 650px; background: #080808; border: 1px solid #222; padding: 30px; color: #00ff41; font-size: 0.8rem; }
         .prompt { color: #ff4500; font-weight: bold; }
         .terminal-form input { background: transparent; border: none; color: #fff; font-family: 'Roboto Mono'; width: 100%; outline: none; border-bottom: 1px solid #222; padding: 10px 0; margin: 15px 0; }
-
-        /* --- LEGAL / TERMS --- */
         .legal-box { max-width: 900px; margin: 0 auto; padding: 50px; font-size: 0.85rem; line-height: 1.6; color: #888; }
         .legal-box h3 { color: #fff; font-family: 'Bebas Neue'; font-size: 1.5rem; margin-top: 30px; border-bottom: 1px solid #222; }
 
-        @media (max-width: 768px) { .nav-links { display: none; } .navbar { padding: 15px; } }
-        /* --- RESPANSYWNOŚĆ (MOBILE FIX) --- */
-    @media (max-width: 768px) {
-        
-        /* Wklej to WEWNĄTRZ klamry @media (max-width: 768px) { ... } */
-    
-    body {
-        /* Wyłączamy zdjęcie na telefonie */
-        background-image: none !important;
-        
-        /* Ustawiamy mroczny gradient (asfalt) */
-        background: linear-gradient(to bottom, #111111, #000000) !important;
-    }
-
-    /* Opcjonalnie: Jeśli logo tekstowe zlewa się z tłem, dodaj mu tło */
-    .navbar {
-        background: #000 !important;
-        border-bottom: 1px solid #222;
-    }
-
-        .logo {
-            margin-bottom: 15px;
-            font-size: 2.2rem; /* Mniejsze logo */
+        /* --- RESPONSIVENESS (MOBILE) --- */
+        @media (max-width: 768px) {
+            .hamburger { display: flex; z-index: 200; }
+            .nav-links { position: fixed; top: 0; right: -100%; height: 100vh; width: 70%; background-color: #000; border-left: 2px solid #ff4500; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.4s ease-in-out; z-index: 150; }
+            .nav-links li { margin: 20px 0; }
+            .nav-links li a { font-size: 1.5rem; }
+            .nav-links.active { right: 0; box-shadow: -10px 0 30px rgba(0,0,0,0.9); }
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            
+            body { background-image: none !important; background: linear-gradient(to bottom, #111111, #000000) !important; }
+            .navbar { background: #000 !important; border-bottom: 1px solid #222; padding: 15px; }
+            .logo { margin-bottom: 0; font-size: 1.8rem; }
+            .hero-wrap { height: 60vh; background-attachment: scroll; }
+            .hero-content h1 { font-size: 3.5rem; line-height: 1; }
+            .hero-content p { font-size: 0.9rem; padding: 0 20px; }
+            .product-grid { grid-template-columns: 1fr; gap: 30px; }
+            .terminal-box, .cart-box, .manifesto-box { width: 100%; padding: 20px; }
+            .cart-item { grid-template-columns: 60px 1fr; grid-template-rows: auto auto; }
+            .qty-controls { grid-column: 2; margin-top: 10px; width: fit-content; }
+            .remove-btn { grid-column: 2; justify-self: end; margin-top: -30px; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .detail-img-box { height: 300px; }
+            .order-panel { flex-direction: column; }
+            .qty-selector { width: 100%; justify-content: space-between; }
+            .qty-selector input { width: 100%; }
         }
-
-        .nav-links {
-            display: flex;
-            flex-wrap: wrap; /* Zwijanie linków wierszami */
-            justify-content: center;
-            width: 100%;
-        }
-
-        .nav-links li a {
-            margin: 5px 10px; /* Mniejsze odstępy */
-            font-size: 0.8rem;
-            display: inline-block;
-        }
-
-        /* 3. Hero Section - Mniejszy nagłówek */
-        .hero-wrap {
-            height: 60vh; /* Niższa sekcja powitalna */
-            background-attachment: scroll; /* Naprawa dla mobilnych */
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem; /* Zmniejszenie gigantycznego napisu */
-            line-height: 1;
-        }
-
-        .hero-content p {
-            font-size: 0.9rem;
-            padding: 0 20px; /* Marginesy boczne */
-        }
-
-        .btn-main {
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            margin-top: 20px;
-        }
-
-        /* 4. Produkty - Jedna kolumna zamiast siatki */
-        .product-grid {
-            grid-template-columns: 1fr; /* Jeden produkt na całą szerokość */
-            gap: 30px;
-        }
-
-        .products-container, .page-section {
-            padding: 30px 15px; /* Mniejsze marginesy wewnętrzne */
-        }
-
-        /* 5. Terminal i Koszyk - Pełna szerokość */
-        .terminal-box, .cart-box, .manifesto-box {
-            width: 100%;
-            padding: 20px;
-        }
-
-        .section-title {
-            font-size: 2.5rem; /* Mniejsze nagłówki sekcji */
-            padding-left: 15px;
-            border-left-width: 6px;
-        }
-        
-        /* Ukryj efekt hover na telefonach (bo nie ma myszki) */
-        .product-card:hover {
-            transform: none;
-        }
-        /* --- PRODUCT DETAIL PAGE --- */
-.product-detail-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    background: rgba(0,0,0,0.8); /* Ciemne tło, żeby tekst był czytelny na zdjęciu */
-}
-
-.back-btn {
-    background: none; border: none; color: #888; 
-    font-family: 'Roboto Mono'; cursor: pointer; 
-    margin-bottom: 20px; font-size: 1rem; transition: 0.3s;
-}
-.back-btn:hover { color: #ff4500; padding-left: 10px; }
-
-.detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Dwie kolumny */
-    gap: 50px;
-}
-
-.detail-img-box {
-    width: 100%;
-    height: 500px;
-    border: 1px solid #333;
-    overflow: hidden;
-    position: relative;
-}
-
-.detail-img-box img {
-    width: 100%; height: 100%; object-fit: contain; /* Pokaż całe zdjęcie */
-}
-
-.detail-info h1 {
-    font-family: 'Bebas Neue'; font-size: 3rem; margin: 0; color: #fff; line-height: 1;
-}
-
-.sku { color: #555; font-size: 0.8rem; margin-bottom: 10px; letter-spacing: 2px; }
-
-.price-tag {
-    font-size: 2.5rem; color: #ff4500; font-family: 'Bebas Neue'; margin: 20px 0;
-}
-
-.specs-box, .desc-box {
-    border-top: 1px solid #222; padding: 20px 0; color: #ccc; line-height: 1.6; font-size: 0.9rem;
-}
-
-/* Panel zamawiania */
-.order-panel {
-    display: flex; gap: 20px; margin-top: 20px;
-}
-
-.qty-selector {
-    display: flex; border: 1px solid #333; height: 50px;
-}
-
-.qty-selector button {
-    width: 40px; background: #111; color: #fff; border: none; cursor: pointer; font-size: 1.2rem;
-}
-.qty-selector button:hover { background: #ff4500; color: #000; }
-
-.qty-selector input {
-    width: 50px; background: transparent; border: none; color: #fff; text-align: center; font-size: 1.2rem; outline: none;
-}
-
-.add-btn {
-    flex-grow: 1; background: #ff4500; color: #000; border: none; 
-    font-family: 'Bebas Neue'; font-size: 1.5rem; cursor: pointer; transition: 0.3s;
-}
-.add-btn:hover { background: #fff; letter-spacing: 2px; }
-
-@media (max-width: 768px) {
-    .detail-grid { grid-template-columns: 1fr; }
-    .detail-img-box { height: 300px; }
-    .order-panel { flex-direction: column; }
-    .qty-selector { width: 100%; justify-content: space-between; }
-    .qty-selector input { width: 100%; }
-}
-    }
     </style>
 </head>
 <body>
@@ -393,7 +232,7 @@
             <div class="hero-content">
                 <h1>STUNT THE WAVE</h1>
                 <p>HARDCORE PARTS - THE BALTIC CREW</p>
-                <a href="#shop" class="btn-main">JOIN THE GAME</a>
+                <a onclick="showPage('cages')" class="btn-main">JOIN THE GAME</a>
             </div>
         </header>
 
@@ -418,8 +257,7 @@
                     <div class="product-img"><img src="https://images.unsplash.com/photo-1591438253970-1f917228816c?w=500"></div>
                     <div class="product-info">
                         <h3>CAGE // FULL STUNT V2</h3>
-                        <p>S355 STEEL / REINFORCED / MATTE POWDER COATING</p>
-                        <div class="price">1249.00 PLN</div>
+                        <p class="price">1249.00 PLN</p>
                         <button class="btn-buy" onclick="openProduct('cage-v2')">VIEW DETAILS</button>
                     </div>
                 </div>
@@ -436,8 +274,7 @@
                     <div class="product-img"><img src="https://images.unsplash.com/photo-1582238475253-15767854619a?w=500"></div>
                     <div class="product-info">
                         <h3>SPROCKET // PIZZA 60T</h3>
-                        <p>AIRCRAFT ALUMINUM 7075-T6 / BLACK ANODIZED</p>
-                        <div class="price">389.00 PLN</div>
+                        <p class="price">389.00 PLN</p>
                         <button class="btn-buy" onclick="openProduct('sprocket-60t')">VIEW DETAILS</button>                    
                     </div>
                 </div>
@@ -454,14 +291,14 @@
                     <div class="product-img"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"></div>
                     <div class="product-info">
                         <h3>HOODIE // BALTIC MROK</h3>
-                        <p>450G HEAVYWEIGHT / HARDCORE SCREEN PRINT</p>
-                        <div class="price">249.00 PLN</div>
+                        <p class="price">249.00 PLN</p>
                         <button class="btn-buy" onclick="openProduct('hoodie-mrok')">VIEW DETAILS</button>                    
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
     <div id="product-page" class="page-section">
         <div class="product-detail-container">
             <button class="back-btn" onclick="goBackToCategory()">
@@ -499,6 +336,7 @@
             </div>
         </div>
     </div>
+
     <div id="basket" class="page-section">
         <div class="products-container">
             <h2 class="section-title">YOUR BASKET // SYSTEM_CHECK</h2>
@@ -536,7 +374,7 @@
             <form onsubmit="event.preventDefault(); alert('ACCESS GRANTED. CHECK YOUR MAILBOX.');">
                 <span class="prompt">CREW@USER:~$</span>
                 <input type="email" placeholder="enter_email..." required>
-                <button type="submit" class="terminal-btn">JOIN_THE_SYSTEM</button>
+                <button type="submit" class="btn-buy" style="margin-top:20px;">JOIN_THE_SYSTEM</button>
             </form>
         </div>
     </section>
@@ -548,7 +386,8 @@
     <script>
     /* --- 1. CONFIG --- */
     const EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24h
-    /* --- BAZA DANYCH PRODUKTÓW (SYSTEM_CORE) --- */
+
+    /* --- BAZA DANYCH PRODUKTÓW --- */
     const productsDB = {
         'cage-v2': {
             name: "CAGE // FULL STUNT V2",
@@ -578,36 +417,27 @@
             category: "threads"
         }
     };
+
     /* --- 2. STORAGE SYSTEM --- */
-    /* --- 2. STORAGE SYSTEM (Z AUTONAPRAWĄ) --- */
     function loadCart() {
         const savedData = localStorage.getItem('balticCart');
-        
         if (savedData) {
             try {
                 const parsedData = JSON.parse(savedData);
-                
-                // 1. Sprawdzenie czasu (24h)
                 if (Date.now() - parsedData.timestamp > EXPIRATION_TIME) {
                     console.log("Czas minął. Reset koszyka.");
                     localStorage.removeItem('balticCart');
                     return [];
                 }
-
                 const items = parsedData.items || [];
-
-                // 2. NOWOŚĆ: Sprawdzenie poprawności danych (Autonaprawa)
-                // Sprawdzamy czy pierwszy produkt ma pole 'qty'. Jeśli nie - to stare dane.
+                // Autonaprawa starych danych
                 if (items.length > 0 && typeof items[0].qty === 'undefined') {
                     console.log("Wykryto stary format danych. Reset koszyka.");
                     localStorage.removeItem('balticCart');
                     return [];
                 }
-
                 return items;
-
             } catch (error) {
-                // Jeśli plik jest uszkodzony, zresetuj go
                 console.error("Błąd odczytu koszyka. Reset.", error);
                 localStorage.removeItem('balticCart');
                 return [];
@@ -623,17 +453,14 @@
         localStorage.setItem('balticCart', JSON.stringify(payload));
     }
 
-    /* --- 3. CART LOGIC (NOWA WERSJA) --- */
-    
-    // Teraz funkcja przyjmuje 4 argumenty: ID, Nazwa, Cena, Obrazek
-    function addToCart(id, name, price, image, sectionId) {
+    /* --- 3. CART LOGIC --- */
+    function addToCart(id, name, price, image, sectionId, quantity = 1) {
         const existingItem = cart.find(item => item.id === id);
 
         if (existingItem) {
-            existingItem.qty++;
+            existingItem.qty += quantity;
         } else {
-            // Zapisujemy też ID sekcji (np. 'cages'), żeby móc tam wrócić
-            cart.push({ id, name, price, image, sectionId, qty: 1 });
+            cart.push({ id, name, price, image, sectionId, qty: quantity });
         }
 
         saveCart();
@@ -641,7 +468,6 @@
         flashMenu();
     }
 
-    // Zmiana ilości (+ / -)
     function changeQty(id, change) {
         const item = cart.find(item => item.id === id);
         if (!item) return;
@@ -649,7 +475,6 @@
         item.qty += change;
 
         if (item.qty <= 0) {
-            // Jeśli ilość spadnie do 0, zapytaj czy usunąć
             removeFromCart(id);
         } else {
             saveCart();
@@ -685,8 +510,6 @@
         cart.forEach(item => {
             const itemTotal = item.price * item.qty;
             totalPrice += itemTotal;
-
-            // Zabezpieczenie: jeśli stary produkt nie ma sectionId, przekieruj na home
             const targetSection = item.sectionId || 'home';
 
             list.innerHTML += `
@@ -732,7 +555,7 @@
         alert("REDIRECTING TO PAYMENT GATEWAY...");
     }
 
-    /* --- 4. NAVIGATION & INIT --- */
+    /* --- 4. NAVIGATION & PRODUCT PAGE --- */
     function showPage(pageId) {
         document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
         const target = document.getElementById(pageId) || document.getElementById('home');
@@ -742,30 +565,22 @@
         if(pageId === 'basket') updateCartUI();
     }
 
-        /* --- ZMIENNE POMOCNICZE --- */
-    let currentProductId = null; // Przechowuje ID aktualnie oglądanego produktu
+    let currentProductId = null;
 
-    /* --- FUNKCJA OTWIERAJĄCA STRONĘ PRODUKTU --- */
     function openProduct(id) {
         const product = productsDB[id];
         if(!product) return console.error("Produkt nie istnieje:", id);
-
-        currentProductId = id; // Zapamiętaj co oglądamy
-
-        // Wypełnij HTML danymi z bazy
+        currentProductId = id;
         document.getElementById('p-img').src = product.image;
         document.getElementById('p-name').innerText = product.name;
         document.getElementById('p-sku').innerText = "SKU: " + product.sku;
         document.getElementById('p-price').innerText = product.price.toFixed(2) + " PLN";
         document.getElementById('p-specs').innerText = product.specs;
         document.getElementById('p-desc').innerText = product.desc;
-        document.getElementById('p-qty').value = 1; // Reset ilości do 1
-
-        // Pokaż sekcję produktu
+        document.getElementById('p-qty').value = 1;
         showPage('product-page');
     }
 
-    /* --- OBSŁUGA ILOŚCI NA STRONIE PRODUKTU --- */
     function adjustQty(change) {
         const input = document.getElementById('p-qty');
         let val = parseInt(input.value) + change;
@@ -773,20 +588,14 @@
         input.value = val;
     }
 
-    /* --- DODAWANIE DO KOSZYKA ZE STRONY PRODUKTU --- */
     function addProductFromPage() {
         if(!currentProductId) return;
-        
         const product = productsDB[currentProductId];
         const qty = parseInt(document.getElementById('p-qty').value);
-
-        // Wywołujemy standardową funkcję koszyka, ale z ilością!
         addToCart(currentProductId, product.name, product.price, product.image, product.category, qty);
-        
         alert("ADDED " + qty + "x " + product.name);
     }
 
-    /* --- POWRÓT DO KATEGORII --- */
     function goBackToCategory() {
         if(currentProductId) {
             const category = productsDB[currentProductId].category;
@@ -794,22 +603,6 @@
         } else {
             showPage('home');
         }
-    }
-
-    /* --- ZAKTUALIZOWANA FUNKCJA ADD TO CART (obsługa ilości) --- */
-    // Musisz zaktualizować starą funkcję addToCart, dodając parametr 'quantity' na końcu
-    function addToCart(id, name, price, image, sectionId, quantity = 1) {
-        const existingItem = cart.find(item => item.id === id);
-
-        if (existingItem) {
-            existingItem.qty += quantity; // Dodaj tyle, ile wybrano
-        } else {
-            cart.push({ id, name, price, image, sectionId, qty: quantity });
-        }
-
-        saveCart();
-        updateCartUI();
-        flashMenu();
     }
 
     function toggleMenu() {
@@ -825,30 +618,6 @@
     window.addEventListener('hashchange', () => {
         showPage(window.location.hash.substring(1));
     });
-</script>
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
