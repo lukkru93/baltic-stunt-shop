@@ -260,7 +260,10 @@
         let productsDB = {};
         let ordersDB = [];
         let codesDB = { 'STUNT10': 10 };
-        let cart = JSON.parse(localStorage.getItem('balticCart')) || [];
+        // --- BEZPIECZNE ŁADOWANIE KOSZYKA ---
+let savedData = JSON.parse(localStorage.getItem('balticCart'));
+// Jeśli w pamięci jest stary format (obiekt) lub śmieci -> wyczyść i zrób pustą tablicę
+let cart = Array.isArray(savedData) ? savedData : [];
         let currentDiscount = 0;
         let currentProductId = null;
 
@@ -513,3 +516,4 @@
     </script>
 </body>
 </html>
+
