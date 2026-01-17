@@ -432,15 +432,39 @@
     const EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24h
 
     /* --- 2. STORAGE SYSTEM --- */
+    /* --- 2. STORAGE SYSTEM (Z AUTONAPRAWĄ) --- */
     function loadCart() {
         const savedData = localStorage.getItem('balticCart');
+        
         if (savedData) {
-            const parsedData = JSON.parse(savedData);
-            if (Date.now() - parsedData.timestamp > EXPIRATION_TIME) {
+            try {
+                const parsedData = JSON.parse(savedData);
+                
+                // 1. Sprawdzenie czasu (24h)
+                if (Date.now() - parsedData.timestamp > EXPIRATION_TIME) {
+                    console.log("Czas minął. Reset koszyka.");
+                    localStorage.removeItem('balticCart');
+                    return [];
+                }
+
+                const items = parsedData.items || [];
+
+                // 2. NOWOŚĆ: Sprawdzenie poprawności danych (Autonaprawa)
+                // Sprawdzamy czy pierwszy produkt ma pole 'qty'. Jeśli nie - to stare dane.
+                if (items.length > 0 && typeof items[0].qty === 'undefined') {
+                    console.log("Wykryto stary format danych. Reset koszyka.");
+                    localStorage.removeItem('balticCart');
+                    return [];
+                }
+
+                return items;
+
+            } catch (error) {
+                // Jeśli plik jest uszkodzony, zresetuj go
+                console.error("Błąd odczytu koszyka. Reset.", error);
                 localStorage.removeItem('balticCart');
                 return [];
             }
-            return parsedData.items || [];
         }
         return [];
     }
@@ -583,6 +607,7 @@
 </script>
 </body>
 </html>
+
 
 
 
