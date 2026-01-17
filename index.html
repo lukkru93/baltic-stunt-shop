@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baltic Stunt Shop | Pro System</title>
+    <title>Baltic Stunt Shop | ERP System</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- GLOBAL RESET --- */
+        /* --- GLOBAL & CORE --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { width: 100%; overflow-x: hidden; position: relative; }
         body { margin: 0; padding: 0; font-family: 'Roboto Mono', monospace; background: #050505; color: #d1d1d1; }
-        
-        /* Tło */
         body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.95)), url('logo.png'); background-size: cover; background-position: center; z-index: -1; }
 
         /* --- UI ELEMENTS --- */
@@ -29,11 +27,9 @@
         .page-section { display: none; min-height: 80vh; padding-bottom: 50px; }
         .page-section.active { display: block; }
         .section-title { font-family: 'Bebas Neue'; font-size: 3rem; border-left: 10px solid #ff4500; padding-left: 20px; margin: 40px 50px; color: #fff; }
-
-        /* --- HERO --- */
         .hero-wrap { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .hero-wrap h1 { font-family: 'Bebas Neue'; font-size: 6rem; line-height: 1; color: #fff; text-shadow: 0 0 20px rgba(255,69,0,0.5); }
-        
+
         /* --- PRODUCTS --- */
         .products-container { padding: 0 50px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
@@ -47,11 +43,9 @@
         .stock-badge { position: absolute; top: 10px; right: 10px; background: #000; color: #00ff41; padding: 2px 8px; font-size: 0.7rem; border: 1px solid #00ff41; }
         .stock-low { color: #ff4500; border-color: #ff4500; }
         .stock-out { color: #ff0000; border-color: #ff0000; background: rgba(255,0,0,0.1); }
-
         .btn-buy { width: 100%; padding: 15px; background: transparent; border: 1px solid #ff4500; color: #ff4500; font-family: 'Bebas Neue'; font-size: 1.2rem; cursor: pointer; transition: 0.3s; margin-top: 15px; }
         .btn-buy:hover { background: #ff4500; color: #000; }
         .btn-disabled { border-color: #555; color: #555; cursor: not-allowed; }
-        .btn-disabled:hover { background: transparent; color: #555; }
 
         /* --- PRODUCT DETAIL --- */
         .product-detail-container { max-width: 1100px; margin: 0 auto; padding: 40px; background: rgba(0,0,0,0.9); border: 1px solid #333; }
@@ -59,38 +53,44 @@
         .detail-img-box { height: 500px; border: 1px solid #333; overflow: hidden; }
         .detail-img-box img { width: 100%; height: 100%; object-fit: contain; }
         .price-tag { font-family: 'Bebas Neue'; font-size: 3rem; color: #ff4500; margin: 20px 0; }
-        
+
         /* --- CART --- */
         .cart-box { max-width: 800px; margin: 0 auto; background: #111; padding: 30px; border: 1px solid #222; }
         .cart-item { display: grid; grid-template-columns: 60px 1fr auto auto; gap: 15px; align-items: center; border-bottom: 1px solid #222; padding: 15px 0; }
         .cart-item img { width: 60px; height: 60px; object-fit: cover; }
 
-        /* --- ADMIN PANEL (ADVANCED) --- */
-        .admin-dashboard { max-width: 1400px; margin: 0 auto; padding: 20px; }
-        .admin-nav { display: flex; gap: 5px; margin-bottom: 30px; border-bottom: 2px solid #333; }
-        .admin-btn { padding: 15px 30px; background: #111; color: #888; border: none; cursor: pointer; font-weight: bold; font-family: 'Bebas Neue'; font-size: 1.2rem; }
+        /* --- ADMIN PANEL (ERP STYLE) --- */
+        .admin-dashboard { max-width: 1600px; margin: 0 auto; padding: 20px; }
+        .admin-nav { display: flex; gap: 5px; margin-bottom: 30px; border-bottom: 2px solid #333; overflow-x: auto; }
+        .admin-btn { padding: 15px 30px; background: #111; color: #888; border: none; cursor: pointer; font-weight: bold; font-family: 'Bebas Neue'; font-size: 1.2rem; white-space: nowrap; }
         .admin-btn.active { background: #ff4500; color: #000; }
         
         .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .kpi-card { background: #111; border: 1px solid #333; padding: 20px; text-align: center; }
-        .kpi-val { font-size: 2.5rem; font-family: 'Bebas Neue'; color: #fff; }
+        .kpi-val { font-size: 2rem; font-family: 'Bebas Neue'; color: #fff; }
         .kpi-label { color: #888; font-size: 0.8rem; letter-spacing: 1px; }
 
-        /* Admin Tables */
-        .admin-table { width: 100%; border-collapse: collapse; background: #080808; border: 1px solid #222; font-size: 0.9rem; }
+        .admin-table { width: 100%; border-collapse: collapse; background: #080808; border: 1px solid #222; font-size: 0.85rem; }
         .admin-table th { text-align: left; padding: 15px; background: #1a1a1a; color: #ff4500; font-family: 'Bebas Neue'; letter-spacing: 1px; }
-        .admin-table td { padding: 15px; border-bottom: 1px solid #222; }
+        .admin-table td { padding: 10px 15px; border-bottom: 1px solid #222; vertical-align: middle; }
         .admin-table tr:hover { background: #111; }
-        .input-dark { background: #222; border: 1px solid #333; color: #fff; padding: 5px; width: 100%; font-family: 'Roboto Mono'; }
         
-        /* Status Badges */
+        /* Inputs in Admin */
+        .input-dark { background: #222; border: 1px solid #333; color: #fff; padding: 8px; width: 100%; font-family: 'Roboto Mono'; outline: none; }
+        .input-dark:focus { border-color: #ff4500; }
+        .profit-badge { color: #00ff41; font-weight: bold; }
+        
+        /* EDIT MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 200; display: none; justify-content: center; align-items: center; }
+        .modal-box { background: #111; border: 2px solid #ff4500; padding: 30px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal-label { display: block; color: #ff4500; margin-top: 15px; margin-bottom: 5px; font-size: 0.8rem; }
+        .modal-close { float: right; cursor: pointer; color: #fff; font-size: 1.5rem; }
+
+        /* Status & Badges */
         .status-badge { padding: 3px 8px; font-weight: bold; font-size: 0.7rem; border-radius: 3px; }
         .st-pending { background: #333; color: #fff; }
         .st-shipped { background: #00ff41; color: #000; }
         .st-cancelled { background: #ff0000; color: #fff; }
-
-        /* Login Overlay */
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: none; justify-content: center; align-items: center; flex-direction: column; }
 
         @media (max-width: 768px) {
             .navbar { padding: 15px; } .nav-links { display: none; } .hamburger { display: flex; }
@@ -105,9 +105,7 @@
 
     <nav class="navbar">
         <div class="logo" onclick="app.router('home')">BALTIC <span>STUNT</span> SHOP</div>
-        <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('active')">
-            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-        </div>
+        <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('active')"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
         <ul class="nav-links">
             <li><a onclick="app.router('home')">HOME</a></li>
             <li><a onclick="app.router('cages')">CAGES</a></li>
@@ -125,18 +123,9 @@
         </div>
     </div>
 
-    <div id="cages" class="page-section">
-        <h2 class="section-title">CRASH CAGES</h2>
-        <div class="products-container"><div class="product-grid" id="render-cages"></div></div>
-    </div>
-    <div id="gearing" class="page-section">
-        <h2 class="section-title">SPROCKETS & CHAINS</h2>
-        <div class="products-container"><div class="product-grid" id="render-gearing"></div></div>
-    </div>
-    <div id="threads" class="page-section">
-        <h2 class="section-title">STREETWEAR</h2>
-        <div class="products-container"><div class="product-grid" id="render-threads"></div></div>
-    </div>
+    <div id="cages" class="page-section"><h2 class="section-title">CRASH CAGES</h2><div class="products-container"><div class="product-grid" id="render-cages"></div></div></div>
+    <div id="gearing" class="page-section"><h2 class="section-title">SPROCKETS & CHAINS</h2><div class="products-container"><div class="product-grid" id="render-gearing"></div></div></div>
+    <div id="threads" class="page-section"><h2 class="section-title">STREETWEAR</h2><div class="products-container"><div class="product-grid" id="render-threads"></div></div></div>
 
     <div id="product-page" class="page-section">
         <div class="product-detail-container">
@@ -148,7 +137,8 @@
                     <p id="d-sku" style="color:#666; font-size:0.8rem;">SKU</p>
                     <div id="d-price" class="price-tag">0.00 PLN</div>
                     <p id="d-stock" style="margin-bottom:20px;">STOCK CHECK...</p>
-                    <div style="border-top:1px solid #333; padding:20px 0; color:#aaa; line-height:1.6;" id="d-desc"></div>
+                    <div style="border-top:1px solid #333; padding:20px 0; color:#aaa;" id="d-specs"></div>
+                    <div style="padding:20px 0; color:#888; line-height:1.6;" id="d-desc"></div>
                     <div style="display:flex; gap:10px;">
                         <input type="number" id="d-qty" value="1" min="1" style="width:60px; background:#111; border:1px solid #333; color:#fff; text-align:center;">
                         <button id="d-btn" class="btn-buy" style="margin:0;" onclick="app.addToCartFromPage()">ADD TO CART</button>
@@ -162,6 +152,14 @@
         <h2 class="section-title">CHECKOUT</h2>
         <div class="cart-box">
             <div id="cart-list"></div>
+            <div style="margin-top:20px; border-top:1px solid #222; padding-top:20px;">
+                <p>PROMO CODE:</p>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="promo-input" class="input-dark" style="width:200px;" placeholder="ENTER CODE">
+                    <button class="btn-buy" style="width:auto; margin:0;" onclick="app.applyCode()">APPLY</button>
+                </div>
+                <div id="promo-msg" style="margin-top:10px; font-size:0.8rem;"></div>
+            </div>
             <div style="margin-top:30px; text-align:right;">
                 <h3>TOTAL: <span id="cart-total" style="color:#ff4500;">0.00</span> PLN</h3>
                 <button class="btn-buy" onclick="app.checkout()">PLACE ORDER</button>
@@ -172,31 +170,20 @@
     <div id="admin" class="page-section">
         <div class="admin-dashboard">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-                <h2 style="margin:0; color:#fff; font-family:'Bebas Neue'; font-size:3rem;">COMMAND CENTER</h2>
+                <h2 style="margin:0; color:#fff; font-family:'Bebas Neue'; font-size:3rem;">ERP SYSTEM // ADMIN</h2>
                 <button onclick="app.logout()" style="background:none; border:1px solid #333; color:#ff4500; padding:10px;">LOGOUT</button>
             </div>
 
             <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-val" id="kpi-revenue">0 PLN</div>
-                    <div class="kpi-label">TOTAL REVENUE</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-val" id="kpi-orders">0</div>
-                    <div class="kpi-label">TOTAL ORDERS</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-val" id="kpi-stock-val" style="color:#00ff41;">0 PLN</div>
-                    <div class="kpi-label">WAREHOUSE VALUE</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-val" id="kpi-low-stock" style="color:red;">0</div>
-                    <div class="kpi-label">LOW STOCK ALERTS</div>
-                </div>
+                <div class="kpi-card"><div class="kpi-val" id="kpi-revenue">0 PLN</div><div class="kpi-label">TOTAL REVENUE</div></div>
+                <div class="kpi-card"><div class="kpi-val" id="kpi-profit" style="color:#00ff41;">0 PLN</div><div class="kpi-label">EST. GROSS PROFIT</div></div>
+                <div class="kpi-card"><div class="kpi-val" id="kpi-stock-val">0 PLN</div><div class="kpi-label">INVENTORY VALUE</div></div>
+                <div class="kpi-card"><div class="kpi-val" id="kpi-low-stock" style="color:red;">0</div><div class="kpi-label">LOW STOCK</div></div>
             </div>
 
             <div class="admin-nav">
                 <button class="admin-btn active" onclick="admin.tab('inventory')">INVENTORY</button>
+                <button class="admin-btn" onclick="admin.tab('marketing')">MARKETING (CODES)</button>
                 <button class="admin-btn" onclick="admin.tab('orders')">ORDERS</button>
                 <button class="admin-btn" onclick="admin.tab('add')">+ NEW ITEM</button>
             </div>
@@ -204,10 +191,32 @@
             <div id="tab-inventory" class="admin-view">
                 <div style="overflow-x:auto;">
                     <table class="admin-table">
-                        <thead><tr><th>IMG</th><th>NAME</th><th>PRICE</th><th>STOCK</th><th>ACTIONS</th></tr></thead>
+                        <thead><tr><th>IMG</th><th>NAME</th><th>RETAIL PRICE</th><th>COST (COGS)</th><th>MARGIN</th><th>STOCK</th><th>DETAILS</th><th>DEL</th></tr></thead>
                         <tbody id="inventory-list"></tbody>
                     </table>
                 </div>
+            </div>
+
+            <div id="tab-marketing" class="admin-view" style="display:none;">
+                <div style="background:#111; padding:20px; border:1px solid #333; margin-bottom:20px;">
+                    <h3>CREATE DISCOUNT CODE</h3>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <input id="dc-code" class="input-dark" placeholder="CODE (e.g. STUNT20)" style="width:150px;">
+                        <input id="dc-val" type="number" class="input-dark" placeholder="Value %" style="width:100px;">
+                        <select id="dc-type" class="input-dark" style="width:150px;">
+                            <option value="all">ENTIRE SHOP</option>
+                            <option value="category">CATEGORY</option>
+                            <option value="product">SINGLE PRODUCT</option>
+                        </select>
+                        <input id="dc-target" class="input-dark" placeholder="Target ID (e.g. 'cages' or 'cage-v2')" style="width:200px;">
+                        <button class="btn-buy" style="width:auto; margin:0;" onclick="admin.addDiscount()">CREATE CODE</button>
+                    </div>
+                    <p style="font-size:0.8rem; color:#666; margin-top:5px;">*For Category use: cages, gearing, threads. For Product use Product ID.</p>
+                </div>
+                <table class="admin-table">
+                    <thead><tr><th>CODE</th><th>VALUE</th><th>SCOPE</th><th>TARGET</th><th>ACTION</th></tr></thead>
+                    <tbody id="marketing-list"></tbody>
+                </table>
             </div>
 
             <div id="tab-orders" class="admin-view" style="display:none;">
@@ -229,16 +238,36 @@
                     <option value="threads">THREADS</option>
                 </select>
                 <div style="display:flex; gap:10px; margin-bottom:10px;">
-                    <input type="number" id="new-price" class="input-dark" placeholder="Price">
+                    <input type="number" id="new-price" class="input-dark" placeholder="Retail Price">
+                    <input type="number" id="new-cost" class="input-dark" placeholder="Purchase Cost">
                     <input type="number" id="new-stock" class="input-dark" placeholder="Stock Qty">
                 </div>
-                <input type="text" id="new-img" class="input-dark" placeholder="Image URL (ImgBB link)" style="margin-bottom:20px;">
+                <input type="text" id="new-img" class="input-dark" placeholder="Image URL (ImgBB)" style="margin-bottom:20px;">
                 <button class="btn-buy" onclick="admin.addProduct()">SAVE TO DATABASE</button>
             </div>
         </div>
     </div>
 
-    <div id="login-screen" class="login-overlay">
+    <div id="edit-modal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="modal-close" onclick="document.getElementById('edit-modal').style.display='none'">&times;</span>
+            <h2 style="color:#fff; margin-bottom:20px;">EDIT PRODUCT DETAILS</h2>
+            <input type="hidden" id="edit-id">
+            
+            <label class="modal-label">DESCRIPTION (HTML allowed)</label>
+            <textarea id="edit-desc" class="input-dark" rows="5"></textarea>
+            
+            <label class="modal-label">TECHNICAL SPECS</label>
+            <input type="text" id="edit-specs" class="input-dark">
+            
+            <label class="modal-label">IMAGE URL</label>
+            <input type="text" id="edit-img" class="input-dark">
+
+            <button class="btn-buy" onclick="admin.saveDetails()">SAVE CHANGES</button>
+        </div>
+    </div>
+
+    <div id="login-screen" class="login-overlay" style="display:none;">
         <h1 style="color:#fff; font-family:'Bebas Neue'; letter-spacing:5px;">SYSTEM ACCESS</h1>
         <input type="password" id="pass-input" style="padding:10px; text-align:center; background:#111; border:1px solid #333; color:#fff; width:200px;">
         <button class="btn-buy" style="width:200px;" onclick="app.login()">ENTER</button>
@@ -254,7 +283,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- 1. FIREBASE CONFIGURATION ---
+        // --- 1. CONFIG ---
         const firebaseConfig = {
             apiKey: "AIzaSyA8iDJ63FQMx4eon170PFLVzyah7-eiL7g",
   authDomain: "baltic-stunt-shop.firebaseapp.com",
@@ -265,26 +294,24 @@
   measurementId: "G-Z0WD68PJ2P"
         };
 
-        // Initialize
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // --- 2. GLOBAL STATE ---
+        // --- 2. STATE ---
         const state = {
             products: {},
             orders: [],
+            discounts: [], // New: Tablica rabatów
             cart: JSON.parse(localStorage.getItem('balticCart')) || [],
+            activeCode: null,
             currentPid: null
         };
 
         // --- 3. APP LOGIC ---
         const app = {
             init: async () => {
-                console.log("System booting...");
                 await app.fetchData();
                 app.updateCartCount();
-                
-                // Routing based on hash
                 const hash = window.location.hash.substring(1);
                 if(hash) app.router(hash);
             },
@@ -296,18 +323,20 @@
                         const data = doc.data();
                         state.products = data.products || {};
                         state.orders = data.orders || [];
+                        state.discounts = data.discounts || [];
                         app.renderShop();
                     } else {
-                        // Create Init Data if empty
-                        await db.collection("baltic_shop").doc("data").set({ products: {}, orders: [] });
+                        // Init default structure
+                        await db.collection("baltic_shop").doc("data").set({ products: {}, orders: [], discounts: [] });
                     }
-                } catch(e) { console.error("Connection Error", e); }
+                } catch(e) { console.error("DB Error", e); }
             },
 
             saveData: async () => {
                 await db.collection("baltic_shop").doc("data").update({
                     products: state.products,
-                    orders: state.orders
+                    orders: state.orders,
+                    discounts: state.discounts
                 });
             },
 
@@ -316,24 +345,18 @@
                     const container = document.getElementById(`render-${cat}`);
                     if(!container) return;
                     container.innerHTML = '';
-                    
                     Object.entries(state.products).forEach(([id, p]) => {
                         if(p.category === cat) {
-                            // Stock Logic
                             let stockMsg = `<span class="stock-badge">IN STOCK: ${p.stock}</span>`;
-                            if(p.stock <= 5) stockMsg = `<span class="stock-badge stock-low">LOW STOCK: ${p.stock}</span>`;
+                            if(p.stock < 5) stockMsg = `<span class="stock-badge stock-low">LOW: ${p.stock}</span>`;
                             if(p.stock < 1) stockMsg = `<span class="stock-badge stock-out">SOLD OUT</span>`;
-
+                            
                             container.innerHTML += `
                                 <div class="product-card" onclick="app.openProduct('${id}')">
                                     ${stockMsg}
                                     <div class="product-img"><img src="${p.image}"></div>
-                                    <div class="product-info">
-                                        <h3>${p.name}</h3>
-                                        <p class="price">${p.price} PLN</p>
-                                    </div>
-                                </div>
-                            `;
+                                    <div class="product-info"><h3>${p.name}</h3><p class="price">${p.price} PLN</p></div>
+                                </div>`;
                         }
                     });
                 });
@@ -342,16 +365,13 @@
             router: (page) => {
                 window.location.hash = page;
                 document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-                document.querySelector('.nav-links').classList.remove('active'); // close mobile menu
+                document.querySelector('.nav-links').classList.remove('active');
                 
-                if(page.startsWith('product:')) {
-                    // Handled by openProduct logic mostly
-                } else {
+                if(!page.startsWith('product:')) {
                     const el = document.getElementById(page) || document.getElementById('home');
                     el.classList.add('active');
                     window.scrollTo(0,0);
                 }
-
                 if(page === 'basket') app.renderCart();
                 if(page === 'admin') admin.render();
             },
@@ -360,28 +380,15 @@
                 const p = state.products[id];
                 if(!p) return;
                 state.currentPid = id;
-                
                 document.getElementById('d-img').src = p.image;
                 document.getElementById('d-name').innerText = p.name;
                 document.getElementById('d-price').innerText = p.price + " PLN";
-                document.getElementById('d-desc').innerText = p.desc || "Professional stunt part.";
+                document.getElementById('d-desc').innerHTML = p.desc || "Professional stunt part."; // innerHTML dla formatowania
+                document.getElementById('d-specs').innerText = p.specs ? "SPECS: " + p.specs : "";
                 
                 const btn = document.getElementById('d-btn');
-                const stockLabel = document.getElementById('d-stock');
-                
-                if(p.stock > 0) {
-                    btn.disabled = false;
-                    btn.innerText = "ADD TO CART";
-                    btn.classList.remove('btn-disabled');
-                    stockLabel.innerText = `IN STOCK: ${p.stock} units ready to ship.`;
-                    stockLabel.style.color = "#00ff41";
-                } else {
-                    btn.disabled = true;
-                    btn.innerText = "SOLD OUT";
-                    btn.classList.add('btn-disabled');
-                    stockLabel.innerText = "CURRENTLY UNAVAILABLE";
-                    stockLabel.style.color = "red";
-                }
+                if(p.stock > 0) { btn.disabled = false; btn.innerText = "ADD TO CART"; btn.classList.remove('btn-disabled'); }
+                else { btn.disabled = true; btn.innerText = "SOLD OUT"; btn.classList.add('btn-disabled'); }
 
                 document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
                 document.getElementById('product-page').classList.add('active');
@@ -391,139 +398,151 @@
             addToCartFromPage: () => {
                 const qty = parseInt(document.getElementById('d-qty').value);
                 const p = state.products[state.currentPid];
-                
-                // Check stock
                 const inCart = state.cart.find(x => x.id === state.currentPid);
-                const currentQtyInCart = inCart ? inCart.qty : 0;
+                const currentQty = inCart ? inCart.qty : 0;
                 
-                if(currentQtyInCart + qty > p.stock) {
-                    alert(`Sorry! We only have ${p.stock} left.`);
-                    return;
-                }
-
+                if(currentQty + qty > p.stock) return alert(`Limit stock: ${p.stock}`);
+                
                 if(inCart) inCart.qty += qty;
-                else state.cart.push({ id: state.currentPid, qty: qty, price: p.price, name: p.name, img: p.image });
+                else state.cart.push({ id: state.currentPid, qty, price: p.price, name: p.name, img: p.image, cat: p.category });
                 
                 app.saveCart();
                 alert("ADDED!");
             },
 
-            saveCart: () => {
-                localStorage.setItem('balticCart', JSON.stringify(state.cart));
-                app.updateCartCount();
-            },
-
-            updateCartCount: () => {
-                const count = state.cart.reduce((sum, i) => sum + i.qty, 0);
-                document.getElementById('cart-count').innerText = `BASKET [${count}]`;
-            },
+            saveCart: () => { localStorage.setItem('balticCart', JSON.stringify(state.cart)); app.updateCartCount(); },
+            updateCartCount: () => { document.getElementById('cart-count').innerText = `BASKET [${state.cart.reduce((s,i)=>s+i.qty,0)}]`; },
 
             renderCart: () => {
                 const list = document.getElementById('cart-list');
                 list.innerHTML = '';
                 let total = 0;
                 
-                if(state.cart.length === 0) list.innerHTML = "<p>CART EMPTY.</p>";
-
                 state.cart.forEach(item => {
-                    total += item.price * item.qty;
+                    // Logic rabatowa
+                    let itemPrice = item.price;
+                    if(state.activeCode) {
+                        // Sprawdź czy kod dotyczy tego przedmiotu
+                        const c = state.activeCode;
+                        if(c.type === 'all' || (c.type === 'category' && c.target === item.cat) || (c.type === 'product' && c.target === item.id)) {
+                            itemPrice = item.price * (1 - (c.val/100));
+                        }
+                    }
+                    total += itemPrice * item.qty;
+                    
                     list.innerHTML += `
                         <div class="cart-item">
                             <img src="${item.img}">
-                            <div>
-                                <h4>${item.name}</h4>
-                                <p>${item.price} PLN x ${item.qty}</p>
-                            </div>
-                            <button class="remove-btn" onclick="app.removeFromCart('${item.id}')">REMOVE</button>
-                        </div>
-                    `;
+                            <div><h4>${item.name}</h4><p>${item.price} PLN x ${item.qty} ${itemPrice < item.price ? '<span style="color:#00ff41;">(-'+state.activeCode.val+'%)</span>' : ''}</p></div>
+                            <button class="remove-btn" onclick="app.removeFromCart('${item.id}')">X</button>
+                        </div>`;
                 });
                 document.getElementById('cart-total').innerText = total.toFixed(2);
             },
 
-            removeFromCart: (id) => {
-                state.cart = state.cart.filter(x => x.id !== id);
-                app.saveCart();
-                app.renderCart();
+            applyCode: () => {
+                const codeTxt = document.getElementById('promo-input').value.toUpperCase();
+                const found = state.discounts.find(d => d.code === codeTxt);
+                if(found) {
+                    state.activeCode = found;
+                    document.getElementById('promo-msg').innerText = `CODE "${found.code}" ACTIVE!`;
+                    app.renderCart(); // Przelicz
+                } else {
+                    document.getElementById('promo-msg').innerText = "INVALID CODE";
+                    document.getElementById('promo-msg').style.color = "red";
+                }
             },
+
+            removeFromCart: (id) => { state.cart = state.cart.filter(x => x.id !== id); app.saveCart(); app.renderCart(); },
 
             checkout: async () => {
                 if(state.cart.length === 0) return alert("Empty!");
+                await app.fetchData(); // sync stock
                 
-                // FINAL STOCK CHECK
-                // Reload data to ensure stock hasn't changed
-                await app.fetchData();
-                
+                // Deduct logic
                 for(let item of state.cart) {
-                    if(state.products[item.id].stock < item.qty) {
-                        alert(`ERROR: ${item.name} went out of stock!`);
-                        return;
-                    }
+                    if(state.products[item.id].stock < item.qty) return alert(`Stock error for ${item.name}`);
+                    state.products[item.id].stock -= item.qty;
                 }
 
-                // Deduct Stock
-                state.cart.forEach(item => {
-                    state.products[item.id].stock -= item.qty;
-                });
-
-                // Create Order
                 const order = {
                     id: 'ORD-' + Date.now().toString().slice(-6),
                     date: new Date().toLocaleString(),
                     items: [...state.cart],
                     total: parseFloat(document.getElementById('cart-total').innerText),
                     status: 'PENDING',
-                    customer: 'Guest'
+                    customer: 'Guest',
+                    promo: state.activeCode ? state.activeCode.code : 'NONE'
                 };
                 
                 state.orders.push(order);
-                await app.saveData(); // Save new stock and order
-                
-                state.cart = [];
-                app.saveCart();
-                app.renderCart();
-                app.renderShop(); // Refresh UI stock badges
+                await app.saveData();
+                state.cart = []; state.activeCode = null;
+                app.saveCart(); app.renderCart(); app.renderShop();
                 alert(`ORDER PLACED! ID: ${order.id}`);
             },
 
             back: () => window.history.back(),
-            
-            login: () => {
-                if(document.getElementById('pass-input').value === 'admin') {
-                    document.getElementById('login-screen').style.display = 'none';
-                    app.router('admin');
-                } else alert('DENIED');
-            },
+            login: () => { if(document.getElementById('pass-input').value === 'admin') { document.getElementById('login-screen').style.display = 'none'; app.router('admin'); } else alert('DENIED'); },
             logout: () => app.router('home')
         };
 
-        // --- 4. ADMIN LOGIC ---
+        // --- 4. ADMIN ERP LOGIC ---
         const admin = {
             render: () => {
-                // KPIs
-                const totalRev = state.orders.reduce((sum, o) => sum + o.total, 0);
-                document.getElementById('kpi-revenue').innerText = totalRev.toFixed(2) + " PLN";
-                document.getElementById('kpi-orders').innerText = state.orders.length;
+                // KPIs Calculation
+                let revenue = 0, cost = 0, stockValue = 0, lowStock = 0;
                 
-                let stockVal = 0, lowStock = 0;
+                state.orders.forEach(o => revenue += o.total);
+                
+                // Obliczanie zysku na podstawie sprzedanych sztuk (uproszczone, bierze obecny koszt)
+                state.orders.forEach(o => {
+                    o.items.forEach(i => {
+                        const p = state.products[i.id];
+                        if(p && p.cost) cost += (p.cost * i.qty);
+                    });
+                });
+
                 Object.values(state.products).forEach(p => {
-                    stockVal += (p.price * p.stock);
+                    stockValue += (p.price * p.stock);
                     if(p.stock < 5) lowStock++;
                 });
-                document.getElementById('kpi-stock-val').innerText = stockVal.toFixed(2) + " PLN";
+
+                document.getElementById('kpi-revenue').innerText = revenue.toFixed(2) + " PLN";
+                document.getElementById('kpi-profit').innerText = (revenue - cost).toFixed(2) + " PLN";
+                document.getElementById('kpi-stock-val').innerText = stockValue.toFixed(2) + " PLN";
                 document.getElementById('kpi-low-stock').innerText = lowStock;
 
-                // Inventory Table
+                // Inventory Table (Added Cost & Margin)
                 const invList = document.getElementById('inventory-list');
                 invList.innerHTML = '';
                 Object.entries(state.products).forEach(([id, p]) => {
+                    const margin = p.cost ? Math.round(((p.price - p.cost) / p.price) * 100) : 0;
                     invList.innerHTML += `
                         <tr>
                             <td><img src="${p.image}" style="width:40px;"></td>
                             <td><input class="input-dark" value="${p.name}" onchange="admin.update('${id}','name',this.value)"></td>
                             <td><input type="number" class="input-dark" value="${p.price}" style="width:80px;" onchange="admin.update('${id}','price',this.value)"></td>
+                            <td><input type="number" class="input-dark" value="${p.cost || 0}" style="width:80px; color:#aaa;" onchange="admin.update('${id}','cost',this.value)"></td>
+                            <td class="profit-badge">${margin}%</td>
                             <td><input type="number" class="input-dark" value="${p.stock}" style="width:60px; color:${p.stock<5?'red':'#00ff41'}" onchange="admin.update('${id}','stock',this.value)"></td>
+                            <td><button onclick="admin.editDetails('${id}')" style="background:#333; color:#fff; border:none; padding:5px; cursor:pointer;">DETAILS</button></td>
                             <td><button onclick="admin.delete('${id}')" style="color:red; background:none; border:none; cursor:pointer;">DEL</button></td>
+                        </tr>
+                    `;
+                });
+
+                // Marketing List
+                const mkList = document.getElementById('marketing-list');
+                mkList.innerHTML = '';
+                state.discounts.forEach((d, index) => {
+                    mkList.innerHTML += `
+                        <tr>
+                            <td style="color:#00ff41; font-weight:bold;">${d.code}</td>
+                            <td>-${d.val}%</td>
+                            <td>${d.type.toUpperCase()}</td>
+                            <td>${d.target || '-'}</td>
+                            <td><button onclick="admin.delDiscount(${index})" style="color:red; background:none; border:none;">X</button></td>
                         </tr>
                     `;
                 });
@@ -532,83 +551,92 @@
                 const ordList = document.getElementById('orders-list');
                 ordList.innerHTML = '';
                 [...state.orders].reverse().forEach(o => {
-                    // Status Color
                     let sClass = 'st-pending';
                     if(o.status === 'SHIPPED') sClass = 'st-shipped';
-                    if(o.status === 'CANCELLED') sClass = 'st-cancelled';
-
                     ordList.innerHTML += `
                         <tr>
                             <td>${o.id}</td>
                             <td>${o.date.split(',')[0]}</td>
                             <td>${o.customer}</td>
                             <td>${o.total} PLN</td>
-                            <td>
-                                <select class="status-badge ${sClass}" onchange="admin.status('${o.id}', this.value)" style="border:none;">
-                                    <option value="PENDING" ${o.status=='PENDING'?'selected':''}>PENDING</option>
-                                    <option value="SHIPPED" ${o.status=='SHIPPED'?'selected':''}>SHIPPED</option>
-                                    <option value="DELIVERED" ${o.status=='DELIVERED'?'selected':''}>DELIVERED</option>
-                                    <option value="CANCELLED" ${o.status=='CANCELLED'?'selected':''}>CANCELLED</option>
-                                </select>
-                            </td>
-                            <td><button onclick="alert('${o.items.map(i=>`${i.qty}x ${i.name}`).join('\\n')}')" style="color:#888; background:none; border:1px solid #333; cursor:pointer;">ITEMS</button></td>
+                            <td><select class="status-badge ${sClass}" onchange="admin.status('${o.id}', this.value)" style="border:none;"><option value="PENDING" ${o.status=='PENDING'?'selected':''}>PENDING</option><option value="SHIPPED" ${o.status=='SHIPPED'?'selected':''}>SHIPPED</option></select></td>
+                            <td><button onclick="alert('${o.items.map(i=>`${i.qty}x ${i.name}`).join('\\n')}\\nPROMO: ${o.promo}')" style="color:#888; background:none; border:1px solid #333; cursor:pointer;">INFO</button></td>
                         </tr>
                     `;
                 });
             },
 
+            // --- ADMIN ACTIONS ---
             update: (id, field, val) => {
-                if(field === 'price' || field === 'stock') val = parseFloat(val);
+                if(['price','stock','cost'].includes(field)) val = parseFloat(val);
                 state.products[id][field] = val;
                 app.saveData();
-                admin.render(); // refresh totals
+                admin.render();
             },
 
-            delete: (id) => {
-                if(confirm("Delete this product?")) {
-                    delete state.products[id];
-                    app.saveData();
-                    admin.render();
-                }
+            editDetails: (id) => {
+                const p = state.products[id];
+                document.getElementById('edit-id').value = id;
+                document.getElementById('edit-desc').value = p.desc || "";
+                document.getElementById('edit-specs').value = p.specs || "";
+                document.getElementById('edit-img').value = p.image || "";
+                document.getElementById('edit-modal').style.display = 'flex';
             },
 
-            status: (oid, val) => {
-                const order = state.orders.find(o => o.id === oid);
-                if(order) {
-                    order.status = val;
-                    app.saveData();
-                    admin.render(); // update colors
-                }
+            saveDetails: () => {
+                const id = document.getElementById('edit-id').value;
+                state.products[id].desc = document.getElementById('edit-desc').value;
+                state.products[id].specs = document.getElementById('edit-specs').value;
+                state.products[id].image = document.getElementById('edit-img').value;
+                app.saveData();
+                document.getElementById('edit-modal').style.display = 'none';
+                admin.render();
+                app.renderShop(); // Update frontend
+            },
+
+            addDiscount: () => {
+                const code = document.getElementById('dc-code').value.toUpperCase();
+                const val = parseFloat(document.getElementById('dc-val').value);
+                const type = document.getElementById('dc-type').value;
+                const target = document.getElementById('dc-target').value;
+
+                if(!code || !val) return alert("Fill data");
+                
+                state.discounts.push({ code, val, type, target });
+                app.saveData();
+                admin.render();
+                alert("CODE CREATED!");
+            },
+
+            delDiscount: (idx) => {
+                state.discounts.splice(idx, 1);
+                app.saveData();
+                admin.render();
             },
 
             addProduct: () => {
                 const id = document.getElementById('new-id').value;
-                if(!id || state.products[id]) return alert("Invalid or Duplicate ID");
-                
+                if(!id || state.products[id]) return alert("Invalid/Dup ID");
                 state.products[id] = {
                     name: document.getElementById('new-name').value,
                     category: document.getElementById('new-cat').value,
                     price: parseFloat(document.getElementById('new-price').value),
+                    cost: parseFloat(document.getElementById('new-cost').value) || 0,
                     stock: parseFloat(document.getElementById('new-stock').value),
-                    image: document.getElementById('new-img').value || 'https://via.placeholder.com/500',
-                    desc: "New item."
+                    image: document.getElementById('new-img').value,
+                    desc: "New item.", specs: "-"
                 };
                 app.saveData();
                 alert("ADDED!");
                 admin.tab('inventory');
             },
 
-            tab: (t) => {
-                document.querySelectorAll('.admin-view').forEach(el => el.style.display='none');
-                document.getElementById('tab-'+t).style.display='block';
-                document.querySelectorAll('.admin-btn').forEach(el => el.classList.remove('active'));
-                event.target.classList.add('active');
-            }
+            delete: (id) => { if(confirm("Del?")) { delete state.products[id]; app.saveData(); admin.render(); } },
+            status: (oid, val) => { const o = state.orders.find(x => x.id === oid); if(o) { o.status = val; app.saveData(); admin.render(); } },
+            tab: (t) => { document.querySelectorAll('.admin-view').forEach(el => el.style.display='none'); document.getElementById('tab-'+t).style.display='block'; document.querySelectorAll('.admin-btn').forEach(el => el.classList.remove('active')); event.target.classList.add('active'); }
         };
 
-        // --- INIT ---
         window.onload = app.init;
-
     </script>
 </body>
 </html>
