@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baltic Stunt Shop | Global Logic</title>
+    <title>Baltic Stunt Shop | Global V2</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&family=Noto+Sans+SC:wght@700&family=Noto+Sans+JP:wght@700&family=Noto+Sans:wght@700&display=swap" rel="stylesheet">
     
     <style>
@@ -59,7 +59,7 @@
         .detail-img-box img { width: 100%; height: 100%; object-fit: contain; }
         .price-tag { font-size: 3rem; color: #ff4500; margin: 20px 0; }
 
-        /* --- CART & CHECKOUT --- */
+        /* --- CART --- */
         .cart-box { max-width: 800px; margin: 0 auto; background: #111; padding: 30px; border: 1px solid #222; }
         .cart-item { display: grid; grid-template-columns: 60px 1fr auto auto; gap: 15px; align-items: center; border-bottom: 1px solid #222; padding: 15px 0; }
         .cart-item img { width: 60px; height: 60px; object-fit: cover; }
@@ -70,7 +70,6 @@
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; color: #888; font-size: 0.8rem; margin-bottom: 5px; }
         .form-input { width: 100%; background: #080808; border: 1px solid #333; padding: 10px; color: #fff; font-family: 'Roboto Mono'; }
-        .form-input:focus { border-color: #ff4500; outline: none; }
         .radio-group { display: grid; gap: 10px; }
         .radio-card { border: 1px solid #333; padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
         .radio-card.selected { border-color: #ff4500; background: rgba(255,69,0,0.1); }
@@ -122,7 +121,7 @@
                     <option value="pl">PL | PLN</option>
                     <option value="de">DE | € EUR</option>
                     <option value="fr">FR | € EUR</option>
-                    <option value="ru">RU | $ USD</option>
+                    <option value="es">ES | € EUR</option> <option value="ru">RU | $ USD</option>
                     <option value="cn">CN | $ USD</option>
                     <option value="jp">JP | $ USD</option>
                     <option value="hi">HI | $ USD</option>
@@ -134,8 +133,8 @@
     <div id="home" class="page-section active">
         <div class="hero-wrap">
             <h1 class="lang-font">RIDE OR DIE</h1>
-            <p style="letter-spacing: 3px; color: #888;">PREMIUM STUNT PARTS // GLOBAL SHIPPING</p>
-            <button class="btn-buy lang-font" style="width: auto; padding: 15px 40px; margin-top: 30px;" onclick="app.router('cages')">SHOP NOW</button>
+            <p style="letter-spacing: 3px; color: #888;" data-i18n="hero_sub">PREMIUM STUNT PARTS // GLOBAL SHIPPING</p>
+            <button class="btn-buy lang-font" style="width: auto; padding: 15px 40px; margin-top: 30px;" onclick="app.router('cages')" data-i18n="btn_shop_now">SHOP NOW</button>
         </div>
     </div>
 
@@ -195,7 +194,7 @@
                         <div class="form-group"><label class="form-label" data-i18n="lbl_address">ADDRESS</label><input class="form-input" required id="c-address"></div>
                         <div class="form-group"><label class="form-label" data-i18n="lbl_city">CITY</label><input class="form-input" required id="c-city"></div>
                         <div class="form-group"><label class="form-label" data-i18n="lbl_zip">ZIP CODE</label><input class="form-input" required id="c-zip"></div>
-                        <div class="form-group"><label class="form-label" data-i18n="lbl_country">COUNTRY</label><input class="form-input" list="country-list" id="c-country" required placeholder="Type or Select..."><datalist id="country-list"><option value="Poland"></option><option value="Germany"></option><option value="USA"></option><option value="France"></option><option value="United Kingdom"></option></datalist></div>
+                        <div class="form-group"><label class="form-label" data-i18n="lbl_country">COUNTRY</label><input class="form-input" list="country-list" id="c-country" required placeholder="Type or Select..."><datalist id="country-list"><option value="Poland"></option><option value="Germany"></option><option value="USA"></option><option value="France"></option><option value="Spain"></option><option value="United Kingdom"></option></datalist></div>
                     </div>
                     <div>
                         <h3 class="lang-font" style="color:#fff; margin-bottom:20px;" data-i18n="hdr_method">DELIVERY & PAYMENT</h3>
@@ -293,7 +292,22 @@
                 lbl_delivery: "SPOSÓB DOSTAWY", lbl_payment: "PŁATNOŚĆ", lbl_terms: "Akceptuję regulamin sklepu.", lbl_subtotal: "PRODUKTY:", lbl_shipping: "WYSYŁKA:", lbl_final: "DO ZAPŁATY:", btn_pay: "KUPUJĘ I PŁACĘ",
                 opt_standard: "STANDARD (5-10 Dni)", opt_express: "EKSPRES (1-3 Dni)", pay_card: "KARTA PŁATNICZA"
             },
-            // (Other languages omitted for brevity, logic falls back to EN)
+            es: {
+                nav_home: "INICIO", nav_cages: "JAULAS", nav_gearing: "ENGRANAJES", nav_threads: "ROPA", nav_basket: "CESTA",
+                hero_sub: "PIEZAS PREMIUM // ENVÍO GLOBAL", btn_shop_now: "COMPRAR AHORA",
+                title_cages: "JAULAS DE IMPACTO", title_gearing: "PIÑONES Y CADENAS", title_threads: "ROPA URBANA", title_checkout: "PAGO", title_basket: "TU CESTA",
+                btn_back: "ATRÁS", btn_add_cart: "AÑADIR", btn_sold_out: "AGOTADO", lbl_stock: "STOCK:", lbl_low: "BAJO:", lbl_out: "AGOTADO",
+                lbl_code: "CÓDIGO:", btn_apply: "APLICAR", lbl_total: "TOTAL:", btn_proceed: "TRAMITAR PEDIDO",
+                hdr_shipping: "DATOS DE ENVÍO", hdr_method: "ENTREGA Y PAGO", lbl_name: "NOMBRE COMPLETO", lbl_email: "EMAIL", lbl_address: "DIRECCIÓN", lbl_city: "CIUDAD", lbl_zip: "CÓDIGO POSTAL", lbl_country: "PAÍS",
+                lbl_delivery: "MÉTODO DE ENVÍO", lbl_payment: "PAGO", lbl_terms: "Acepto los términos y condiciones.", lbl_subtotal: "SUBTOTAL:", lbl_shipping: "ENVÍO:", lbl_final: "PAGAR:", btn_pay: "PAGAR Y PEDIR",
+                opt_standard: "ESTÁNDAR (5-10 Días)", opt_express: "EXPRÉS (1-3 Días)", pay_card: "TARJETA DE CRÉDITO"
+            },
+            de: { nav_home: "START", nav_cages: "STURZBÜGEL", nav_gearing: "ANTRIEB", nav_threads: "KLEIDUNG", nav_basket: "KORB", hero_sub: "PREMIUM TEILE // WELTWEITER VERSAND", btn_shop_now: "JETZT KAUFEN", title_cages: "STURZBÜGEL", title_gearing: "KETTENRÄDER", title_threads: "STREETWEAR", title_checkout: "KASSE", title_basket: "WARENKORB", btn_back: "ZURÜCK", btn_add_cart: "IN DEN WARENKORB", btn_sold_out: "AUSVERKAUFT", lbl_stock: "LAGER:", lbl_low: "WENIGE:", lbl_out: "LEER", lbl_code: "GUTSCHEIN:", btn_apply: "ANWENDEN", lbl_total: "GESAMT:", btn_proceed: "ZUR KASSE", hdr_shipping: "LIEFERADRESSE", hdr_method: "LIEFERUNG & ZAHLUNG", lbl_name: "NAME", lbl_email: "EMAIL", lbl_address: "ADRESSE", lbl_city: "STADT", lbl_zip: "PLZ", lbl_country: "LAND", lbl_delivery: "VERSANDART", lbl_payment: "ZAHLUNG", lbl_terms: "Ich akzeptiere die AGB.", lbl_subtotal: "ZWISCHENSUMME:", lbl_shipping: "VERSAND:", lbl_final: "SUMME:", btn_pay: "JETZT KAUFEN", opt_standard: "STANDARD (5-10 Tage)", opt_express: "EXPRESS (1-3 Tage)", pay_card: "KREDITKARTE" },
+            fr: { nav_home: "ACCUEIL", nav_cages: "CRASH CAGES", nav_gearing: "TRANSMISSION", nav_threads: "VÊTEMENTS", nav_basket: "PANIER", hero_sub: "PIÈCES PREMIUM // EXPÉDITION MONDIALE", btn_shop_now: "ACHETER", title_cages: "PROTECTIONS", title_gearing: "COURONNES", title_threads: "STYLE", title_checkout: "PAIEMENT", title_basket: "PANIER", btn_back: "RETOUR", btn_add_cart: "AJOUTER", btn_sold_out: "ÉPUISÉ", lbl_stock: "STOCK:", lbl_low: "PEU:", lbl_out: "VIDE", lbl_code: "CODE PROMO:", btn_apply: "APPLIQUER", lbl_total: "TOTAL:", btn_proceed: "COMMANDER", hdr_shipping: "ADRESSE", hdr_method: "LIVRAISON & PAIEMENT", lbl_name: "NOM", lbl_email: "EMAIL", lbl_address: "ADRESSE", lbl_city: "VILLE", lbl_zip: "CODE POSTAL", lbl_country: "PAYS", lbl_delivery: "LIVRAISON", lbl_payment: "PAIEMENT", lbl_terms: "J'accepte les conditions.", lbl_subtotal: "SOUS-TOTAL:", lbl_shipping: "LIVRAISON:", lbl_final: "PAYER:", btn_pay: "PAYER", opt_standard: "STANDARD (5-10 Jours)", opt_express: "EXPRESS (1-3 Jours)", pay_card: "CARTE DE CRÉDIT" },
+            ru: { nav_home: "ГЛАВНАЯ", nav_cages: "КЛЕТКИ", nav_gearing: "ПРИВОД", nav_threads: "ОДЕЖДА", nav_basket: "КОРЗИНА", hero_sub: "ПРЕМИУМ ЗАПЧАСТИ // ДОСТАВКА ПО МИРУ", btn_shop_now: "КУПИТЬ", title_cages: "ЗАЩИТНЫЕ КЛЕТКИ", title_gearing: "ЗВЕЗДЫ И ЦЕПИ", title_threads: "УЛИЧНАЯ ОДЕЖДА", title_checkout: "ОФОРМЛЕНИЕ", title_basket: "КОРЗИНА", btn_back: "НАЗАД", btn_add_cart: "В КОРЗИНУ", btn_sold_out: "ПРОДАНО", lbl_stock: "В НАЛИЧИИ:", lbl_low: "МАЛО:", lbl_out: "НЕТ", lbl_code: "ПРОМОКОД:", btn_apply: "ПРИМЕНИТЬ", lbl_total: "ИТОГО:", btn_proceed: "ОФОРМИТЬ", hdr_shipping: "АДРЕС", hdr_method: "ДОСТАВКА И ОПЛАТА", lbl_name: "ИМЯ", lbl_email: "EMAIL", lbl_address: "АДРЕС", lbl_city: "ГОРОД", lbl_zip: "ИНДЕКС", lbl_country: "СТРАНА", lbl_delivery: "ДОСТАВКА", lbl_payment: "ОПЛАТА", lbl_terms: "Я принимаю условия.", lbl_subtotal: "ТОВАРЫ:", lbl_shipping: "ДОСТАВКА:", lbl_final: "К ОПЛАТЕ:", btn_pay: "ОПЛАТИТЬ", opt_standard: "СТАНДАРТ (5-10 Дней)", opt_express: "ЭКСПРЕСС (1-3 Дня)", pay_card: "БАНКОВСКАЯ КАРТА" },
+            cn: { nav_home: "首页", nav_cages: "护架", nav_gearing: "传动", nav_threads: "服装", nav_basket: "购物车", hero_sub: "优质特技零件 // 全球发货", btn_shop_now: "立即购买", title_cages: "防摔架", title_gearing: "链轮和链条", title_threads: "街头服饰", title_checkout: "结账", title_basket: "购物车", btn_back: "返回", btn_add_cart: "加入购物车", btn_sold_out: "售罄", lbl_stock: "库存:", lbl_low: "少量:", lbl_out: "缺货", lbl_code: "优惠码:", btn_apply: "应用", lbl_total: "总计:", btn_proceed: "去结账", hdr_shipping: "地址", hdr_method: "配送与支付", lbl_name: "姓名", lbl_email: "邮箱", lbl_address: "地址", lbl_city: "城市", lbl_zip: "邮编", lbl_country: "国家", lbl_delivery: "配送方式", lbl_payment: "支付方式", lbl_terms: "我接受条款。", lbl_subtotal: "小计:", lbl_shipping: "运费:", lbl_final: "支付:", btn_pay: "支付订单", opt_standard: "标准 (5-10天)", opt_express: "加急 (1-3天)", pay_card: "信用卡" },
+            jp: { nav_home: "ホーム", nav_cages: "ケージ", nav_gearing: "ギア", nav_threads: "アパレル", nav_basket: "カート", hero_sub: "プレミアムパーツ // 世界配送", btn_shop_now: "今すぐ購入", title_cages: "クラッシュケージ", title_gearing: "スプロケット", title_threads: "ストリートウェア", title_checkout: "チェックアウト", title_basket: "カート", btn_back: "戻る", btn_add_cart: "カートに追加", btn_sold_out: "売り切れ", lbl_stock: "在庫:", lbl_low: "残りわずか:", lbl_out: "在庫なし", lbl_code: "プロモコード:", btn_apply: "適用", lbl_total: "合計:", btn_proceed: "レジへ進む", hdr_shipping: "住所", hdr_method: "配送と支払い", lbl_name: "名前", lbl_email: "メール", lbl_address: "住所", lbl_city: "市区町村", lbl_zip: "郵便番号", lbl_country: "国", lbl_delivery: "配送方法", lbl_payment: "支払い", lbl_terms: "規約に同意します。", lbl_subtotal: "小計:", lbl_shipping: "送料:", lbl_final: "支払い:", btn_pay: "支払う", opt_standard: "通常 (5-10日)", opt_express: "お急ぎ (1-3日)", pay_card: "クレジットカード" },
+            hi: { nav_home: "होम", nav_cages: "केज", nav_gearing: "गियरिंग", nav_threads: "कपड़े", nav_basket: "टोकरी", hero_sub: "प्रीमियम पार्ट्स // वैश्विक शिपिंग", btn_shop_now: "अभी खरीदें", title_cages: "क्रैश केज", title_gearing: "स्प्रॉकेट", title_threads: "वस्त्र", title_checkout: "चेकआउट", title_basket: "टोकरी", btn_back: "वापस", btn_add_cart: "कार्ट में डालें", btn_sold_out: "बिक गया", lbl_stock: "स्टॉक:", lbl_low: "कम:", lbl_out: "नहीं है", lbl_code: "प्रोमो कोड:", btn_apply: "लागू करें", lbl_total: "कुल:", btn_proceed: "चेकआउट", hdr_shipping: "पता", hdr_method: "वितरण और भुगतान", lbl_name: "नाम", lbl_email: "ईमेल", lbl_address: "पता", lbl_city: "शहर", lbl_zip: "पिन कोड", lbl_country: "देश", lbl_delivery: "वितरण विधि", lbl_payment: "भुगतान", lbl_terms: "मैं शर्तों को स्वीकार करता हूं।", lbl_subtotal: "उपयोग:", lbl_shipping: "शिपिंग:", lbl_final: "भुगतान:", btn_pay: "ऑर्डर करें", opt_standard: "मानक (5-10 दिन)", opt_express: "एक्सप्रेस (1-3 दिन)", pay_card: "क्रेडिट कार्ड" }
         };
 
         const state = { products: {}, orders: [], discounts: [], cart: JSON.parse(localStorage.getItem('balticCart')) || [], activeCode: null, currentPid: null, lang: 'en', shippingCost: 20 };
@@ -320,7 +334,7 @@
                 let rate = 1; 
                 let symbol = " PLN";
                 
-                if(['de','fr'].includes(state.lang)) { rate = 0.23; symbol = " €"; }
+                if(['de','fr','es'].includes(state.lang)) { rate = 0.23; symbol = " €"; }
                 else if(!['pl'].includes(state.lang)) { rate = 0.25; symbol = " $"; } // Default Global USD
 
                 return (priceInPLN * rate).toFixed(2) + symbol;
